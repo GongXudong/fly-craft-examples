@@ -3,7 +3,9 @@ import pandas as pd
 from tqdm import tqdm
 import itertools
 import logging
+import os
 import sys
+import argparse
 
 from stable_baselines3.common.policies import BasePolicy
 from stable_baselines3.common.base_class import BaseAlgorithm
@@ -133,9 +135,16 @@ def rollout(
 
 
 if __name__ == "__main__":
-    algo_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "sac_her" / "best_model"
-    env_config_file = PROJECT_ROOT_DIR / "configs" / "env" / "env_config_for_sac.json"
-    cur_demonstration_dir = PROJECT_ROOT_DIR / "demonstrations" / "data" / "10hz_10_5_5_v2"
+
+    parser = argparse.ArgumentParser(description="")
+    parser.add_argument("--policy-ckp-dir", type=str, help="policy checkpoints dir")
+    parser.add_argument("--env-config-dir", type=str, help="environment config dir")
+    parser.add_argument("--demos-dir", type=str, help="demonstration dir")
+    args = parser.parse_args()
+
+    algo_save_dir = Path(os.getcwd()) / args.policy_ckp_dir
+    env_config_file = Path(os.getcwd()) / args.env_config_dir
+    cur_demonstration_dir = Path(os.getcwd()) / args.demos_dir
 
     env = FlyCraftEnv(config_file=env_config_file)
 

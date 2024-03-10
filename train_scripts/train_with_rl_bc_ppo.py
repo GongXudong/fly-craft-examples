@@ -5,6 +5,7 @@ import logging
 from time import time
 from copy import deepcopy
 import argparse
+import os
 import sys
 import torch as th
 
@@ -162,10 +163,10 @@ if __name__ == "__main__":
     # python examples/train_with_rl_bc_sac_her.py --config_file_name examples/train_configs/config_10hz_128_128.json
 
     parser = argparse.ArgumentParser(description="传入配置文件")
-    parser.add_argument("--config_file_name", type=str, help="配置文件名", default="ppo_bc_config_10hz_128_128_1.json")
+    parser.add_argument("--config-file-name", type=str, help="配置文件名", default="ppo_bc_config_10hz_128_128_1.json")
     args = parser.parse_args()
 
-    train_config = load_config(PROJECT_ROOT_DIR / "configs" / "train" / args.config_file_name)
+    train_config = load_config(Path(os.getcwd()) / args.config_file_name)
 
     BC_EXPERIMENT_NAME = train_config["bc"]["experiment_name"]
     BC_POLICY_FILE_NAME = train_config["bc"]["policy_file_save_name"]

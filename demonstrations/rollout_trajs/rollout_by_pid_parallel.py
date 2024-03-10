@@ -6,14 +6,13 @@ import tqdm
 import time
 from ray.util.multiprocessing import Pool
 import sys
+import argparse
 
 from flycraft.utils.my_log import get_logger
 
 PROJECT_ROOT_DIR: Path = Path(__file__).parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
-
-print(sys.path)
 
 from demonstrations.rollout_trajs.rollout_by_pid import Rollout
 
@@ -30,7 +29,7 @@ class ParallelScheduleForRollout:
         chi_interval: int=5,
         step_frequence: int=10,
         pool_size: int=30,
-        traj_save_dir: Path=PROJECT_ROOT_DIR / "data" / "tmp",
+        traj_save_dir: Path=PROJECT_ROOT_DIR / "demonstrations" / "data" / "tmp",
     ) -> None:
         self.rollout_class = rollout_class
         self.v_range = v_range
@@ -55,7 +54,7 @@ class ParallelScheduleForRollout:
         if not self.traj_save_dir.exists():
             self.traj_save_dir.mkdir()
         
-        my_logger = get_logger(logger_name="ucav", log_file_name=str(self.traj_save_dir / 'my_sys_logs.log'))
+        my_logger = get_logger(logger_name="ucav", log_file_dir=str(self.traj_save_dir / 'my_sys_logs.log'))
 
         def rollout_func(target):
             rollout_worker = self.rollout_class(
@@ -102,25 +101,27 @@ class ParallelScheduleForRollout:
 
 if __name__ == "__main__":
     
-    EXPERIMENT_NAME: str = 'v2'
-    STEP_FREQUENCE: int = 10
-    
-    # s = ParallelScheduleForRollout(
-    #     rollout_class=Rollout, 
-    #     v_range=[100, 300], v_interval=10, 
-    #     mu_range=[-85, 85], mu_interval=5, 
-    #     chi_range=[-170, 170], chi_interval=5,
-    #     step_frequence=STEP_FREQUENCE,
-    #     pool_size=10,
-    #     traj_save_dir=PROJECT_ROOT_DIR / "demonstrations" / "data" / f"10hz_{STEP_FREQUENCE}_5_5_{EXPERIMENT_NAME}"
-    # )
+    parser = argparse.ArgumentParser(description="")
+    parser.add_argument("--data-dir-suffix", type=str, default="v1", help="suffix of data dir")
+    parser.add_argument("--step-frequence", type=int, default=10, help="simulation frequence")
+    parser.add_argument("--v-min", type=int, default=100, help="minimal value of speed")
+    parser.add_argument("--v-max", type=int, default=300, help="maximum value of speed")
+    parser.add_argument("--v-interval", type=int, default=10, help="sample interval of speed")
+    parser.add_argument("--mu-min", type=int, default=-85, help="minimal value of flight path elevator angle")
+    parser.add_argument("--mu-max", type=int, default=85, help="maximum value of flight path elevator angle")
+    parser.add_argument("--mu-interval", type=int, default=5, help="sample interval of flight path elevator angle")
+    parser.add_argument("--chi-min", type=int, default=-170, help="minimal value of flight path azimuth angle")
+    parser.add_argument("--chi-max", type=int, default=170, help="maximum value of flight path azimuth angle")
+    parser.add_argument("--chi-interval", type=int, default=5, help="sample interval of flight path azimuth angle")
+    args = parser.parse_args()
+
     s = ParallelScheduleForRollout(
         rollout_class=Rollout, 
-        v_range=[100, 110], v_interval=10, 
-        mu_range=[-5, 5], mu_interval=5, 
-        chi_range=[-5, 5], chi_interval=5,
-        step_frequence=STEP_FREQUENCE,
+        v_range=[args.v_min, args.v_max], v_interval=args.v_interval, 
+        mu_range=[args.mu_min, args.mu_max], mu_interval=args.mu_interval, 
+        chi_range=[args.chi_min, args.chi_max], chi_interval=args.chi_interval,
+        step_frequence=args.step_frequence,
         pool_size=10,
-        traj_save_dir=PROJECT_ROOT_DIR / "demonstrations" / "data" / f"10hz_{STEP_FREQUENCE}_5_5_{EXPERIMENT_NAME}"
+        traj_save_dir=PROJECT_ROOT_DIR / "demonstrations" / "data" / f"{args.step_frequence}hz_{args.v_interval}_{args.mu_interval}_{args.chi_interval}_{args.data_dir_suffix}"
     )
     s.work()

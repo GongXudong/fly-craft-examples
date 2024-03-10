@@ -5,6 +5,7 @@ import logging
 import torch as th
 import argparse
 from copy import deepcopy
+import os
 import sys
 
 from stable_baselines3 import PPO
@@ -108,10 +109,10 @@ def train():
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="传入配置文件")
-    parser.add_argument("--config_file_name", type=str, help="配置文件名", default="ppo_bc_config_10hz_128_128_1.json")
+    parser.add_argument("--config-file-name", type=str, help="配置文件名", default="ppo_bc_config_10hz_128_128_1.json")
     args = parser.parse_args()
 
-    train_config = load_config(PROJECT_ROOT_DIR / "configs" / "train" / args.config_file_name)
+    train_config = load_config(Path(os.getcwd()) / args.config_file_name)
 
     RL_EXPERIMENT_NAME = train_config["rl"]["experiment_name"]
     SEED = train_config["rl"]["seed"]
