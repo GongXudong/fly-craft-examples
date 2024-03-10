@@ -137,12 +137,12 @@ def rollout(
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="")
-    parser.add_argument("--policy-ckp-dir", type=str, help="policy checkpoints dir")
+    parser.add_argument("--policy-ckpt-dir", type=str, help="policy checkpoints dir")
     parser.add_argument("--env-config-dir", type=str, help="environment config dir")
     parser.add_argument("--demos-dir", type=str, help="demonstration dir")
     args = parser.parse_args()
 
-    algo_save_dir = Path(os.getcwd()) / args.policy_ckp_dir
+    algo_save_dir = Path(os.getcwd()) / args.policy_ckpt_dir
     env_config_file = Path(os.getcwd()) / args.env_config_dir
     cur_demonstration_dir = Path(os.getcwd()) / args.demos_dir
 

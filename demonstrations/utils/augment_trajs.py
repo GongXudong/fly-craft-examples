@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 import sys
 import pandas as pd
 import numpy as np
@@ -99,7 +100,13 @@ def process(
     print(f"一共新增了{add_traj_cnt}条轨迹，更新了{update_traj_cnt}条轨迹。")
 
 if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser(description="")
+    parser.add_argument("--demos-dir", type=str, help="demonstration dir")
+    parser.add_argument("--traj-prefix", type=str, default="traj", help="trajectory prefix")
+    args = parser.parse_args()
+
     process(
-        expert_data_dir=PROJECT_ROOT_DIR / "demonstrations" / "data" / "10hz_10_5_5_v2",
-        trajectory_save_prefix="traj"
+        expert_data_dir=Path(os.getcwd()) / args.demos_dir,
+        trajectory_save_prefix=args.traj_prefix
     )
