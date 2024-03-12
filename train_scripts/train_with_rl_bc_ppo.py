@@ -40,19 +40,21 @@ def train():
         "num_process": ROLLOUT_PROCESS_NUM,
         "seed": SEED,
         "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / train_config["env"].get("config_file", "env_config_for_sac.json")),
-        "custom_config": {"debug_mode": False}
+        "custom_config": {"debug_mode": False, "flag_str": "Train"}
     }
     
     env_num_used_in_eval = EVALUATE_PROCESS_NUM
-    env_config_dict_in_eval = env_config_dict_in_training.copy()
+    env_config_dict_in_eval = deepcopy(env_config_dict_in_training)
     env_config_dict_in_eval.update({
         "num_process": env_num_used_in_eval,
+        "custom_config": {"debug_mode": False, "flag_str": "Evaluate"}
     })
 
     env_num_used_in_callback = CALLBACK_PROCESS_NUM
-    env_config_dict_in_callback = env_config_dict_in_training.copy()
+    env_config_dict_in_callback = deepcopy(env_config_dict_in_training)
     env_config_dict_in_callback.update({
-        "num_process": env_num_used_in_callback
+        "num_process": env_num_used_in_callback,
+        "custom_config": {"debug_mode": True, "flag_str": "Callback"}
     })
 
     # 训练使用的环境

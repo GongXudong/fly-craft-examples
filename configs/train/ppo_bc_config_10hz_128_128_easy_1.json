@@ -1,6 +1,6 @@
 {
     "env": {
-        "config_file": "env_config_for_sac.json",
+        "config_file": "env_config_for_ppo_easy.json",
         "custom_config": {}
     },
     "bc": {
@@ -23,7 +23,7 @@
         "gamma": 0.995,
         "activate_value_head_train_steps": 2e7,
         "train_steps": 2e8,
-        "rollout_process_num": 4,
+        "rollout_process_num": 64,
         "evaluate_process_num": 4,
         "callback_process_num": 4,
         "evaluate_on_all_tasks": false,
@@ -36,9 +36,9 @@
         "kl_with_bc_model_coef": 1e-3
     },
     "rl": {
-        "experiment_name": "10hz_128_128_2e8steps_loss_1_singleRL",
+        "experiment_name": "10hz_128_128_2e8steps_easy_1_singleRL",
         "seed": 17,
-        "rollout_process_num": 64,
+        "rollout_process_num": 4,
         "train_steps": 2e8
     }
 }

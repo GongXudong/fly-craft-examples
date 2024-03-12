@@ -16,6 +16,7 @@ from stable_baselines3.common.vec_env import SubprocVecEnv, VecCheckNan
 
 import flycraft
 from flycraft.utils.load_config import load_config
+from flycraft.utils.dict_utils import update_nested_dict
 
 PROJECT_ROOT_DIR = Path(__file__).parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
@@ -59,16 +60,22 @@ def train():
         "num_process": ROLLOUT_PROCESS_NUM, 
         "seed": SEED,
         "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / train_config["env"].get("config_file", "env_config_for_sac.json")),
-        "custom_config": {"debug_mode": False}
+        "custom_config": {"debug_mode": True, "flag_str": "Train"}
     }
 
     env_num_used_in_eval = EVALUATE_PROCESS_NUM
-    env_config_dict_in_eval = env_config_dict_in_training.copy()
-    env_config_dict_in_eval.update({"num_process": env_num_used_in_eval})
+    env_config_dict_in_eval = deepcopy(env_config_dict_in_training)
+    update_nested_dict(env_config_dict_in_eval, {
+        "num_process": env_num_used_in_eval,
+        "custom_config": {"debug_mode": False, "flag_str": "Evaluate"}
+    })
 
     env_num_used_in_callback = CALLBACK_PROCESS_NUM
-    env_config_dict_in_callback = env_config_dict_in_training.copy()
-    env_config_dict_in_callback.update({"num_process": env_num_used_in_callback})
+    env_config_dict_in_callback = deepcopy(env_config_dict_in_training)
+    update_nested_dict(env_config_dict_in_callback, {
+        "num_process": env_num_used_in_callback,
+        "custom_config": {"debug_mode": True, "flag_str": "Callback"}
+    })
 
     vec_env = VecCheckNan(get_vec_env(
         **env_config_dict_in_training
