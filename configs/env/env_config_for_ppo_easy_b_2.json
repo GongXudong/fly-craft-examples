@@ -28,7 +28,8 @@
     "rewards": {
         "dense": {
             "use": true,
-            "b": 2.0
+            "b": 2.0,
+            "angle_weight": 0.5
         }
     },
     "terminations": {
