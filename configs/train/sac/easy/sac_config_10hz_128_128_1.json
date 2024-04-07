@@ -1,0 +1,15 @@
+{
+    "env": {
+        "config_file": "env_config_for_sac.json",
+        "custom_config": {}
+    },
+    "rl": {
+        "experiment_name": "sac_10hz_128_128_1e7steps_loss_1_singleRL",
+        "seed": 17,
+        "rollout_process_num": 64,
+        "evaluate_process_num": 32,
+        "callback_process_num": 32,
+        "gradient_steps": 16,
+        "train_steps": 1e7
+    }
+}

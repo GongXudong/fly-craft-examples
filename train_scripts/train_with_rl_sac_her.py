@@ -146,6 +146,7 @@ if __name__ == "__main__":
     RL_TRAIN_PROCESS_NUM = train_config["rl"].get("rollout_process_num", 32)
     RL_EVALUATE_PROCESS_NUM = train_config["rl"].get("evaluate_process_num", 32)
     CALLBACK_PROCESS_NUM = train_config["rl"].get("callback_process_num", 32)
+    GRADIENT_STEPS = train_config.get("gradient_steps", 2)
 
     train()
     # test_single_traj()
