@@ -147,7 +147,7 @@ if __name__ == "__main__":
     SEED_IN_CALLBACK_ENV = train_config["rl"].get("seed_in_callback_env")
 
     RL_EXPERIMENT_NAME = train_config["rl"]["experiment_name"]
-    NET_ARCH = train_config["rl_bc"]["net_arch"]
+    NET_ARCH = train_config["rl"]["net_arch"]
     RL_TRAIN_STEPS = train_config["rl"]["train_steps"]
     GAMMA = train_config["rl"].get("gamma", 0.995)
     BUFFER_SIZE = train_config["rl"].get("buffer_size", 1e6)
