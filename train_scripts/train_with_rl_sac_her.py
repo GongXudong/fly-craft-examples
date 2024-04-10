@@ -28,36 +28,37 @@ def train():
 
     vec_env = get_vec_env(
         num_process=RL_TRAIN_PROCESS_NUM,
-        seed=1,
+        seed=SEED_IN_TRAINING_ENV,
         config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / ENV_CONFIG_FILE),
-        custom_config=ENV_CUSTOM_CONFIG
+        custom_config={"debug_mode": True, "flag_str": "Train"}
     )
 
     eval_env_in_callback = get_vec_env(
         num_process=RL_EVALUATE_PROCESS_NUM,
-        seed=5,
+        seed=SEED_IN_CALLBACK_ENV,
         config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / ENV_CONFIG_FILE),
-        custom_config=ENV_CUSTOM_CONFIG
+        custom_config={"debug_mode": True, "flag_str": "Callback"}
     )
 
     # SAC hyperparams:
     sac_algo = SAC(
         "MultiInputPolicy",
         vec_env,
+        seed=SEED,
         replay_buffer_class=HerReplayBuffer,
         replay_buffer_kwargs=dict(
             n_sampled_goal=4,
             goal_selection_strategy="future",
         ),
         verbose=1,
-        buffer_size=int(1e6),
-        learning_starts=RL_TRAIN_PROCESS_NUM*400,
-        gradient_steps=2,
-        learning_rate=3e-4,
-        gamma=0.995,
-        batch_size=256,
+        buffer_size=int(BUFFER_SIZE),
+        learning_starts=int(LEARNING_STARTS),
+        gradient_steps=int(GRADIENT_STEPS),
+        learning_rate=LEARNING_RATE,
+        gamma=GAMMA,
+        batch_size=int(BATCH_SIZE),
         policy_kwargs=dict(
-            net_arch=[128, 128],
+            net_arch=NET_ARCH,
             activation_fn=th.nn.Tanh
         ),
     )
@@ -69,8 +70,8 @@ def train():
         eval_env_in_callback, 
         best_model_save_path=str((PROJECT_ROOT_DIR / "checkpoints" / "rl_single" / RL_EXPERIMENT_NAME).absolute()),
         log_path=str((PROJECT_ROOT_DIR / "logs" / "rl_single" / RL_EXPERIMENT_NAME).absolute()), 
-        eval_freq=100,  # 多少次env.step()评估一次，此处设置为1000，因为VecEnv有72个并行环境，所以实际相当于72*1000次step，评估一次
-        n_eval_episodes=RL_EVALUATE_PROCESS_NUM * 10,  # 每次评估使用多少条轨迹
+        eval_freq=EVAL_FREQ,  # 多少次env.step()评估一次，此处设置为1000，因为VecEnv有72个并行环境，所以实际相当于72*1000次step，评估一次
+        n_eval_episodes=N_EVAL_EPISODES,  # 每次评估使用多少条轨迹
         deterministic=True, 
         render=False,
     )
@@ -141,13 +142,26 @@ if __name__ == "__main__":
     ENV_CONFIG_FILE = train_config["env"]["config_file"]
     ENV_CUSTOM_CONFIG = train_config["env"].get("custom_config", {})
 
+    SEED = train_config["rl"].get("seed")
+    SEED_IN_TRAINING_ENV = train_config["rl"].get("seed_in_train_env")
+    SEED_IN_CALLBACK_ENV = train_config["rl"].get("seed_in_callback_env")
+
     RL_EXPERIMENT_NAME = train_config["rl"]["experiment_name"]
+    NET_ARCH = train_config["rl_bc"]["net_arch"]
     RL_TRAIN_STEPS = train_config["rl"]["train_steps"]
+    GAMMA = train_config["rl"].get("gamma", 0.995)
+    BUFFER_SIZE = train_config["rl"].get("buffer_size", 1e6)
+    BATCH_SIZE = train_config["rl"].get("batch_size", 1024)
+    LEARNING_STARTS = train_config["rl"].get("learning_starts", 10240)
     RL_TRAIN_PROCESS_NUM = train_config["rl"].get("rollout_process_num", 32)
     RL_EVALUATE_PROCESS_NUM = train_config["rl"].get("evaluate_process_num", 32)
     CALLBACK_PROCESS_NUM = train_config["rl"].get("callback_process_num", 32)
-    GRADIENT_STEPS = train_config.get("gradient_steps", 2)
+    GRADIENT_STEPS = train_config["rl"].get("gradient_steps", 2)
+    LEARNING_RATE = train_config["rl"].get("learning_rate", 3e-4)
 
+    EVAL_FREQ = train_config["rl"].get("eval_freq", 1000)
+    N_EVAL_EPISODES = train_config["rl"].get("n_eval_episodes", CALLBACK_PROCESS_NUM*10)
+    
     train()
     # test_single_traj()
     # test_multi_traj()
