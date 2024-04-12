@@ -4,10 +4,10 @@
         "custom_config": {}
     },
     "rl": {
-        "experiment_name": "sac_10hz_128_128_1e7steps_loss_3_singleRL",
-        "seed": 22,
-        "seed_in_train_env": 25,
-        "seed_in_callback_env": 29,
+        "experiment_name": "sac_10hz_128_128_1e7steps_loss_2_singleRL",
+        "seed": 11,
+        "seed_in_train_env": 14,
+        "seed_in_callback_env": 17,
         "net_arch": [128, 128],
         "gamma": 0.995,
         "train_steps": 1e6,
@@ -20,7 +20,6 @@
         "gradient_steps": 1,
         "learning_rate": 3e-4,
         "eval_freq": 1e4,
-        "n_eval_episodes": 320,
-        "use_her": true
+        "n_eval_episodes": 320
     }
 }

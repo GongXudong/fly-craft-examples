@@ -20,7 +20,6 @@
         "gradient_steps": 1,
         "learning_rate": 3e-4,
         "eval_freq": 1e4,
-        "n_eval_episodes": 320,
-        "use_her": true
+        "n_eval_episodes": 320
     }
 }

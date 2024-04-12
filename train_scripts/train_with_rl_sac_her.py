@@ -7,6 +7,7 @@ import torch as th
 import argparse
 
 from stable_baselines3 import HerReplayBuffer, SAC, DDPG, TD3
+from stable_baselines3.common.buffers import DictReplayBuffer
 from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.logger import configure, Logger
 
@@ -45,7 +46,7 @@ def train():
         "MultiInputPolicy",
         vec_env,
         seed=SEED,
-        replay_buffer_class=HerReplayBuffer,
+        replay_buffer_class=HerReplayBuffer if USE_HER else DictReplayBuffer,
         replay_buffer_kwargs=dict(
             n_sampled_goal=4,
             goal_selection_strategy="future",
@@ -159,9 +160,12 @@ if __name__ == "__main__":
     GRADIENT_STEPS = train_config["rl"].get("gradient_steps", 2)
     LEARNING_RATE = train_config["rl"].get("learning_rate", 3e-4)
 
+    USE_HER = train_config["rl"].get("use_her", True)
+
     EVAL_FREQ = train_config["rl"].get("eval_freq", 1000)
     N_EVAL_EPISODES = train_config["rl"].get("n_eval_episodes", CALLBACK_PROCESS_NUM*10)
     
+
     train()
     # test_single_traj()
     # test_multi_traj()
