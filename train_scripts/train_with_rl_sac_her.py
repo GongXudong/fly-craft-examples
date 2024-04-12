@@ -50,7 +50,7 @@ def train():
         replay_buffer_kwargs=dict(
             n_sampled_goal=4,
             goal_selection_strategy="future",
-        ),
+        ) if USE_HER else None,
         verbose=1,
         buffer_size=int(BUFFER_SIZE),
         learning_starts=int(LEARNING_STARTS),
