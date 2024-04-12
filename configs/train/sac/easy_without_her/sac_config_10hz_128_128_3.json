@@ -4,7 +4,7 @@
         "custom_config": {}
     },
     "rl": {
-        "experiment_name": "sac_10hz_128_128_1e7steps_loss_3_singleRL",
+        "experiment_name": "sac_without_her_10hz_128_128_1e7steps_loss_3_singleRL",
         "seed": 22,
         "seed_in_train_env": 25,
         "seed_in_callback_env": 29,
@@ -20,6 +20,7 @@
         "gradient_steps": 1,
         "learning_rate": 3e-4,
         "eval_freq": 1e4,
-        "n_eval_episodes": 320
+        "n_eval_episodes": 320,
+        "use_her": false
     }
 }
