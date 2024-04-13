@@ -28,8 +28,7 @@
     "rewards": {
         "sparse": {
             "use": true,
-            "reach_target_reward": 0.0,
-            "else_reward": 0.0
+            "reward_constant": 0.0
         },
         "dense": {
             "use": false,
