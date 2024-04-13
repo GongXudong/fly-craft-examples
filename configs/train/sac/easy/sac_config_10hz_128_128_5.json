@@ -4,7 +4,7 @@
         "custom_config": {}
     },
     "rl": {
-        "experiment_name": "sac_10hz_128_128_1e7steps_loss_5_singleRL",
+        "experiment_name": "sac_10hz_128_128_1e6steps_loss_5_singleRL",
         "seed": 42,
         "seed_in_train_env": 46,
         "seed_in_callback_env": 48,
