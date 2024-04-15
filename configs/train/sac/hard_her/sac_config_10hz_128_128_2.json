@@ -1,10 +1,10 @@
 {
     "env": {
-        "config_file": "env_config_for_sac.json",
+        "config_file": "env_hard_config_for_sac.json",
         "custom_config": {}
     },
     "rl": {
-        "experiment_name": "sac_her_10hz_128_128_1e6steps_loss_2_singleRL",
+        "experiment_name": "sac_her_hard_10hz_128_128_1e6steps_loss_2_singleRL",
         "seed": 11,
         "seed_in_train_env": 14,
         "seed_in_callback_env": 17,
