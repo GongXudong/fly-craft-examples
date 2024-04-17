@@ -1,13 +1,13 @@
 {
     "env": {
-        "config_file": "env_config_for_sac_non_markov_reward_persist_2_sec.json",
+        "config_file": "env_config_sparse_negative_reward_for_sac.json",
         "custom_config": {}
     },
     "rl": {
-        "experiment_name": "sac_her_non_markov_reward_persist_2_sec_10hz_128_128_1e6steps_loss_3_singleRL",
-        "seed": 22,
-        "seed_in_train_env": 25,
-        "seed_in_callback_env": 29,
+        "experiment_name": "sac_her_sparse_negative_reward_10hz_128_128_1e6steps_loss_4_singleRL",
+        "seed": 35,
+        "seed_in_train_env": 36,
+        "seed_in_callback_env": 39,
         "net_arch": [128, 128],
         "gamma": 0.995,
         "train_steps": 1e6,
