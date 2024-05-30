@@ -15,3 +15,4 @@ f16trace.csv
 results/
 scripts/
 *process_log*.txt
+evaluate*.txt

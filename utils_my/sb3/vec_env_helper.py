@@ -26,6 +26,7 @@ def make_env(rank: int, seed: int = 0, **kwargs):
         )
         env = ScaledActionWrapper(ScaledObservationWrapper(env))
         env.reset(seed=seed + rank)
+        print(seed+rank, env.unwrapped.task.np_random, env.unwrapped.task.goal_sampler.np_random)
         return env
     set_random_seed(seed)
     return _init
