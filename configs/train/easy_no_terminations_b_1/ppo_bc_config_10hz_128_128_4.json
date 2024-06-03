@@ -1,6 +1,6 @@
 {
     "env": {
-        "config_file": "env_config_foenv_config_for_ppo_easy_no_terminations_b_1r_ppo_easy_no_terminations.json",
+        "config_file": "env_config_for_ppo_easy_no_terminations_b_1.json",
         "custom_config": {}
     },
     "bc": {
