@@ -36,20 +36,33 @@ python demonstrations/utils/augment_trajs.py --demos-dir demonstrations/data/10h
 
 ### BC
 ```bash
-python train_scripts/train_with_bc_ppo.py --config-file-name configs/train/ppo_bc_config_10hz_128_128_3.json
+python train_scripts/train_with_bc_ppo.py --config-file-name configs/train/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json
 ```
 
 ### PPO
 ```bash
-python train_scripts/train_with_rl_ppo.py --config-file-name configs/train/ppo_bc_config_10hz_128_128_2.json
+python train_scripts/train_with_rl_ppo.py --config-file-name configs/train/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json
 ```
 
 ### PPO fine-tuning a BC-pre-trained policy
 ```bash
-python train_scripts/train_with_rl_bc_ppo.py --config-file-name configs/train/ppo_bc_config_10hz_128_128_2.json
+python train_scripts/train_with_rl_bc_ppo.py --config-file-name configs/train/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json
 ```
 
 ### SAC with HER
 ```bash
-python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac_config_10hz_128_128_1.json
+python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/sac_her/sac_config_10hz_128_128_1.json
+```
+
+## Citation
+
+Cite as
+
+```bib
+@misc{gong2024flycraftexamples,
+  title        = {fly-craft-examples},
+  author       = {Gong, Xudong},
+  year         = 2024,
+  note         = {\url{https://github.com/GongXudong/fly-craft-examples} [Accessed: (2024-07-01)]},
+}
 ```
