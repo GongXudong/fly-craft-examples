@@ -162,7 +162,7 @@ def train():
 
 if __name__ == "__main__":
 
-    # python examples/train_with_rl_bc_sac_her.py --config_file_name examples/train_configs/config_10hz_128_128.json
+    # python train_scripts/train_with_rl_bc_ppo.py --config-file-name configs/train/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json
 
     parser = argparse.ArgumentParser(description="传入配置文件")
     parser.add_argument("--config-file-name", type=str, help="配置文件名", default="ppo_bc_config_10hz_128_128_1.json")
