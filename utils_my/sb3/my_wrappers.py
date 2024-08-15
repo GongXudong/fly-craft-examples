@@ -117,8 +117,8 @@ class ScaledActionWrapper(ActionWrapper):
     def __init__(self, env: Env[ObsType, ActType]):
         super().__init__(env)
 
-        action_mins = F16Plane.get_action_lower_bounds()
-        action_maxs = F16Plane.get_action_higher_bounds()
+        action_mins = F16Plane.get_action_lower_bounds(env.unwrapped.plane.control_mode)
+        action_maxs = F16Plane.get_action_higher_bounds(env.unwrapped.plane.control_mode)
 
         self.action_space = spaces.Box(low=0., high=1., shape=(len(action_mins),))  # p, nz, pla
 
