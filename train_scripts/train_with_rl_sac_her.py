@@ -23,6 +23,9 @@ from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapper
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
 
+import warnings
+warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
+
 def train():
 
     sb3_logger: Logger = configure(folder=str((PROJECT_ROOT_DIR / "logs" / "rl_single" / RL_EXPERIMENT_NAME).absolute()), format_strings=['stdout', 'log', 'csv', 'tensorboard'])
@@ -40,6 +43,8 @@ def train():
         config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / ENV_CONFIG_FILE),
         custom_config={"debug_mode": True, "flag_str": "Callback"}
     )
+
+    print(f"action space: {vec_env.action_space}")
 
     # SAC hyperparams:
     sac_algo = SAC(

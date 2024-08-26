@@ -7,7 +7,7 @@ import argparse
 from copy import deepcopy
 import sys
 
-from stable_baselines3 import PPO
+from stable_baselines3 import PPO, SAC
 from stable_baselines3.ppo import MultiInputPolicy
 from stable_baselines3.common.base_class import BaseAlgorithm
 from stable_baselines3.common.evaluation import evaluate_policy
@@ -39,13 +39,30 @@ from utils_my.sb3.vec_env_helper import get_vec_env
 
 if __name__ == "__main__":
 
-    policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "bc" / "10hz_128_128_300epochs_loss_1"
-    algo_ppo = PPOWithBCLoss.load(str((policy_save_dir / "bc_checkpoint").absolute()))
+    # vec_env = get_vec_env(
+    #     num_process=4,
+    #     config_file=PROJECT_ROOT_DIR / "configs" / "env" /"env_config_for_sac.json",
+    #     custom_config={"debug_mode": False}
+    # )
+
+    # policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "bc" / "10hz_128_128_300epochs_loss_1"
+    # algo_ppo = PPOWithBCLoss.load(str((policy_save_dir / "bc_checkpoint").absolute()))
 
     vec_env = get_vec_env(
+        seed=13,
         num_process=4,
         config_file=PROJECT_ROOT_DIR / "configs" / "env" /"env_config_for_sac.json",
         custom_config={"debug_mode": False}
+    )
+
+    policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "rl_single" / "sac_her_10hz_128_128_1e6steps_loss_5_singleRL"
+    algo_ppo = SAC.load(
+        str((policy_save_dir / "best_model").absolute()),
+        env=vec_env,
+        custom_objects={
+            "observation_space": vec_env.observation_space,
+            "action_space": vec_env.action_space
+        }
     )
 
     res = evaluate_policy_with_success_rate(
