@@ -6,7 +6,7 @@ from pathlib import Path
 import sys
 
 from flycraft.env import FlyCraftEnv
-from flycraft.tasks.attitude_control_task import AttitudeControlTask
+from flycraft.tasks.velocity_vector_control_task import VelocityVectorControlTask
 from flycraft.planes.f16_plane import F16Plane
 
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
@@ -31,10 +31,10 @@ class ScaledObservationWrapper(ObservationWrapper):
         # 缩放与仿真器无关，只在学习器中使用
         # 送进策略网络的观测，各分量的取值都在[0, 1]之间
         
-        plane_state_mins = AttitudeControlTask.get_state_lower_bounds()
-        plane_state_maxs = AttitudeControlTask.get_state_higher_bounds()
-        plane_goal_mins = AttitudeControlTask.get_goal_lower_bounds()
-        plane_goal_maxs = AttitudeControlTask.get_goal_higher_bounds()
+        plane_state_mins = VelocityVectorControlTask.get_state_lower_bounds()
+        plane_state_maxs = VelocityVectorControlTask.get_state_higher_bounds()
+        plane_goal_mins = VelocityVectorControlTask.get_goal_lower_bounds()
+        plane_goal_maxs = VelocityVectorControlTask.get_goal_higher_bounds()
         
         self.observation_space = spaces.Dict(
             dict(

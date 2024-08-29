@@ -49,9 +49,29 @@ python train_scripts/train_with_rl_ppo.py --config-file-name configs/train/ppo/e
 python train_scripts/train_with_rl_bc_ppo.py --config-file-name configs/train/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json
 ```
 
+### SAC
+```bash
+python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/sac_without_her/sac_config_10hz_128_128_1.json
+```
+
 ### SAC with HER
 ```bash
 python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/sac_her/sac_config_10hz_128_128_1.json
+```
+
+### NMR
+```bash
+# test SAC on NMR(last 10 observations)
+python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/easy_her_sparse_negative_non_markov_reward_persist_1_sec/sac_config_10hz_128_128_1.json
+
+# test SAC on NMR(last 20 observations)
+python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/easy_her_sparse_negative_non_markov_reward_persist_2_sec/sac_config_10hz_128_128_1.json
+
+# test SAC on NMR(last 30 observations)
+python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/easy_her_sparse_negative_non_markov_reward_persist_3_sec/sac_config_10hz_128_128_1.json
+
+# try solve NMR with framestack
+python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/hard_her_framestack_sparse_negative_non_markov_reward_persist_1_sec/sac_config_10hz_128_128_1.json
 ```
 
 ## Citation
