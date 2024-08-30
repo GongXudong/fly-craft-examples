@@ -1,33 +1,39 @@
-from pprint import pprint
-import flycraft
+from pathlib import Path
 import ray
 from ray.rllib.algorithms.ppo import PPOConfig
+from ray.tune.logger import pretty_print
+from ray.tune.registry import register_env
+from flycraft.env import FlyCraftEnv
+import gymnasium as gym
 
-# using ray 2.34.0
+PROJECT_ROOT_DIR = Path(__file__).parent.parent
 
-# reference to https://docs.ray.io/en/latest/cluster/getting-started.html for deploying a ray cluster.
-ray.init()  # This will autodetect an existing Ray cluster or start a new Ray instance if no existing cluster is found
-# ray.init(address="ray://xx.xx.xx.xx:xxxx")  # connect to an existing remote cluster
+def env_creator(env_config):
+    try:
+        return FlyCraftEnv(
+            config_file=PROJECT_ROOT_DIR / "configs" / "env" / "env_config_for_ppo_easy.json"
+        )  # return an env instance
+    except:
+        return FlyCraftEnv(
+            config_file=Path.home() / "pythonprojects" / "fly-craft-examples" / "configs" / "env" / "env_config_for_ppo_easy.json"
+        )
 
-config = (
-    PPOConfig()
-    .api_stack(
-        enable_rl_module_and_learner=True,
-        enable_env_runner_and_connector_v2=True,
+register_env("FlyCraft-v1", env_creator)
+
+
+algo = (
+    PPOConfig(
     )
-    .environment("FlyCraft-v0")
-    .env_runners(
-        num_env_runners=256  #  Number of EnvRunner actors to create for parallel sampling.
-    )
+    .rollouts(num_rollout_workers=1)
+    .resources(num_gpus=1)
+    .environment(env="FlyCraft-v1")
+    .build()
 )
 
-algo = config.build()
-
-for i in range(10000):
+for i in range(250):
     result = algo.train()
-    result.pop("config")
-    pprint(result)
+    print(pretty_print(result))
 
-    if i % 1000 == 0:
-        checkpoint_dir = algo.save_to_path()
+    if i % 5 == 0:
+        checkpoint_dir = algo.save().checkpoint.path
         print(f"Checkpoint saved in directory {checkpoint_dir}")
