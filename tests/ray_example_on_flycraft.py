@@ -1,5 +1,6 @@
 from pathlib import Path
 import ray
+import gymnasium as gym
 from ray.rllib.algorithms.ppo import PPOConfig
 from ray.tune.logger import pretty_print
 from ray.tune.registry import register_env
