@@ -99,8 +99,8 @@ def train():
         eval_env_in_callback, 
         best_model_save_path=str((PROJECT_ROOT_DIR / "checkpoints" / "rl_single" / RL_EXPERIMENT_NAME).absolute()),
         log_path=str((PROJECT_ROOT_DIR / "logs" / "rl_single" / RL_EXPERIMENT_NAME).absolute()), 
-        eval_freq=2048,
-        n_eval_episodes=3*env_num_used_in_callback,
+        eval_freq=EVALUATE_FREQUENCE,
+        n_eval_episodes=EVALUATE_NUMS_IN_CALLBACK*env_num_used_in_callback,
         deterministic=True, 
         render=False,
     )
@@ -108,7 +108,7 @@ def train():
     algo_ppo.learn(total_timesteps=RL_TRAIN_STEPS, callback=eval_callback)
 
     # evaluate
-    reward, _, success_rate = evaluate_policy_with_success_rate(algo_ppo.policy, eval_env, 30*env_num_used_in_eval)
+    reward, _, success_rate = evaluate_policy_with_success_rate(algo_ppo.policy, eval_env, EVALUATE_NUMS_IN_EVALUATION*env_num_used_in_eval)
     sb3_logger.info(f"Reward after RL: {reward}")
     sb3_logger.info(f"Success rate after RL: {success_rate}")
 
@@ -131,5 +131,8 @@ if __name__ == "__main__":
     ROLLOUT_PROCESS_NUM = train_config["rl"]["rollout_process_num"]
     EVALUATE_PROCESS_NUM = train_config["rl_bc"].get("evaluate_process_num", 32)
     CALLBACK_PROCESS_NUM = train_config["rl_bc"].get("callback_process_num", 32)
+    EVALUATE_FREQUENCE = train_config["rl_bc"].get("evaluate_frequence", 2048)
+    EVALUATE_NUMS_IN_EVALUATION = train_config["rl_bc"].get("evaluate_nums_in_evaluation", 30)
+    EVALUATE_NUMS_IN_CALLBACK = train_config["rl_bc"].get("evaluate_nums_in_callback", 3)
 
     train()
