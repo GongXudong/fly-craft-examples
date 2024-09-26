@@ -16,3 +16,4 @@ results/
 scripts/
 *process_log*.txt
 evaluate*.txt
+cache/

@@ -32,34 +32,48 @@ augment trajectories based on $\chi$'s symmetry
 python demonstrations/utils/augment_trajs.py --demos-dir demonstrations/data/10hz_10_5_5_v2
 ```
 
+### label demonstrations with rewards (**support for Offline RL**)
+
+label demonstrations in {demos-dir} with rewards (--traj-prefix is the csv filename's prefix in the demonstration direction)
+
+```bash
+python demonstrations/utils/label_transitions_with_rewards.py --demos-dir demonstrations/data/10hz_10_5_5_test --traj-prefix my_f16trace
+```
+
 ## Training policies with Stable-baselines3
 
 ### BC
+
 ```bash
 python train_scripts/train_with_bc_ppo.py --config-file-name configs/train/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json
 ```
 
 ### PPO
+
 ```bash
 python train_scripts/train_with_rl_ppo.py --config-file-name configs/train/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json
 ```
 
 ### PPO fine-tuning a BC-pre-trained policy
+
 ```bash
 python train_scripts/train_with_rl_bc_ppo.py --config-file-name configs/train/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json
 ```
 
 ### SAC
+
 ```bash
 python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/sac_without_her/sac_config_10hz_128_128_1.json
 ```
 
 ### SAC with HER
+
 ```bash
 python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/sac_her/sac_config_10hz_128_128_1.json
 ```
 
-### NMR
+### NMR (Non-Markovian Reward Problem)
+
 ```bash
 # test SAC on NMR(last 10 observations)
 python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/easy_her_sparse_negative_non_markov_reward_persist_1_sec/sac_config_10hz_128_128_1.json
