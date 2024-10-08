@@ -90,6 +90,7 @@ def train():
             "learning_rate": linear_schedule(RL_LR_RATE),
             "observation_space": vec_env.observation_space,
             "action_space": vec_env.action_space,
+            "kl_coef_with_bc": KL_WITH_PRETRAINED_MODEL_COEF,
         },
     )
     sb3_logger.info(str(algo_ppo.policy))
@@ -167,5 +168,6 @@ if __name__ == "__main__":
     EVALUATE_FREQUENCE = train_config["rl_rl"].get("evaluate_frequence", 2048)
     EVALUATE_NUMS_IN_EVALUATION = train_config["rl_rl"].get("evaluate_nums_in_evaluation", 30)
     EVALUATE_NUMS_IN_CALLBACK = train_config["rl_rl"].get("evaluate_nums_in_callback", 3)
+    KL_WITH_PRETRAINED_MODEL_COEF = train_config["rl_rl"]["kl_with_pretrained_model_coef"]
 
     train()

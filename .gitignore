@@ -17,3 +17,5 @@ scripts/
 *process_log*.txt
 evaluate*.txt
 cache/
+
+train_scripts/D2D/trys/

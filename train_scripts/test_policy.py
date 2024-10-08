@@ -49,8 +49,8 @@ if __name__ == "__main__":
     # algo_ppo = PPOWithBCLoss.load(str((policy_save_dir / "bc_checkpoint").absolute()))
 
     vec_env = get_vec_env(
-        seed=13,
-        num_process=4,
+        seed=142,
+        num_process=32,
         config_file=PROJECT_ROOT_DIR / "configs" / "env" /"env_config_for_sac.json",
         custom_config={"debug_mode": False}
     )
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     res = evaluate_policy_with_success_rate(
         model=algo_ppo.policy,
         env=vec_env,
-        n_eval_episodes=100
+        n_eval_episodes=1000
     )
 
     print(res)
