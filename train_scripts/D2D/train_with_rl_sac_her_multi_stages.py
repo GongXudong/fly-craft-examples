@@ -53,6 +53,7 @@ def train(train_config):
         THIS_ITER_LEARNING_STARTS = train_this_iter_config["rl"].get("learning_starts", 10240)
         THIS_ITER_LEARNING_RATE = train_this_iter_config["rl"].get("learning_rate", 3e-4)
         THIS_ITER_RESET_POLICY = train_this_iter_config["rl"].get("reset_policy", False)
+        THIS_ITER_RESET_REPLAY_BUFFER = train_this_iter_config["rl"].get("reset_replay_buffer", False)
         THIS_ITER_RELABEL_REPLAY_BUFFER = train_this_iter_config["rl"].get("relabel_replay_buffer", False)
 
         # initialize env and algo
@@ -108,24 +109,27 @@ def train(train_config):
         # prepare replay buffer
         if index > 0:
             # load replay buffer
-            sac_algo.load_replay_buffer(policy_save_dir / train_config["rl_train"][index-1]["rl"]["experiment_name"] / replay_buffer_save_name)
-            print(f"Iter {index}: load replay buffer from {policy_save_dir / train_config['rl_train'][index-1]['rl']['experiment_name'] / replay_buffer_save_name}.")
+            if not THIS_ITER_RESET_REPLAY_BUFFER:
+                sac_algo.load_replay_buffer(policy_save_dir / train_config["rl_train"][index-1]["rl"]["experiment_name"] / replay_buffer_save_name)
+                print(f"Iter {index}: load replay buffer from {policy_save_dir / train_config['rl_train'][index-1]['rl']['experiment_name'] / replay_buffer_save_name}.")
 
-            # relabel rewards of transitions in the loaded replay buffer
-            if THIS_ITER_RELABEL_REPLAY_BUFFER:
-                # sac_algo.replay_buffer.observations
-                loaded_replay_buffer_size = sac_algo.replay_buffer.size()
-                new_rewards = vec_env.env_method(
-                    method_name="compute_reward",
-                    indices=[0],
-                    achieved_goal=sac_algo.replay_buffer.observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
-                    desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
-                    info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
-                )[0]
+                # relabel rewards of transitions in the loaded replay buffer
+                if THIS_ITER_RELABEL_REPLAY_BUFFER:
+                    # sac_algo.replay_buffer.observations
+                    loaded_replay_buffer_size = sac_algo.replay_buffer.size()
+                    new_rewards = vec_env.env_method(
+                        method_name="compute_reward",
+                        indices=[0],
+                        achieved_goal=sac_algo.replay_buffer.observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
+                        desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
+                        info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
+                    )[0]
 
-                sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
+                    sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
 
-                print(f"Iter {index}: reset rewards in replay buffer.")
+                    print(f"Iter {index}: reset rewards in replay buffer.")
+            else:
+                print(f"Iter {index}: reset replay buffer.")
         
         sb3_logger: Logger = configure(folder=str((PROJECT_ROOT_DIR / "logs" / "rl_single" / THIS_ITER_RL_EXPERIMENT_NAME).absolute()), format_strings=['stdout', 'log', 'csv', 'tensorboard'])
         sac_algo.set_logger(sb3_logger)

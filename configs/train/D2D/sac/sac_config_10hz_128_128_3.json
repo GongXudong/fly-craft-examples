@@ -42,6 +42,7 @@
             "learning_rate": 3e-4,
             "learning_starts": 0,
             "reset_policy": true,
+            "reset_replay_buffer": false,
             "relabel_replay_buffer": true
         }
     }]
