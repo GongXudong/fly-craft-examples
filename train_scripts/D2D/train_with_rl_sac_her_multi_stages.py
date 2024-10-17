@@ -55,6 +55,10 @@ def train(train_config):
         THIS_ITER_RESET_POLICY = train_this_iter_config["rl"].get("reset_policy", False)
         THIS_ITER_RESET_REPLAY_BUFFER = train_this_iter_config["rl"].get("reset_replay_buffer", False)
         THIS_ITER_RELABEL_REPLAY_BUFFER = train_this_iter_config["rl"].get("relabel_replay_buffer", False)
+        THIS_ITER_HAS_TRAINED = train_this_iter_config["rl"].get("has_trained", False)
+
+        if THIS_ITER_HAS_TRAINED:
+            continue
 
         # initialize env and algo
         vec_env = get_vec_env(

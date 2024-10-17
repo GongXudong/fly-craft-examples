@@ -26,7 +26,8 @@
             "learning_rate": 3e-4,
             "learning_starts": 10240,
             "reset_policy": false,
-            "relabel_replay_buffer": false
+            "relabel_replay_buffer": false,
+            "has_trained": false
         }
     }, {
         "env": {
@@ -43,7 +44,8 @@
             "learning_starts": 0,
             "reset_policy": true,
             "reset_replay_buffer": false,
-            "relabel_replay_buffer": true
+            "relabel_replay_buffer": true,
+            "has_trained": false
         }
     }]
 }
