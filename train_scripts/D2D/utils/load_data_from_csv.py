@@ -66,9 +66,22 @@ def load_data_from_csv_files(
     traj_cnt = 0
     traj_file_cnt = 0
     transitions_cnt = 0
+
+    origin_env = FlyCraftEnv(config_file=env_config_file)
     
     for index, row in tqdm(res_df.iterrows(), total=res_df.shape[0]):
         target_v, target_mu, target_chi, cur_length = row["v"], row["mu"], row["chi"], row["length"]   # TODO: 注意，有的res.csv保存了序号，每保存的话，使用row[:4]
+
+        # 过滤掉desired goal范围之外的专家轨迹
+        if not (
+            (origin_env.env_config["goal"]["v_min"] <= target_v <= origin_env.env_config["goal"]["v_max"])
+            and
+            (origin_env.env_config["goal"]["mu_min"] <= target_mu <= origin_env.env_config["goal"]["mu_max"])
+            and
+            (origin_env.env_config["goal"]["chi_min"] <= target_chi <= origin_env.env_config["goal"]["chi_max"])
+        ):
+            continue
+
         if cur_length > 0:
             # 能够生成轨迹的目标速度矢量
             cur_filename = f"{trajectory_save_prefix}_{int(target_v)}_{int(target_mu)}_{int(target_chi)}.csv"
@@ -136,7 +149,6 @@ def load_data_from_csv_files(
                 infos.extend([None] * (cur_traj.count()['time']-1))
 
     # 数据标准化. 这里的标准化最耗时.
-    origin_env = FlyCraftEnv(config_file=env_config_file)
     scaled_obs_env = ScaledObservationWrapper(origin_env)
     scaled_act_env = ScaledActionWrapper(scaled_obs_env)
 
