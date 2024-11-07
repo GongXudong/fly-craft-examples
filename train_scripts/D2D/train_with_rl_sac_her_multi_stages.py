@@ -22,6 +22,7 @@ from utils_my.sb3.vec_env_helper import get_vec_env
 from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapper
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
+from train_scripts.D2D.utils.load_data_from_csv import load_data_from_csv_files
 
 import warnings
 warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
@@ -56,6 +57,9 @@ def train(train_config):
         THIS_ITER_RESET_REPLAY_BUFFER = train_this_iter_config["rl"].get("reset_replay_buffer", False)
         THIS_ITER_RELABEL_REPLAY_BUFFER = train_this_iter_config["rl"].get("relabel_replay_buffer", False)
         THIS_ITER_HAS_TRAINED = train_this_iter_config["rl"].get("has_trained", False)
+
+        THIS_ITER_PRE_FILL_REPLAY_BUFFER = train_this_iter_config["rl"].get("pre_fill_replay_buffer", False)
+        THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS = train_this_iter_config["rl"].get("pre_fill_replay_buffer_kwargs", {})
 
         if THIS_ITER_HAS_TRAINED:
             continue
@@ -134,6 +138,45 @@ def train(train_config):
                     print(f"Iter {index}: reset rewards in replay buffer.")
             else:
                 print(f"Iter {index}: reset replay buffer.")
+        else:
+            # check whether to fill replay buffer with expert demonstrations
+            if THIS_ITER_PRE_FILL_REPLAY_BUFFER:
+                loaded_obs, loaded_next_obs, loaded_action, loaded_reward, loaded_done, loaded_info = load_data_from_csv_files(
+                    data_dir=PROJECT_ROOT_DIR / THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["data_dir"],
+                    cache_data=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["cache_data"],
+                    cache_data_dir=PROJECT_ROOT_DIR / THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["cache_data_dir"],
+                    trajectory_save_prefix=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["trajectory_save_prefix"],
+                    env_config_file=PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE,
+                    select_num=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["selected_transition_num"]
+                )
+
+                sac_algo.replay_buffer.extend(
+                    obs=loaded_obs,
+                    next_obs=loaded_next_obs,
+                    action=loaded_action,
+                    reward=loaded_reward,
+                    done=loaded_done,
+                    infos=loaded_info,
+                )
+
+                print(f"Iter {index}: pre-fill replay buffer.")
+
+                # relabel rewards of transitions in the loaded replay buffer
+                if THIS_ITER_RELABEL_REPLAY_BUFFER:
+                    # sac_algo.replay_buffer.observations
+                    loaded_replay_buffer_size = sac_algo.replay_buffer.size()
+                    new_rewards = vec_env.env_method(
+                        method_name="compute_reward",
+                        indices=[0],
+                        achieved_goal=sac_algo.replay_buffer.observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
+                        desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
+                        info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
+                    )[0]
+
+                    sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
+
+                    print(f"Iter {index}: reset rewards in replay buffer.")
+
         
         sb3_logger: Logger = configure(folder=str((PROJECT_ROOT_DIR / "logs" / "rl_single" / THIS_ITER_RL_EXPERIMENT_NAME).absolute()), format_strings=['stdout', 'log', 'csv', 'tensorboard'])
         sac_algo.set_logger(sb3_logger)
