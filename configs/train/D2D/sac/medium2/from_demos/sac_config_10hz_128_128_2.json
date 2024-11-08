@@ -32,7 +32,8 @@
                 "trajectory_save_prefix": "traj",
                 "cache_data": true,
                 "cache_data_dir": "demonstrations/cache/10hz_10_5_5_iter_1_aug",
-                "selected_transition_num": 100000
+                "selected_transition_num": 200000,
+                "random_state": 54
             },
             "relabel_replay_buffer": true
         }

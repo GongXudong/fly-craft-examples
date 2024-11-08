@@ -22,7 +22,7 @@ from utils_my.sb3.vec_env_helper import get_vec_env
 from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapper
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
-from train_scripts.D2D.utils.load_data_from_csv import load_data_from_csv_files
+from train_scripts.D2D.utils.load_data_from_csv import load_random_trajectories_from_csv_files
 
 import warnings
 warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
@@ -141,13 +141,14 @@ def train(train_config):
         else:
             # check whether to fill replay buffer with expert demonstrations
             if THIS_ITER_PRE_FILL_REPLAY_BUFFER:
-                loaded_obs, loaded_next_obs, loaded_action, loaded_reward, loaded_done, loaded_info = load_data_from_csv_files(
+                loaded_obs, loaded_next_obs, loaded_action, loaded_reward, loaded_done, loaded_info = load_random_trajectories_from_csv_files(
                     data_dir=PROJECT_ROOT_DIR / THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["data_dir"],
                     cache_data=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["cache_data"],
                     cache_data_dir=PROJECT_ROOT_DIR / THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["cache_data_dir"],
                     trajectory_save_prefix=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["trajectory_save_prefix"],
                     env_config_file=PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE,
-                    select_num=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["selected_transition_num"]
+                    select_transition_num=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["selected_transition_num"],
+                    random_state=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["random_state"]
                 )
 
                 sac_algo.replay_buffer.extend(
