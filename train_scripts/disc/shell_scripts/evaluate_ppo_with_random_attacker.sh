@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python train_scripts/disc/evaluate_ppo_with_attacker.py --env-config configs/env/env_config_for_ppo_easy.json --env-flag-str Easy --algo-ckpt-dir checkpoints/rl_single/PPO/ppo_10hz_128_128_2e8steps_easy_{0}_singleRL --algo-ckpt-model-name best_model --algo-seeds 1 2 3 4 5 --algo-flag-str PPO --evaluate-dg-num 20 --evaluate-random-noise-num 10 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 0.1 --attacker-flag-str Random --res-file-save-name train_scripts/disc/evaluate/results/res_log_easy_ppo_random_10_noise_0_1.csv

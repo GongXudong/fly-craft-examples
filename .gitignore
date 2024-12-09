@@ -19,3 +19,4 @@ evaluate*.txt
 cache/
 
 train_scripts/D2D/trys/
+train_scripts/disc/evaluate/

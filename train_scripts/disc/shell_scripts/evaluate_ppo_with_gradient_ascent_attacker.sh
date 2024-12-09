@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python train_scripts/disc/evaluate_ppo_with_gradient_ascent_attacker.py --env-config configs/env/env_config_for_ppo_easy.json --env-flag-str Easy-05 --algo-ckpt-dir checkpoints/rl_single/PPO/ppo_10hz_128_128_2e8steps_easy_{0}_singleRL --algo-ckpt-model-name best_model --algo-seeds 1 2 3 4 5 --algo-flag-str PPO --evaluate-dg-num 20 --evaluate-gradient-ascent-lr 0.001 --evaluate-gradient-optimization-steps 20 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 0.1 --attacker-flag-str Gradient-Ascent-0.001-20 --res-file-save-name train_scripts/disc/evaluate/results/res_log_easy_ppo_GA_0_0001_20.csv
