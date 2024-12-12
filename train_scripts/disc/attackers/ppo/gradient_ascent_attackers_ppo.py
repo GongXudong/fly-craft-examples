@@ -15,7 +15,7 @@ from stable_baselines3.common.type_aliases import PyTorchObs
 from stable_baselines3.common.distributions import Distribution
 from torch.cuda import is_available
 
-PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
+PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 

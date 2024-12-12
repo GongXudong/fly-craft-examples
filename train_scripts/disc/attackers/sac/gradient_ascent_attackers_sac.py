@@ -15,7 +15,7 @@ from stable_baselines3.common.type_aliases import PyTorchObs
 from stable_baselines3.common.distributions import Distribution
 from torch.cuda import is_available
 
-PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
+PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
@@ -41,8 +41,8 @@ class GradientAscentAttacker(AttackerBase):
         # 直接生成[-epsilon, epsilon]范围内的噪声
         # return 2 * (th.rand(1, *self.epsilon.shape, device=self.device) - 0.5) * self.epsilon
 
-        # 生成[noise_min, noise_max]范围内的噪声, rand * (noise_max - noise_min) + (noise_min + noise_max) / 2
-        return (th.rand(1, *self.epsilon.shape, device=self.device) - 0.5) * th.tensor(self.noise_max - self. noise_min, device=self.device, requires_grad=False) + th.tensor(self.noise_min + self.noise_max, device=self.device, requires_grad=False) / 2
+        # 生成[noise_min, noise_max]范围内的噪声, 2 * (rand - 0.5) * (noise_max - noise_min) / 2 + (noise_min + noise_max) / 2
+        return (th.rand(1, *self.epsilon.shape, device=self.device) - 0.5) * (self.noise_max - self. noise_min) + (self.noise_min + self.noise_max) / 2
 
     def _calc_noise_min_max(self, desired_goal: np.ndarray):
         """给定desired_goal时，计算能在这个desired_goal施加的noise的最小最大值。
