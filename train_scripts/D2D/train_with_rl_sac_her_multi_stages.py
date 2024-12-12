@@ -10,7 +10,7 @@ from stable_baselines3 import HerReplayBuffer, SAC, DDPG, TD3
 from stable_baselines3.common.buffers import DictReplayBuffer
 from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.logger import configure, Logger
-
+from stable_baselines3.common.callbacks import CheckpointCallback, EveryNTimesteps
 import flycraft
 from flycraft.utils.load_config import load_config
 
@@ -193,9 +193,12 @@ def train(train_config):
             render=False,
         )
 
+        checkpoint_on_event = CheckpointCallback(save_freq=1, save_path=str((PROJECT_ROOT_DIR / "checkpoints" / "rl_single" / THIS_ITER_RL_EXPERIMENT_NAME).absolute()))
+        event_callback = EveryNTimesteps(n_steps=50000, callback=checkpoint_on_event)
+
         sac_algo.learn(
             total_timesteps=int(THIS_ITER_RL_TRAIN_STEPS), 
-            callback=eval_callback
+            callback=[eval_callback, event_callback]
         )
 
         sac_algo.save(str(PROJECT_ROOT_DIR / "checkpoints" / "rl_single" / THIS_ITER_RL_EXPERIMENT_NAME / "final_model"))

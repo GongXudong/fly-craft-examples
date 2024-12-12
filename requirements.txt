@@ -4,6 +4,7 @@ ray~=3.0.0
 imitation~=1.0.0
 numpy
 pandas
+scikit-learn~=1.6.0
 scipy~=1.8.1
 stable-baselines3~=2.2.1
 torch~=2.2.1

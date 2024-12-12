@@ -6,7 +6,7 @@ import sys
 import torch as th
 import argparse
 
-from stable_baselines3 import HerReplayBuffer, SAC, DDPG, TD3
+from stable_baselines3 import HerReplayBuffer
 from stable_baselines3.common.buffers import DictReplayBuffer
 from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.logger import configure, Logger
@@ -15,10 +15,11 @@ from stable_baselines3.common.callbacks import CheckpointCallback, EveryNTimeste
 import flycraft
 from flycraft.utils.load_config import load_config
 
-PROJECT_ROOT_DIR = Path(__file__).parent.parent
+PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
+from train_scripts.disc.algorithms.smooth_goal_sac import SmoothGoalSAC
 from utils_my.sb3.vec_env_helper import get_vec_env
 from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapper
@@ -27,9 +28,12 @@ from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
 import warnings
 warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
 
+gym.register_envs(flycraft)
+
+
 def train():
 
-    sb3_logger: Logger = configure(folder=str((PROJECT_ROOT_DIR / "logs" / "rl_single" / RL_EXPERIMENT_NAME).absolute()), format_strings=['stdout', 'log', 'csv', 'tensorboard'])
+    sb3_logger: Logger = configure(folder=str((PROJECT_ROOT_DIR / "logs" / "disc" / RL_EXPERIMENT_NAME).absolute()), format_strings=['stdout', 'log', 'csv', 'tensorboard'])
 
     vec_env = get_vec_env(
         num_process=RL_TRAIN_PROCESS_NUM,
@@ -45,10 +49,19 @@ def train():
         custom_config={"debug_mode": True, "flag_str": "Callback"}
     )
 
+    env_used_in_attacker = ScaledActionWrapper(
+        ScaledObservationWrapper(
+            gym.make(
+                "FlyCraft-v0", 
+                config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / ENV_CONFIG_FILE)
+            )
+        )
+    )
+
     print(f"action space: {vec_env.action_space}")
 
     # SAC hyperparams:
-    sac_algo = SAC(
+    sac_algo = SmoothGoalSAC(
         "MultiInputPolicy",
         vec_env,
         seed=SEED,
@@ -68,6 +81,9 @@ def train():
             net_arch=NET_ARCH,
             activation_fn=th.nn.Tanh
         ),
+        goal_noise_epsilon=np.array(GOAL_NOISE_EPSILON),
+        goal_regularization_strength=GOAL_REGULARIZATION_STRENGTH,
+        env_used_in_attacker=env_used_in_attacker
     )
 
     sac_algo.set_logger(sb3_logger)
@@ -75,15 +91,15 @@ def train():
     # callback: evaluate, save best
     eval_callback = MyEvalCallback(
         eval_env_in_callback, 
-        best_model_save_path=str((PROJECT_ROOT_DIR / "checkpoints" / "rl_single" / RL_EXPERIMENT_NAME).absolute()),
-        log_path=str((PROJECT_ROOT_DIR / "logs" / "rl_single" / RL_EXPERIMENT_NAME).absolute()), 
+        best_model_save_path=str((PROJECT_ROOT_DIR / "checkpoints" / "disc" / RL_EXPERIMENT_NAME).absolute()),
+        log_path=str((PROJECT_ROOT_DIR / "logs" / "disc" / RL_EXPERIMENT_NAME).absolute()), 
         eval_freq=EVAL_FREQ,  # 多少次env.step()评估一次，此处设置为1000，因为VecEnv有72个并行环境，所以实际相当于72*1000次step，评估一次
         n_eval_episodes=N_EVAL_EPISODES,  # 每次评估使用多少条轨迹
         deterministic=True, 
         render=False,
     )
 
-    checkpoint_on_event = CheckpointCallback(save_freq=1, save_path=str((PROJECT_ROOT_DIR / "checkpoints" / "rl_single" / RL_EXPERIMENT_NAME).absolute()))
+    checkpoint_on_event = CheckpointCallback(save_freq=1, save_path=str((PROJECT_ROOT_DIR / "checkpoints" / "disc" / RL_EXPERIMENT_NAME).absolute()))
     event_callback = EveryNTimesteps(n_steps=50000, callback=checkpoint_on_event)
 
     sac_algo.learn(
@@ -92,59 +108,11 @@ def train():
     )
     # sac_algo.save(str(PROJECT_ROOT_DIR / "checkpoints" / RL_EXPERIMENT_NAME))
 
-def test_single_traj():
-    # Load saved model
-    # Because it needs access to `env.compute_reward()`
-    # HER must be loaded with the env
-    env = gym.make(
-        id="FlyCraft-v0",
-        config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / ENV_CONFIG_FILE),
-        custom_config=ENV_CUSTOM_CONFIG
-    )
-
-    env = ScaledActionWrapper(ScaledObservationWrapper(env))
-
-    model = SAC.load(
-        str(PROJECT_ROOT_DIR / "checkpoints" / "rl_single" / RL_EXPERIMENT_NAME / "best_model"), 
-        env=env
-    )
-
-    obs, info = env.reset()
-
-    # Evaluate the agent
-    episode_reward = 0
-    for _ in range(400):
-        action, _ = model.predict(obs, deterministic=True)
-        obs, reward, terminated, truncated, info = env.step(action)
-        episode_reward += reward
-        if terminated or truncated or info.get("is_success", False):
-            print("Reward:", episode_reward, "Success?", info.get("is_success", False))
-            episode_reward = 0.0
-            obs, info = env.reset()
-
-def test_multi_traj():
-    vec_env = get_vec_env(
-        num_process=RL_EVALUATE_PROCESS_NUM,
-        config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / ENV_CONFIG_FILE),
-        custom_config=ENV_CUSTOM_CONFIG
-    )
-    sac_algo = SAC.load(
-        str(PROJECT_ROOT_DIR / "checkpoints" / "rl_single" / RL_EXPERIMENT_NAME / "best_model"), 
-        env=vec_env,
-        custom_objects={
-            "observation_space": vec_env.observation_space,
-            "action_space": vec_env.action_space
-        }
-    )
-
-    res = evaluate_policy_with_success_rate(sac_algo.policy, vec_env, 100)
-
-    print(res)
 
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="传入配置文件")
-    parser.add_argument("--config-file-name", type=str, help="配置文件名", default="sac_config_10hz_128_128_1.json")
+    parser.add_argument("--config-file-name", type=str, help="配置文件名", default="configs/train/disc/sac/medium/sac_config_10hz_128_128_1.json")
     args = parser.parse_args()
 
     train_config = load_config(Path(os.getcwd()) / args.config_file_name)
@@ -173,8 +141,9 @@ if __name__ == "__main__":
 
     EVAL_FREQ = train_config["rl"].get("eval_freq", 1000)
     N_EVAL_EPISODES = train_config["rl"].get("n_eval_episodes", CALLBACK_PROCESS_NUM*10)
+
+    GOAL_NOISE_EPSILON = train_config["rl"].get("goal_noise_epsilon", [10., 3., 3.])
+    GOAL_REGULARIZATION_STRENGTH = train_config["rl"].get("goal_regularization_strength", 1e-3)
     
 
     train()
-    # test_single_traj()
-    # test_multi_traj()

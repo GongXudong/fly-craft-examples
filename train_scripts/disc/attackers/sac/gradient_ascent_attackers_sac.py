@@ -63,8 +63,8 @@ class GradientAscentAttacker(AttackerBase):
         tmp_env = self.env
         while True:
             if isinstance(tmp_env, ScaledObservationWrapper):
-                self.noise_min = th.tensor(tmp_env.goal_scalar.transform(self.noise_min.reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]), device=self.device, requires_grad=False)
-                self.noise_max = th.tensor(tmp_env.goal_scalar.transform(self.noise_max.reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]), device=self.device, requires_grad=False)
+                self.noise_min = th.tensor(tmp_env.goal_scalar.transform(self.noise_min.cpu().numpy().reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]), device=self.device, requires_grad=False)
+                self.noise_max = th.tensor(tmp_env.goal_scalar.transform(self.noise_max.cpu().numpy().reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]), device=self.device, requires_grad=False)
                 break
             
             if not isinstance(tmp_env, gym.Wrapper):

@@ -207,7 +207,7 @@ class SmoothGoalSAC(SAC):
             # 1.sample noise and add to obs
             noised_goal_obs = deepcopy(replay_data.observations)
             for i in range(len(noised_goal_obs["desired_goal"])):
-                tmp_noise = self.sample_a_goal_noise(scaled_desired_goal=noised_goal_obs["desired_goal"][i].numpy())
+                tmp_noise = self.sample_a_goal_noise(scaled_desired_goal=noised_goal_obs["desired_goal"][i].cpu().numpy())
                 noised_goal_obs["desired_goal"][i] += tmp_noise.reshape((-1))
 
             # 2.get action dist
