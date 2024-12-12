@@ -100,7 +100,7 @@ def train():
     )
 
     checkpoint_on_event = CheckpointCallback(save_freq=1, save_path=str((PROJECT_ROOT_DIR / "checkpoints" / "disc" / RL_EXPERIMENT_NAME).absolute()))
-    event_callback = EveryNTimesteps(n_steps=50000, callback=checkpoint_on_event)
+    event_callback = EveryNTimesteps(n_steps=SAVE_CHECKPOINT_EVERY_N_TIMESTEPS, callback=checkpoint_on_event)
 
     sac_algo.learn(
         total_timesteps=int(RL_TRAIN_STEPS), 
@@ -141,6 +141,7 @@ if __name__ == "__main__":
 
     EVAL_FREQ = train_config["rl"].get("eval_freq", 1000)
     N_EVAL_EPISODES = train_config["rl"].get("n_eval_episodes", CALLBACK_PROCESS_NUM*10)
+    SAVE_CHECKPOINT_EVERY_N_TIMESTEPS = train_config["rl"].get("save_checkpoint_every_n_timesteps", 50000)
 
     GOAL_NOISE_EPSILON = train_config["rl"].get("goal_noise_epsilon", [10., 3., 3.])
     GOAL_REGULARIZATION_STRENGTH = train_config["rl"].get("goal_regularization_strength", 1e-3)

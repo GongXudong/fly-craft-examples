@@ -203,7 +203,7 @@ class SmoothGoalSAC(SAC):
             actor_loss = (ent_coef * log_prob - min_qf_pi).mean()
             actor_losses.append(actor_loss.item())
 
-            # goal regularization loss
+            # goal regularization loss !!!!!
             # 1.sample noise and add to obs
             noised_goal_obs = deepcopy(replay_data.observations)
             for i in range(len(noised_goal_obs["desired_goal"])):
