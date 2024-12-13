@@ -8,7 +8,7 @@
         "seed": 2,
         "seed_in_train_env": 7,
         "seed_in_callback_env": 8,
-        "train_steps": 2e5,
+        "train_steps": 2e8,
         "net_arch": [128, 128],
         "batch_size": 4096,
         "gamma": 0.995,
