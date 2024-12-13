@@ -96,7 +96,8 @@ class SmoothGoalPPO(PPO):
         self.ppo_ga_attacker = GradientAscentAttacker(
             policy=self.policy,
             env=env_used_in_attacker,
-            epsilon=goal_noise_epsilon
+            epsilon=goal_noise_epsilon,
+            device=device,
         )
 
     def sample_a_goal_noise(self, scaled_desired_goal: np.ndarray) -> th.Tensor:

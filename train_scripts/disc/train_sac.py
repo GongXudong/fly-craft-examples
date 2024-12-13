@@ -81,6 +81,7 @@ def train():
             net_arch=NET_ARCH,
             activation_fn=th.nn.Tanh
         ),
+        device=DEVICE,
         goal_noise_epsilon=np.array(GOAL_NOISE_EPSILON),
         goal_regularization_strength=GOAL_REGULARIZATION_STRENGTH,
         env_used_in_attacker=env_used_in_attacker
@@ -146,5 +147,6 @@ if __name__ == "__main__":
     GOAL_NOISE_EPSILON = train_config["rl"].get("goal_noise_epsilon", [10., 3., 3.])
     GOAL_REGULARIZATION_STRENGTH = train_config["rl"].get("goal_regularization_strength", 1e-3)
     
+    DEVICE = train_config["rl"].get("device", "cpu")
 
     train()

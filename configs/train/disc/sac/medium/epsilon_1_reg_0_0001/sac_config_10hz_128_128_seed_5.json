@@ -24,6 +24,7 @@
         "save_checkpoint_every_n_timesteps": 50000,
         "use_her": true,
         "goal_noise_epsilon": [10.0, 3.0, 3.0],
-        "goal_regularization_strength": 1e-3
+        "goal_regularization_strength": 1e-3,
+        "device": "cpu"
     }
 }
