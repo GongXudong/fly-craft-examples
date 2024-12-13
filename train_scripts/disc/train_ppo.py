@@ -59,7 +59,7 @@ def get_ppo_algo(env, env_used_in_attacker):
 
 def train():
 
-    sb3_logger: Logger = configure(folder=str((PROJECT_ROOT_DIR / "logs" / "rl_single" / RL_EXPERIMENT_NAME).absolute()), format_strings=['stdout', 'log', 'csv', 'tensorboard'])
+    sb3_logger: Logger = configure(folder=str((PROJECT_ROOT_DIR / "logs" / "disc" / RL_EXPERIMENT_NAME).absolute()), format_strings=['stdout', 'log', 'csv', 'tensorboard'])
 
     tmp_custom_config = {"debug_mode": True, "flag_str": "Train"}
     update_nested_dict(tmp_custom_config, ENV_CUSTOM_CONFIG)
