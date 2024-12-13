@@ -10,3 +10,10 @@
     env = gym.make("FlyCraft-v0")
     env = ScaledActionWrapper(ScaledObservationWrapper(env))
 ```
+
+## dependencies
+
+```bash
+gymnasium==1.0.0
+stable-baselines3==2.4.0
+```

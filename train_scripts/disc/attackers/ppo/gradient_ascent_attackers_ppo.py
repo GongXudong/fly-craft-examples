@@ -42,7 +42,7 @@ class GradientAscentAttacker(AttackerBase):
         # return 2 * (th.rand(1, *self.epsilon.shape, device=self.device) - 0.5) * self.epsilon
 
         # 生成[noise_min, noise_max]范围内的噪声, rand * (noise_max - noise_min) + (noise_min + noise_max) / 2
-        return (th.rand(1, *self.epsilon.shape, device=self.device) - 0.5) * th.tensor(self.noise_max - self. noise_min, device=self.device, requires_grad=False) + th.tensor(self.noise_min + self.noise_max, device=self.device, requires_grad=False) / 2
+        return (th.rand(1, *self.epsilon.shape, device=self.device) - 0.5) * (self.noise_max - self. noise_min) + (self.noise_min + self.noise_max) / 2
 
     def _calc_noise_min_max(self, desired_goal: np.ndarray):
         """给定desired_goal时，计算能在这个desired_goal施加的noise的最小最大值。
