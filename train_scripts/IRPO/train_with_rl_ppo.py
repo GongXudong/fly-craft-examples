@@ -18,7 +18,7 @@ import flycraft
 from flycraft.utils.load_config import load_config
 from flycraft.utils.dict_utils import update_nested_dict
 
-PROJECT_ROOT_DIR = Path(__file__).parent.parent
+PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
@@ -54,7 +54,7 @@ def get_ppo_algo(env):
 
 def train():
 
-    sb3_logger: Logger = configure(folder=str((PROJECT_ROOT_DIR / "logs" / "rl_single" / RL_EXPERIMENT_NAME).absolute()), format_strings=['stdout', 'log', 'csv', 'tensorboard'])
+    sb3_logger: Logger = configure(folder=str((PROJECT_ROOT_DIR / "logs" / "IRPO" / "rl_single" / RL_EXPERIMENT_NAME).absolute()), format_strings=['stdout', 'log', 'csv', 'tensorboard'])
 
     env_config_dict_in_training = {
         "num_process": ROLLOUT_PROCESS_NUM, 
@@ -97,8 +97,8 @@ def train():
 
     eval_callback = MyEvalCallback(
         eval_env_in_callback, 
-        best_model_save_path=str((PROJECT_ROOT_DIR / "checkpoints" / "rl_single" / RL_EXPERIMENT_NAME).absolute()),
-        log_path=str((PROJECT_ROOT_DIR / "logs" / "rl_single" / RL_EXPERIMENT_NAME).absolute()), 
+        best_model_save_path=str((PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "rl_single" / RL_EXPERIMENT_NAME).absolute()),
+        log_path=str((PROJECT_ROOT_DIR / "logs" / "IRPO" / "rl_single" / RL_EXPERIMENT_NAME).absolute()), 
         eval_freq=EVALUATE_FREQUENCE,
         n_eval_episodes=EVALUATE_NUMS_IN_CALLBACK*env_num_used_in_callback,
         deterministic=True, 

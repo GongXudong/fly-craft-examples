@@ -36,13 +36,13 @@ class RandomAttackerTest(unittest.TestCase):
         exp_name = "PPO/ppo_10hz_128_128_2e8steps_easy_1_singleRL"
         model_name = "best_model"
         policy_dir = PROJECT_ROOT_DIR / "checkpoints" / "rl_single" / exp_name / model_name
-        sac_algo = PPO.load(
+        ppo_algo = PPO.load(
             policy_dir,
             env=env
         )
 
         self.randomAttacker = RandomAttacker(
-            policy=sac_algo.policy,
+            policy=ppo_algo.policy,
             env=env,
             epsilon=np.array([10., 3., 3.])
         )
