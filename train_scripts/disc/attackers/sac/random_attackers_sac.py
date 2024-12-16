@@ -92,7 +92,7 @@ class RandomAttacker(AttackerBase):
                 # print(aa.distribution.mean, bb.distribution.mean)
                 
                 tmp_KL = kl_divergence(aa, bb).sum(axis=-1)
-                tmp_KLs.append(tmp_KL)
+                tmp_KLs.append(tmp_KL.cpu().numpy())
             
             tmp = np.array(tmp_KLs).mean()
             # print(f"tmp KL, goal: {tmp_goal}, delta: {np.array(tmp_goal) - np.array(desired_goal)}, kl: {tmp}")

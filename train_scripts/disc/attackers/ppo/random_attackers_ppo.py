@@ -100,7 +100,7 @@ class RandomAttacker(AttackerBase):
                     # tmp_KL = kl_divergence(aa, bb)
                     tmp_KL = th.distributions.kl_divergence(aa, bb).sum(axis=-1)
                     # print(f"check KL: {aa}, {bb}, {tmp_KL}")
-                    tmp_KLs.append(tmp_KL)
+                    tmp_KLs.append(tmp_KL.cpu().numpy())
                 
                 tmp = np.array(tmp_KLs).mean()
                 # print(f"check KL: {len(tmp_KLs)}, {tmp}")
