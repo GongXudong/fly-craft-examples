@@ -17,7 +17,7 @@ import flycraft
 from flycraft.env import FlyCraftEnv
 from flycraft.utils.load_config import load_config
 
-PROJECT_ROOT_DIR = Path(__file__).parent.parent
+PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
@@ -34,7 +34,7 @@ np.seterr(all="raise")  # 检查nan
 
 def train():
     
-    sb3_logger: Logger = configure(folder=str((PROJECT_ROOT_DIR / "logs" / "rl_rl" / RL_EXPERIMENT_NAME).absolute()), format_strings=['stdout', 'log', 'csv', 'tensorboard'])
+    sb3_logger: Logger = configure(folder=str((PROJECT_ROOT_DIR / "logs" / "IRPO" / "rl_rl" / RL_EXPERIMENT_NAME).absolute()), format_strings=['stdout', 'log', 'csv', 'tensorboard'])
 
     env_config_dict_in_training = {
         "num_process": ROLLOUT_PROCESS_NUM,
@@ -72,7 +72,7 @@ def train():
 
     # load model
     # bc_policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "bc" / BC_EXPERIMENT_NAME
-    rl_reference_model_save_dir = PROJECT_ROOT_DIR / "checkpoints" / RL_REFERENCE_MODEL_DIR / RL_REFERENCE_MODEL
+    rl_reference_model_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / RL_REFERENCE_MODEL_DIR / RL_REFERENCE_MODEL
     algo_ppo_for_kl_loss = PPOWithBCLoss.load(
         str((rl_reference_model_save_dir / RL_REFERENCE_MODEL_FILE_NAME).absolute()),
         custom_objects={
@@ -110,8 +110,8 @@ def train():
     # sb3自带的EvalCallback根据最高平均reward保存最优策略；改成MyEvalCallback，根据最高胜率保存最优策略
     eval_callback = MyEvalCallback(
         eval_env_in_callback, 
-        best_model_save_path=str((PROJECT_ROOT_DIR / "checkpoints" / "rl_rl" / RL_EXPERIMENT_NAME).absolute()),
-        log_path=str((PROJECT_ROOT_DIR / "logs" / "rl_rl" / RL_EXPERIMENT_NAME).absolute()), 
+        best_model_save_path=str((PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "rl_rl" / RL_EXPERIMENT_NAME).absolute()),
+        log_path=str((PROJECT_ROOT_DIR / "logs" / "IRPO" / "rl_rl" / RL_EXPERIMENT_NAME).absolute()), 
         eval_freq=EVALUATE_FREQUENCE,  # 多少次env.step()评估一次，此处设置为1000，因为VecEnv有72个并行环境，所以实际相当于72*1000次step，评估一次
         n_eval_episodes=EVALUATE_NUMS_IN_CALLBACK * env_num_used_in_callback,  # 每次评估使用多少条轨迹
         deterministic=True, 

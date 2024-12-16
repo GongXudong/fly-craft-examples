@@ -45,19 +45,19 @@ python demonstrations/utils/label_transitions_with_rewards.py --demos-dir demons
 ### BC
 
 ```bash
-python train_scripts/train_with_bc_ppo.py --config-file-name configs/train/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json
+python train_scripts/IRPO/train_with_bc_ppo.py --config-file-name configs/train/IRPO/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json
 ```
 
 ### PPO
 
 ```bash
-python train_scripts/train_with_rl_ppo.py --config-file-name configs/train/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json
+python train_scripts/IRPO/train_with_rl_ppo.py --config-file-name configs/train/IRPO/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json
 ```
 
 ### PPO fine-tuning a BC-pre-trained policy
 
 ```bash
-python train_scripts/train_with_rl_bc_ppo.py --config-file-name configs/train/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json
+python train_scripts/IRPO/train_with_rl_bc_ppo.py --config-file-name configs/train/IRPO/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json
 ```
 
 ### SAC

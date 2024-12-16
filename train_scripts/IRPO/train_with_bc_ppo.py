@@ -27,7 +27,7 @@ import flycraft
 from flycraft.env import FlyCraftEnv
 from flycraft.utils.load_config import load_config
 
-PROJECT_ROOT_DIR = Path(__file__).parent.parent
+PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
@@ -94,7 +94,7 @@ def on_best_loss_save(algo: BaseAlgorithm, validation_transitions: TransitionsMi
             min_loss = cur_loss
 
             # save policy
-            checkpoint_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "bc" / EXPERIMENT_NAME
+            checkpoint_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "bc" / EXPERIMENT_NAME
             if not checkpoint_save_dir.exists():
                 checkpoint_save_dir.mkdir()
 
@@ -106,7 +106,7 @@ def on_best_loss_save(algo: BaseAlgorithm, validation_transitions: TransitionsMi
 
 def train():
 
-    sb3_logger: Logger = configure(folder=str((PROJECT_ROOT_DIR / "logs" / "bc" / EXPERIMENT_NAME).absolute()), format_strings=['stdout', 'log', 'csv', 'tensorboard'])
+    sb3_logger: Logger = configure(folder=str((PROJECT_ROOT_DIR / "logs" / "IRPO" / "bc" / EXPERIMENT_NAME).absolute()), format_strings=['stdout', 'log', 'csv', 'tensorboard'])
 
     vec_env = get_vec_env(
         num_process=RL_TRAIN_PROCESS_NUM,
@@ -247,7 +247,7 @@ if __name__ == "__main__":
     #     test_size=0.05
     # )
 
-    policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "bc" / EXPERIMENT_NAME
+    policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "bc" / EXPERIMENT_NAME
     algo_ppo = PPOWithBCLoss.load(str((policy_save_dir / POLICY_FILE_SAVE_NAME).absolute()))
 
     test_on_loss(algo_ppo.policy, validation_transitions, bc_trainer.loss_calculator, sb3_logger, "最优策略", "验证集")
