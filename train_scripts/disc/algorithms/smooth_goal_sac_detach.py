@@ -60,7 +60,6 @@ class SmoothGoalSAC(SAC):
         _init_setup_model: bool = True, 
         goal_noise_epsilon: np.ndarray = np.array([10., 3., 3.]),
         goal_regularization_strength: float = 1e-3,
-        policy_distance_measure_func: str = "KL",
         env_used_in_attacker: gym.Env = None,
     ):
         
@@ -96,7 +95,6 @@ class SmoothGoalSAC(SAC):
 
         self.goal_noise_epsilon = goal_noise_epsilon
         self.goal_regularization_strength = goal_regularization_strength
-        self.policy_distance_measure_func = policy_distance_measure_func
 
         # 引用这个Attacker只为了使用求解噪声合理范围这一个功能
         self.sac_ga_attacker = GradientAscentAttacker(
@@ -150,8 +148,8 @@ class SmoothGoalSAC(SAC):
             
             # TODO: loc与scale是否需要detach？？？
             action_dist = th.distributions.Normal(
-                loc=self.actor.action_dist.distribution.loc,
-                scale=self.actor.action_dist.distribution.scale
+                loc=self.actor.action_dist.distribution.loc.detach(),
+                scale=self.actor.action_dist.distribution.scale.detach()
             )
             log_prob = log_prob.reshape(-1, 1)
 
@@ -219,14 +217,7 @@ class SmoothGoalSAC(SAC):
             noised_goal_actions_pi, noised_goal_log_prob = self.actor.action_log_prob(noised_goal_obs)
             noised_goal_action_dist = self.actor.action_dist.distribution
             # 3. calc KL or JS loss
-            if self.policy_distance_measure_func == "KL":
-                noised_goal_loss = th.distributions.kl_divergence(action_dist, noised_goal_action_dist).sum(axis=-1).mean()
-            elif self.policy_distance_measure_func == "JS":
-                noised_goal_loss = th.distributions.kl_divergence(action_dist, noised_goal_action_dist).sum(axis=-1) + th.distributions.kl_divergence(noised_goal_action_dist, action_dist).sum(axis=-1)
-                noised_goal_loss = noised_goal_loss.mean()
-            else:
-                raise ValueError("policy_distance_measure_func must be either KL or JS!")
-            
+            noised_goal_loss = th.distributions.kl_divergence(action_dist, noised_goal_action_dist).sum(axis=-1).mean()
             actor_loss += self.goal_regularization_strength * noised_goal_loss
             noised_goal_losses.append(noised_goal_loss.item())
 

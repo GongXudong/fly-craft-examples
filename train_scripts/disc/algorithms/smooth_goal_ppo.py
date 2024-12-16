@@ -58,6 +58,7 @@ class SmoothGoalPPO(PPO):
         _init_setup_model: bool = True,
         goal_noise_epsilon: np.ndarray = np.array([10., 3., 3.]),
         goal_regularization_strength: float = 1e-3,
+        policy_distance_measure_func: str = "KL",
         env_used_in_attacker: gym.Env = None,
     ):
         super().__init__(
@@ -91,6 +92,7 @@ class SmoothGoalPPO(PPO):
 
         self.goal_noise_epsilon = goal_noise_epsilon
         self.goal_regularization_strength = goal_regularization_strength
+        self.policy_distance_measure_func = policy_distance_measure_func
 
         # 引用这个Attacker只为了使用求解噪声合理范围这一个功能
         self.ppo_ga_attacker = GradientAscentAttacker(
@@ -219,7 +221,13 @@ class SmoothGoalPPO(PPO):
                 noised_goal_action_dist = self.policy.get_distribution(noised_goal_obs)
 
                 # 3. calc KL or JS loss
-                noised_goal_loss = th.distributions.kl_divergence(action_dist, noised_goal_action_dist.distribution).sum(axis=-1).mean()
+                if self.policy_distance_measure_func == "KL":
+                    noised_goal_loss = th.distributions.kl_divergence(action_dist, noised_goal_action_dist.distribution).sum(axis=-1).mean()
+                elif self.policy_distance_measure_func == "JS":
+                    noised_goal_loss = th.distributions.kl_divergence(action_dist, noised_goal_action_dist.distribution).sum(axis=-1) + th.distributions.kl_divergence(noised_goal_action_dist.distribution, action_dist).sum(axis=-1)
+                    noised_goal_loss = noised_goal_loss.mean()
+                else:
+                    raise ValueError("policy_distance_measure_func must be either KL or JS!")
 
                 noised_goal_losses.append(noised_goal_loss.item())
                 # ---------------------------------end: goal regularization loss---------------------------------

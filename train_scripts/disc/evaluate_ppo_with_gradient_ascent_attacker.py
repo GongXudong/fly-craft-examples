@@ -64,7 +64,8 @@ def evaluate(args):
         GAAttacker = GradientAscentAttacker(
             policy=ppo_algo.policy,
             env=scaled_act_obs_env,
-            epsilon=np.array(args.evaluate_noise_base) * args.evaluate_noise_multiplier
+            epsilon=np.array(args.evaluate_noise_base) * args.evaluate_noise_multiplier,
+            policy_distance_measure_func=args.policy_distance_measure_func,
         )
 
         for _ in tqdm(range(args.evaluate_dg_num), total=args.evaluate_dg_num):
@@ -130,6 +131,7 @@ if __name__ == "__main__":
     parser.add_argument("--evaluate-noise-base", nargs="*", type=float, default=[10.0, 3.0, 3.0], help="base noise")
     parser.add_argument("--evaluate-noise-multiplier", type=float, default=1.0, help="noise multiplier")
     parser.add_argument("--attacker-flag-str", type=str, default="Gradient Ascent", help="log str for attacker")
+    parser.add_argument("--policy-distance-measure-func", type=str, default="KL", help="the distance function used to measure the discrepency of two policy, must be either KL or JS.")
     # save res file
     parser.add_argument("--res-file-save-name", type=str, default="train_scripts/disc/evaluate/results/res_log.csv", help="result file save name")
 

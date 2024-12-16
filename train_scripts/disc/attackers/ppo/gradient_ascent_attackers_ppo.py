@@ -29,8 +29,18 @@ from train_scripts.disc.attackers.ppo.base_attackers_ppo import AttackerBase
 
 class GradientAscentAttacker(AttackerBase):
 
-    def __init__(self, policy: MultiInputPolicy, env: gym.Env, epsilon: np.ndarray, max_random_limit_when_get_achievable_goal: int = 100, device=th.device("cuda" if th.cuda.is_available() else "cpu")):
+    def __init__(
+        self, 
+        policy: MultiInputPolicy, 
+        env: gym.Env, 
+        epsilon: np.ndarray, 
+        max_random_limit_when_get_achievable_goal: int = 100, 
+        device=th.device("cuda" if th.cuda.is_available() else "cpu"),
+        policy_distance_measure_func: str = "KL",    
+    ):
         super().__init__(policy, env, epsilon, max_random_limit_when_get_achievable_goal, device)
+
+        self.policy_distance_measure_func = policy_distance_measure_func
     
     def _init_noise(self):
         """在调用这个函数前，需先调用self._calc_noise_min_max(desired_goal)，保证self.noise_min和self.noise_max已经被计算出来。
@@ -94,8 +104,14 @@ class GradientAscentAttacker(AttackerBase):
 
             tmp_action_dist = self.policy.get_distribution(obs=obs)
             
-            KL_distance = th.distributions.kl_divergence(reference_action_distribution, tmp_action_dist.distribution).sum(axis=-1)
-            return - KL_distance
+            if self.policy_distance_measure_func == "KL":
+                distance = th.distributions.kl_divergence(reference_action_distribution, tmp_action_dist.distribution).sum(axis=-1)
+            elif self.policy_distance_measure_func == "JS":
+                distance = th.distributions.kl_divergence(reference_action_distribution, tmp_action_dist.distribution).sum(axis=-1) + th.distributions.kl_divergence(tmp_action_dist.distribution, reference_action_distribution).sum(axis=-1)
+            else:
+                raise ValueError("policy_distance_measure_func must be either KL or JS!")
+            
+            return - distance
             
             # JS_distance = th.distributions.kl_divergence(reference_action_distribution, tmp_action_dist.distribution).sum(axis=-1) + th.distributions.kl_divergence(tmp_action_dist.distribution, reference_action_distribution).sum(axis=-1)
             # return - JS_distance

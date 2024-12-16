@@ -19,7 +19,7 @@ PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
-from train_scripts.disc.algorithms.smooth_goal_sac import SmoothGoalSAC
+from train_scripts.disc.algorithms.smooth_goal_sac_detach import SmoothGoalSAC
 from utils_my.sb3.vec_env_helper import get_vec_env
 from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapper
@@ -84,8 +84,7 @@ def train():
         device=DEVICE,
         goal_noise_epsilon=np.array(GOAL_NOISE_EPSILON),
         goal_regularization_strength=GOAL_REGULARIZATION_STRENGTH,
-        policy_distance_measure_func=POLICY_DISTANCE_MEASURE_FUNC,
-        env_used_in_attacker=env_used_in_attacker,
+        env_used_in_attacker=env_used_in_attacker
     )
 
     sac_algo.set_logger(sb3_logger)
@@ -147,7 +146,6 @@ if __name__ == "__main__":
 
     GOAL_NOISE_EPSILON = train_config["rl"].get("goal_noise_epsilon", [10., 3., 3.])
     GOAL_REGULARIZATION_STRENGTH = train_config["rl"].get("goal_regularization_strength", 1e-3)
-    POLICY_DISTANCE_MEASURE_FUNC = train_config["rl"].get("policy_distance_measure_func", "KL")
     
     DEVICE = train_config["rl"].get("device", "cpu")
 
