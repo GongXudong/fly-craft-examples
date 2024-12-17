@@ -40,11 +40,11 @@ class SmoothGoalSACTest(unittest.TestCase):
         )
         self.env_used_in_algo = ScaledActionWrapper(ScaledObservationWrapper(self.env_used_in_algo))
 
-        self.helper_env = gym.make(
+        self.env_used_in_attacker = gym.make(
             env_id,
             config_file=PROJECT_ROOT_DIR / "configs" / "env" / "env_config_for_sac.json"
         )
-        self.helper_env = ScaledActionWrapper(ScaledObservationWrapper(self.helper_env))
+        self.env_used_in_attacker = ScaledActionWrapper(ScaledObservationWrapper(self.env_used_in_attacker))
 
         sb3_logger: Logger = configure(folder=str((PROJECT_ROOT_DIR / "train_scripts" / "disc" / "algorithms" / "test" / "test_noised_goal_sac").absolute()), format_strings=['stdout', 'log', 'csv', 'tensorboard'])
 
@@ -52,20 +52,20 @@ class SmoothGoalSACTest(unittest.TestCase):
             policy=MultiInputPolicy,
             env=self.env_used_in_algo,
             goal_noise_epsilon=np.array([10., 3., 3.]),
+            env_used_in_attacker=self.env_used_in_attacker
         )
         self.sac_algo.set_logger(sb3_logger)
     
-    def test_init_desired_goal_params(self):
-        print("In test init desired goal params.............")
-        self.sac_algo.init_desired_goal_params(self.helper_env)
-        
-        print(self.sac_algo.desired_goal_max)
-        print(self.sac_algo.desired_goal_min)
-        print(self.sac_algo.noise_max)
-        print(self.sac_algo.noise_min)
+    def test_sample_goal_noise_1(self):
+        print("In test sample goal noise.............")
+        for i in range(10):
+            obs, _ = self.env_used_in_attacker.reset()
+            tmp_noise = self.sac_algo.sample_a_goal_noise(scaled_desired_goal=obs["desired_goal"])
+            print(f"iter {i}, {tmp_noise}")
+            self.assertTrue(th.all(th.less_equal(tmp_noise, self.sac_algo.sac_ga_attacker.noise_max)))
+            self.assertTrue(th.all(th.less_equal(self.sac_algo.sac_ga_attacker.noise_min, tmp_noise)))
     
     def test_train(self):
-        self.sac_algo.init_desired_goal_params(self.helper_env)
         self.sac_algo.learn(total_timesteps=10000)
 
 

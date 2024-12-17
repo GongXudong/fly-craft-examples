@@ -5,7 +5,6 @@ from typing import Union
 import flycraft
 
 
-
 def get_lower_bound_of_desired_goal(env: gym.Env):
     return np.array([env.unwrapped.env_config["goal"]["v_min"], env.unwrapped.env_config["goal"]["mu_min"], env.unwrapped.env_config["goal"]["chi_min"]])
 

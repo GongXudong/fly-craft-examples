@@ -14,7 +14,7 @@ from stable_baselines3.common.buffers import ReplayBuffer
 from stable_baselines3.common.noise import ActionNoise
 from stable_baselines3.common.off_policy_algorithm import OffPolicyAlgorithm
 from stable_baselines3.common.policies import BasePolicy, ContinuousCritic
-from stable_baselines3.common.type_aliases import GymEnv, MaybeCallback, Schedule, TensorDict
+from stable_baselines3.common.type_aliases import GymEnv, MaybeCallback, Schedule
 from stable_baselines3.common.utils import get_parameters_by_name, polyak_update
 from stable_baselines3.sac.policies import Actor, CnnPolicy, MlpPolicy, MultiInputPolicy, SACPolicy
 from stable_baselines3.sac import SAC, MultiInputPolicy
@@ -24,8 +24,7 @@ PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
-from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapper
-from train_scripts.disc.utils.reset_env_utils import get_lower_bound_of_desired_goal, get_upper_bound_of_desired_goal
+from train_scripts.disc.attackers.sac.gradient_ascent_attackers_sac import GradientAscentAttacker
 
 
 class SmoothGoalSAC(SAC):
@@ -62,6 +61,7 @@ class SmoothGoalSAC(SAC):
         goal_noise_epsilon: np.ndarray = np.array([10., 3., 3.]),
         goal_regularization_strength: float = 1e-3,
         policy_distance_measure_func: str = "KL",
+        env_used_in_attacker: gym.Env = None,
     ):
         
         super().__init__(
@@ -98,36 +98,30 @@ class SmoothGoalSAC(SAC):
         self.goal_regularization_strength = goal_regularization_strength
         self.policy_distance_measure_func = policy_distance_measure_func
     
-    def init_desired_goal_params(self, helper_env: gym.Env=None):
-        """_summary_
+    def init_attacker(self, env_used_in_attacker: gym.Env=None):
+        # 引用这个Attacker只为了使用求解噪声合理范围这一个功能，训练时初始化对象后，需手动调用此函数。
+        # 未将此函数放在__init__函数中的原因是：调用load方法后报错，AttributeError: 'SmoothGoalSAC' object has no attribute 'policy'
+        self.sac_ga_attacker = GradientAscentAttacker(
+            policy=self.policy,
+            env=env_used_in_attacker,
+            epsilon=self.goal_noise_epsilon,
+            device=self.device,
+        )
+    
+    def sample_a_goal_noise(self, scaled_desired_goal: np.ndarray) -> th.Tensor:
+        """保证env_used_in_attacker是按下述方法实例化的！！！
+        env = gym.make(
+            env_id,
+            config_file=,
+        )
+        env = ScaledActionWrapper(ScaledObservationWrapper(env))
 
         Args:
-            helper_env (gym.Env, optional): 使用ScaledActionWrapper, ScaledObservationWrapper包装过的env. Defaults to None.
+            scaled_desired_goal (np.ndarray): _description_
         """
-
-        assert isinstance(helper_env, ScaledActionWrapper), "需要使用ScaledActionWrapper包装环境"
-        assert hasattr(helper_env, "env") and isinstance(helper_env.env, ScaledObservationWrapper), "需要使用ScaledObservationWrapper包装环境"
-
-        self.desired_goal_max = get_upper_bound_of_desired_goal(helper_env)
-        self.desired_goal_max = helper_env.env.goal_scalar.transform(self.desired_goal_max.reshape((1, -1))).reshape((-1))
-        self.desired_goal_max = th.tensor(self.desired_goal_max, requires_grad=False)
-
-        self.desired_goal_min = get_lower_bound_of_desired_goal(helper_env)
-        self.desired_goal_min = helper_env.env.goal_scalar.transform(self.desired_goal_min.reshape((1, -1))).reshape((-1))
-        self.desired_goal_min = th.tensor(self.desired_goal_min, requires_grad=False)
-
-        self.noise_max = helper_env.env.goal_scalar.transform(self.goal_noise_epsilon.reshape((1, -1))).reshape((-1)) - np.array([0., 0.5, 0.5])
-        self.noise_min = - self.noise_max.copy()
-        self.noise_max = th.tensor(self.noise_max, requires_grad=False)
-        self.noise_min = th.tensor(self.noise_min, requires_grad=False)
-
-    
-    def add_noise_to_desired_goals(self, observations: TensorDict) -> None:
-        observations["desired_goal"] = th.clamp(
-            input=observations["desired_goal"] + th.rand(size=observations["desired_goal"].shape) * (self.noise_max - self.noise_min) + self.noise_min,
-            min=self.desired_goal_min,
-            max=self.desired_goal_max,
-        )
+        unscaled_desired_goal = self.sac_ga_attacker.env.env.goal_scalar.inverse_transform(scaled_desired_goal.reshape((1, -1))).reshape((-1))
+        self.sac_ga_attacker._calc_noise_min_max(desired_goal=unscaled_desired_goal)
+        return self.sac_ga_attacker._init_noise()
 
     
     def train(self, gradient_steps: int, batch_size: int = 64) -> None:
@@ -219,7 +213,9 @@ class SmoothGoalSAC(SAC):
             # goal regularization loss !!!!!
             # 1.sample noise and add to obs
             noised_goal_obs = deepcopy(replay_data.observations)
-            self.add_noise_to_desired_goals(observations=noised_goal_obs)
+            for i in range(len(noised_goal_obs["desired_goal"])):
+                tmp_noise = self.sample_a_goal_noise(scaled_desired_goal=noised_goal_obs["desired_goal"][i].cpu().numpy())
+                noised_goal_obs["desired_goal"][i] += tmp_noise.reshape((-1))
 
             # 2.get action dist
             noised_goal_actions_pi, noised_goal_log_prob = self.actor.action_log_prob(noised_goal_obs)

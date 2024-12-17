@@ -7,14 +7,14 @@ from tqdm import tqdm
 import pandas as pd
 import argparse
 
-from stable_baselines3.ppo import PPO
+from stable_baselines3.sac import SAC
 
-PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
+PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
 from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapper
-from train_scripts.disc.attackers.ppo.gradient_ascent_attackers_ppo import GradientAscentAttacker
+from train_scripts.disc.attackers.sac.gradient_ascent_attackers_sac import GradientAscentAttacker
 from train_scripts.disc.utils.evaluation import my_evaluate_with_customized_dg
 
 
@@ -55,14 +55,14 @@ def evaluate(args):
         tmp = args.algo_ckpt_dir
         tmp = tmp.format(tmp_seed)
         policy_dir = PROJECT_ROOT_DIR / tmp / args.algo_ckpt_model_name
-        ppo_algo = PPO.load(
+        sac_algo = SAC.load(
             policy_dir,
             env=scaled_act_obs_env
         )
 
         # prepare attacker
         GAAttacker = GradientAscentAttacker(
-            policy=ppo_algo.policy,
+            policy=sac_algo.policy,
             env=scaled_act_obs_env,
             epsilon=np.array(args.evaluate_noise_base) * args.evaluate_noise_multiplier,
             policy_distance_measure_func=args.policy_distance_measure_func,
@@ -112,15 +112,15 @@ def evaluate(args):
     res_log_df.to_csv(PROJECT_ROOT_DIR / args.res_file_save_name, index=False)
 
 
-# python train_scripts/disc/evaluate_ppo_with_gradient_ascent_attacker.py --env-config configs/env/D2D/env_config_for_ppo_hard_b_025.json --env-flag-str Hard-025 --algo-ckpt-dir checkpoints/rl_single/PPO/ppo_10hz_128_128_2e8steps_easy_{0}_singleRL --algo-ckpt-model-name best_model --algo-seeds 1 2 3 4 5 --algo-flag-str PPO --evaluate-dg-num 20 --evaluate-gradient-ascent-lr 0.001 --evaluate-gradient-optimization-steps 20 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 0.1 --attacker-flag-str Gradient-Ascent-0.001-20 --res-file-save-name train_scripts/disc/evaluate/results/res_log_hard_ppo_GA_0_0001_20.csv
+# python train_scripts/disc/evaluate_sac_with_gradient_ascent_attacker.py --env-config configs/env/D2D/env_config_for_sac_hard_b_025.json --env-flag-str Hard-025 --algo-ckpt-dir checkpoints/rl_single/D2D/hard_sac_her_b_025/sac_her_10hz_128_128_b_025_1e6steps_seed_{0}_singleRL --algo-ckpt-model-name best_model --algo-seeds 1 2 3 4 5 --algo-flag-str HER --evaluate-dg-num 20 --evaluate-gradient-ascent-lr 0.001 --evaluate-gradient-optimization-steps 20 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 0.1 --attacker-flag-str Gradient-Ascent-0.001-20 --res-file-save-name train_scripts/disc/evaluate/results/res_log_hard_her_GA_0_0001_20.csv
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="pass configurations")
     # environment
-    parser.add_argument("--env-config", type=str, default="configs/env/env_config_for_ppo_easy.json", help="environment configuration file")
+    parser.add_argument("--env-config", type=str, default="configs/env/env_config_for_sac.json", help="environment configuration file")
     parser.add_argument("--env-flag-str", type=str, default="Hard", help="log str for environment")
     # algorithm
-    parser.add_argument("--algo-ckpt-dir", type=str, default="checkpoints/rl_single/ppo/ppo_10hz_128_128_2e8steps_easy_{0}_singleRL", help="algorithm checkpoint file")
+    parser.add_argument("--algo-ckpt-dir", type=str, default="checkpoints/rl_single/sac_her_easy_10hz_128_128_1e6steps_loss_{0}_singleRL", help="algorithm checkpoint file")
     parser.add_argument("--algo-ckpt-model-name", type=str, default="best_model", help="algorithm checkpoint model name")
     parser.add_argument("--algo-seeds", nargs="*", type=int, default=[1, 2, 3, 4, 5], help="algorithm random seeds")
     parser.add_argument("--algo-flag-str", type=str, default="HER", help="log str for algorithm")
