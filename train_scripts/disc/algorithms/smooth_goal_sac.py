@@ -120,7 +120,6 @@ class SmoothGoalSAC(SAC):
         self.noise_min = - self.noise_max.copy()
         self.noise_max = th.tensor(self.noise_max, requires_grad=False)
         self.noise_min = th.tensor(self.noise_min, requires_grad=False)
-
     
     def add_noise_to_desired_goals(self, observations: TensorDict) -> None:
         observations["desired_goal"] = th.clamp(
@@ -128,7 +127,6 @@ class SmoothGoalSAC(SAC):
             min=self.desired_goal_min,
             max=self.desired_goal_max,
         )
-
     
     def train(self, gradient_steps: int, batch_size: int = 64) -> None:
         # Switch to train mode (this affects batch norm / dropout)

@@ -49,7 +49,7 @@ def train():
         custom_config={"debug_mode": True, "flag_str": "Callback"}
     )
 
-    env_used_in_attacker = ScaledActionWrapper(
+    helper_env = ScaledActionWrapper(
         ScaledObservationWrapper(
             gym.make(
                 "FlyCraft-v0", 
@@ -85,10 +85,8 @@ def train():
         goal_noise_epsilon=np.array(GOAL_NOISE_EPSILON),
         goal_regularization_strength=GOAL_REGULARIZATION_STRENGTH,
         policy_distance_measure_func=POLICY_DISTANCE_MEASURE_FUNC,
-        env_used_in_attacker=env_used_in_attacker,
     )
-    sac_algo.init_attacker(env_used_in_attacker=env_used_in_attacker)
-
+    sac_algo.init_desired_goal_params(helper_env)
     sac_algo.set_logger(sb3_logger)
 
     # callback: evaluate, save best
