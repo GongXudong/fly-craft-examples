@@ -4,10 +4,10 @@
         "custom_config": {}
     },
     "rl": {
-        "experiment_name": "medium2/her_128_128_1e6steps_epsilon_0_1_reg_0_001_seed_5",
-        "seed": 42,
-        "seed_in_train_env": 44,
-        "seed_in_callback_env": 45,
+        "experiment_name": "medium2/her_128_128_1e6steps_epsilon_1_reg_0_001_seed_2",
+        "seed": 11,
+        "seed_in_train_env": 12,
+        "seed_in_callback_env": 14,
         "net_arch": [128, 128],
         "gamma": 0.995,
         "train_steps": 1e6,
@@ -23,8 +23,9 @@
         "n_eval_episodes": 96,
         "save_checkpoint_every_n_timesteps": 50000,
         "use_her": true,
-        "goal_noise_epsilon": [1.0, 0.3, 0.3],
+        "goal_noise_epsilon": [10.0, 3.0, 3.0],
         "goal_regularization_strength": 1e-3,
+        "policy_distance_measure_func": "KL",
         "device": "cpu"
     }
 }

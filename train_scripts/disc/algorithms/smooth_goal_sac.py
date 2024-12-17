@@ -97,13 +97,15 @@ class SmoothGoalSAC(SAC):
         self.goal_noise_epsilon = goal_noise_epsilon
         self.goal_regularization_strength = goal_regularization_strength
         self.policy_distance_measure_func = policy_distance_measure_func
-
-        # 引用这个Attacker只为了使用求解噪声合理范围这一个功能
+    
+    def init_attacker(self, env_used_in_attacker: gym.Env=None):
+        # 引用这个Attacker只为了使用求解噪声合理范围这一个功能，训练时初始化对象后，需手动调用此函数。
+        # 未将此函数放在__init__函数中的原因是：调用load方法后报错，AttributeError: 'SmoothGoalSAC' object has no attribute 'policy'
         self.sac_ga_attacker = GradientAscentAttacker(
             policy=self.policy,
             env=env_used_in_attacker,
-            epsilon=goal_noise_epsilon,
-            device=device,
+            epsilon=self.goal_noise_epsilon,
+            device=self.device,
         )
     
     def sample_a_goal_noise(self, scaled_desired_goal: np.ndarray) -> th.Tensor:

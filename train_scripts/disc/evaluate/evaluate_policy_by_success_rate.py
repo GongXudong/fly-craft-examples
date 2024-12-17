@@ -4,6 +4,7 @@ import argparse
 import gymnasium as gym
 
 from stable_baselines3.ppo import PPO
+from stable_baselines3.sac import SAC
 from stable_baselines3.common.vec_env import VecCheckNan
 
 import flycraft
@@ -13,7 +14,8 @@ PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
-from utils_my.models.ppo_with_bc_loss import PPOWithBCLoss
+from train_scripts.disc.algorithms.smooth_goal_ppo import SmoothGoalPPO
+from train_scripts.disc.algorithms.smooth_goal_sac import SmoothGoalSAC
 from utils_my.sb3.vec_env_helper import get_vec_env
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
 
@@ -21,6 +23,8 @@ gym.register_envs(flycraft)
 
 
 def work(train_config: dict, algo: str, seed: int=111, n_envs: int=8, n_eval_episodes: int=100):
+
+    print(f"seed in eval: {seed}")
 
     env_config_dict_in_training = {
         "num_process": n_envs,
@@ -33,29 +37,26 @@ def work(train_config: dict, algo: str, seed: int=111, n_envs: int=8, n_eval_epi
         **env_config_dict_in_training
     ))
 
-    if algo == 'bc':
-        print("测试bc")
-        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "bc" / BC_EXPERIMENT_NAME
-        model_save_name="bc_checkpoint"
-        policy_class = PPOWithBCLoss
-    elif algo == 'rl':
+    if algo == 'sac':
+        print("测试sac")
+        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "disc" / RL_EXPERIMENT_NAME
+        model_save_name="best_model"
+        policy_class = SmoothGoalSAC
+    elif algo == 'ppo':
         print("测试只用rl训练")
-        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "rl_single" / RL_SINGLE_EXPERIMENT_NAME
+        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "disc" / RL_EXPERIMENT_NAME
         model_save_name="best_model"
-        policy_class = PPO
-    elif algo == 'rl_bc':
-        print("测试bc后继续rl优化")
-        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "rl" / RL_EXPERIMENT_NAME
-        model_save_name="best_model"
-        policy_class = PPOWithBCLoss
+        policy_class = SmoothGoalPPO
     else:
-        print(f"脚本参数--algo只能是rl, bc, 或者rl_bc")
+        print(f"脚本参数--algo只能是sac, ppo")
 
     algo_ppo = policy_class.load(
         str((policy_save_dir / model_save_name).absolute()), 
+        env=vec_env,
         custom_objects={
+            "seed": seed,
             "observation_space": vec_env.observation_space,
-            "action_space": vec_env.action_space
+            "action_space": vec_env.action_space,
         }
     )
     algo_ppo.policy.set_training_mode(False)
@@ -68,24 +69,20 @@ def work(train_config: dict, algo: str, seed: int=111, n_envs: int=8, n_eval_epi
 
     print(f"mean reward: {mean_reward}, mean episode length: {mean_episode_length}, success rate: {success_rate}")
 
-# python train_scripts/IRPO/evaluate/evaluate_policy_by_success_rate.py --config-file-name configs/train/IRPO/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json --algo rl_bc --seed 11 --n-envs 8 --n-eval-episode 100
+# python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --config-file-name configs/train/disc/sac/medium/epsilon_0_1_reg_0_001/sac_config_10hz_128_128_seed_2.json --algo sac --seed 11 --n-envs 8 --n-eval-episode 100
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="pass configurations")
     parser.add_argument("--config-file-name", type=str, help="train configuration file", default="configs/train/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json")
-    parser.add_argument("--algo", type=str, help="the algorithm model to be evaluated, can be rl, bc, or rl_bc", default="rl_bc")
+    parser.add_argument("--algo", type=str, help="the algorithm model to be evaluated, can be sac, or ppo", default="sac")
     parser.add_argument("--seed", type=int, default=11, help="the seed used in evaluation")
     parser.add_argument("--n-envs", type=int, default=8, help="the number of environments used in this evaluation")
     parser.add_argument("--n-eval-episodes", type=int, default=100, help="the number of episodes used in this evaluation")
     args = parser.parse_args()
 
-    custom_config = load_config(args.config_file_name)
+    custom_config = load_config(PROJECT_ROOT_DIR / args.config_file_name)
 
-    RL_EXPERIMENT_NAME = custom_config["rl_bc"]["experiment_name"]
-    BC_EXPERIMENT_NAME = custom_config["bc"]["experiment_name"]
-    RL_SINGLE_EXPERIMENT_NAME = custom_config["rl"]["experiment_name"]
-    SEED = custom_config["rl_bc"]["seed"]
-    ROLLOUT_PROCESS_NUM = custom_config["rl_bc"]["rollout_process_num"]
+    RL_EXPERIMENT_NAME = custom_config["rl"]["experiment_name"]
 
     work(
         train_config=custom_config, 

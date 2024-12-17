@@ -115,6 +115,7 @@ def train():
     )
 
     algo_ppo = get_ppo_algo(vec_env, env_used_in_attacker)
+    algo_ppo.init_attacker(env_used_in_attacker=env_used_in_attacker)
     sb3_logger.info(str(algo_ppo.policy))
 
     # set sb3 logger

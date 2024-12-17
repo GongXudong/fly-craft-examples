@@ -24,6 +24,7 @@
         "save_checkpoint_every_n_timesteps": 4000000,
         "goal_noise_epsilon": [10.0, 3.0, 3.0],
         "goal_regularization_strength": 0.001,
+        "policy_distance_measure_func": "KL",
         "device": "cpu"
     }
 }

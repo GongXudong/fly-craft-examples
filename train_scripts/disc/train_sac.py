@@ -87,6 +87,7 @@ def train():
         policy_distance_measure_func=POLICY_DISTANCE_MEASURE_FUNC,
         env_used_in_attacker=env_used_in_attacker,
     )
+    sac_algo.init_attacker(env_used_in_attacker=env_used_in_attacker)
 
     sac_algo.set_logger(sb3_logger)
 
