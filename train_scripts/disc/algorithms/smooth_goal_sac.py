@@ -110,20 +110,20 @@ class SmoothGoalSAC(SAC):
 
         self.desired_goal_max = get_upper_bound_of_desired_goal(helper_env)
         self.desired_goal_max = helper_env.env.goal_scalar.transform(self.desired_goal_max.reshape((1, -1))).reshape((-1))
-        self.desired_goal_max = th.tensor(self.desired_goal_max, requires_grad=False)
+        self.desired_goal_max = th.tensor(self.desired_goal_max, requires_grad=False, device=self.device)
 
         self.desired_goal_min = get_lower_bound_of_desired_goal(helper_env)
         self.desired_goal_min = helper_env.env.goal_scalar.transform(self.desired_goal_min.reshape((1, -1))).reshape((-1))
-        self.desired_goal_min = th.tensor(self.desired_goal_min, requires_grad=False)
+        self.desired_goal_min = th.tensor(self.desired_goal_min, requires_grad=False, device=self.device)
 
         self.noise_max = helper_env.env.goal_scalar.transform(self.goal_noise_epsilon.reshape((1, -1))).reshape((-1)) - np.array([0., 0.5, 0.5])
         self.noise_min = - self.noise_max.copy()
-        self.noise_max = th.tensor(self.noise_max, requires_grad=False)
-        self.noise_min = th.tensor(self.noise_min, requires_grad=False)
+        self.noise_max = th.tensor(self.noise_max, requires_grad=False, device=self.device)
+        self.noise_min = th.tensor(self.noise_min, requires_grad=False, device=self.device)
     
     def add_noise_to_desired_goals(self, observations: TensorDict) -> None:
         observations["desired_goal"] = th.clamp(
-            input=observations["desired_goal"] + th.rand(size=observations["desired_goal"].shape) * (self.noise_max - self.noise_min) + self.noise_min,
+            input=observations["desired_goal"] + th.rand(size=observations["desired_goal"].shape, requires_grad=False, device=self.device) * (self.noise_max - self.noise_min) + self.noise_min,
             min=self.desired_goal_min,
             max=self.desired_goal_max,
         )
