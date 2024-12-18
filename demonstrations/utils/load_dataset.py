@@ -8,6 +8,7 @@ import logging
 from sklearn.model_selection import train_test_split
 from typing import Tuple, List, Dict
 import sys
+import argparse
 from copy import deepcopy
 
 from flycraft.env import FlyCraftEnv
@@ -221,10 +222,16 @@ def load_data_from_cache(
         Transitions(obs=test_obs, acts=test_labels, infos=test_infos, next_obs=deepcopy(test_obs), dones=np.array([False]*len(test_infos)))
     )
 
+# python demonstrations/utils/load_dataset.py --demo-dir demonstrations/data/10hz_10_5_5_iter_1_aug --demo-cache-dir demonstrations/cache/10hz_10_5_5_iter_1_aug
 if __name__ =="__main__":
-    data_dir = PROJECT_ROOT_DIR / "demonstrations" / "data" / "10hz_10_5_5_v1"
+    parser = argparse.ArgumentParser(description="传入配置文件")
+    parser.add_argument("--demo-dir", type=str, help="directory of demonstration dataset", default="demonstrations/data/10hz_10_5_5_iter_1_aug")
+    parser.add_argument("--demo-cache-dir", type=str, help="cache directory of processed demonstrations", default="demonstrations/cache/10hz_10_5_5_iter_1_aug")    
+    args = parser.parse_args()
+
+    data_dir = PROJECT_ROOT_DIR / args.demo_dir
     cache_data = True
-    cache_data_dir = PROJECT_ROOT_DIR / "demonstrations" / "cache" / "10hz_10_5_5_v1"
+    cache_data_dir = PROJECT_ROOT_DIR / args.demo_cache_dir
     
     print("Data dir: ", data_dir)
     train_trans, validation_trans, test_trans = load_data_from_csv_files(

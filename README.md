@@ -40,6 +40,14 @@ label demonstrations in {demos-dir} with rewards (--traj-prefix is the csv filen
 python demonstrations/utils/label_transitions_with_rewards.py --demos-dir demonstrations/data/10hz_10_5_5_test --traj-prefix my_f16trace
 ```
 
+### process demonstrations (normarlize observations and actions, and concat all csv files) and cache the processed np.ndarray objects
+
+```bash
+python demonstrations/utils/load_dataset.py --demo-dir demonstrations/data/10hz_10_5_5_iter_1_aug --demo-cache-dir demonstrations/cache/10hz_10_5_5_iter_1_aug
+```
+
+**Note**: the cache directory should be consistent with the "data_cache_dir" in the training configurations.
+
 ## Training policies with Stable-baselines3
 
 ### BC
