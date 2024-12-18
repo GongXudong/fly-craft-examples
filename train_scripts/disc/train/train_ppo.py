@@ -30,7 +30,7 @@ from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapp
 
 np.seterr(all="raise")  # 检查nan
 
-def get_ppo_algo(env, env_used_in_attacker):
+def get_ppo_algo(env):
     policy_kwargs = dict(
         net_arch=dict(
             pi=NET_ARCH,
@@ -55,7 +55,6 @@ def get_ppo_algo(env, env_used_in_attacker):
         goal_noise_epsilon=np.array(GOAL_NOISE_EPSILON),
         goal_regularization_strength=GOAL_REGULARIZATION_STRENGTH,
         policy_distance_measure_func=POLICY_DISTANCE_MEASURE_FUNC,
-        env_used_in_attacker=env_used_in_attacker,
     )
 
 def train():
@@ -105,7 +104,7 @@ def train():
         **env_config_dict_in_callback
     ))
 
-    env_used_in_attacker = ScaledActionWrapper(
+    helper_env = ScaledActionWrapper(
         ScaledObservationWrapper(
             gym.make(
                 "FlyCraft-v0", 
@@ -114,8 +113,8 @@ def train():
         )
     )
 
-    algo_ppo = get_ppo_algo(vec_env, env_used_in_attacker)
-    algo_ppo.init_attacker(env_used_in_attacker=env_used_in_attacker)
+    algo_ppo = get_ppo_algo(vec_env)
+    algo_ppo.init_desired_goal_params(helper_env)
     sb3_logger.info(str(algo_ppo.policy))
 
     # set sb3 logger
