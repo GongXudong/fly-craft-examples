@@ -96,7 +96,7 @@ def on_best_loss_save(algo: BaseAlgorithm, validation_transitions: TransitionsMi
             # save policy
             checkpoint_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "bc" / EXPERIMENT_NAME
             if not checkpoint_save_dir.exists():
-                checkpoint_save_dir.mkdir()
+                os.makedirs(checkpoint_save_dir)
 
             algo.save(str(checkpoint_save_dir / POLICY_FILE_SAVE_NAME))
 
