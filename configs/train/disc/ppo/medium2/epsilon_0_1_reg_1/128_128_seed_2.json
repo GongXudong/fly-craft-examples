@@ -4,7 +4,7 @@
         "custom_config": {}
     },
     "rl": {
-        "experiment_name": "medium2/ppo_128_128_2e8steps_epsilon_0_1_reg_1_seed_2",
+        "experiment_name": "medium2/ppo/epsilon_0_1_reg_1/128_128_2e8steps_seed_2",
         "seed": 11,
         "seed_in_train_env": 13,
         "seed_in_callback_env": 16,
