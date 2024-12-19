@@ -211,7 +211,7 @@ def test_on_loss(
 
     obs = types.map_maybe_dict(
                 lambda x: util.safe_to_tensor(x, device=DEVICE),
-                types.maybe_unwrap_dictobs(validation_transitions.obs),
+                types.maybe_unwrap_dictobs(test_transitions.obs),
             )
     acts = util.safe_to_tensor(test_transitions.acts, device=DEVICE)
     
