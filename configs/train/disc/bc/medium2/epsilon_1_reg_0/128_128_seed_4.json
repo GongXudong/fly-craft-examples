@@ -4,20 +4,20 @@
         "custom_config": {}
     },
     "bc": {
-        "experiment_name": "medium2/bc/epsilon_0_5_reg_0_001/128_128_300epochs_seed_1",
+        "experiment_name": "medium2/bc/epsilon_1_reg_0/128_128_300epochs_seed_4",
         "policy_file_save_name": "bc_checkpoint",
         "policy_after_value_head_trained_file_save_name": "bc_checkpoint_after_value_head_trained",
         "data_cache_dir": "cache/10hz_10_5_5_iter_1_aug",
-        "seed": 1,
+        "seed": 38,
         "train_epochs": 300,
         "batch_size": 4096,
         "policy_distance_measure_func": "KL",
-        "goal_noise_epsilon": [5.0, 1.5, 1.5],
-        "noise_goal_loss_weight": 1e-3,
+        "goal_noise_epsilon": [10.0, 3.0, 3.0],
+        "noise_goal_loss_weight": 0.0,
         "loss_threshold": -8.0
     },
     "rl": {
-        "seed": 2,
+        "seed": 31,
         "net_arch": [128, 128],
         "batch_size": 4096,
         "gamma": 0.995,
