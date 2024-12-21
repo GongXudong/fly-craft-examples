@@ -93,6 +93,8 @@ def evaluate(args):
                 
                 res_log["env"].append(args.env_flag_str)
                 res_log["algo"].append(args.algo_flag_str)
+                res_log["algo_epsilon"].append(args.algo_epsilon)
+                res_log["algo_reg"].append(args.algo_reg)
                 res_log["seed"].append(tmp_seed)
                 res_log["lr"].append(args.evaluate_gradient_ascent_lr)
                 res_log["optimization_steps"].append(args.evaluate_gradient_optimization_steps)
@@ -124,6 +126,8 @@ if __name__ == "__main__":
     parser.add_argument("--algo-ckpt-model-name", type=str, default="best_model", help="algorithm checkpoint model name")
     parser.add_argument("--algo-seeds", nargs="*", type=int, default=[1, 2, 3, 4, 5], help="algorithm random seeds")
     parser.add_argument("--algo-flag-str", type=str, default="HER", help="log str for algorithm")
+    parser.add_argument("--algo-epsilon", type=float, default=0.1, help="the noise epsilon used when training models")
+    parser.add_argument("--algo-reg", type=float, default=0.001, help="the regularization used when training models")
     # evaluation
     parser.add_argument("--evaluate-dg-num", type=int, default=100, help="how many desired goals are planed to evaluate")
     parser.add_argument("--evaluate-gradient-ascent-lr", type=float, default=0.001, help="learning rate used in gradient ascent")
