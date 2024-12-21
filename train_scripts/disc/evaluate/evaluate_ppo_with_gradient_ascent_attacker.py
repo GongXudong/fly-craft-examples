@@ -33,6 +33,8 @@ def evaluate(args):
         "env": [],
         # algo
         "algo": [],
+        "algo_epsilon": [],
+        "algo_reg": [],
         "seed": [],
         # eval
         "lr": [],
