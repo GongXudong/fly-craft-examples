@@ -14,6 +14,7 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
 from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapper
+from train_scripts.disc.algorithms.smooth_goal_ppo import SmoothGoalPPO
 from train_scripts.disc.attackers.ppo.gradient_ascent_attackers_ppo import GradientAscentAttacker
 from train_scripts.disc.utils.evaluation import my_evaluate_with_customized_dg
 
@@ -57,7 +58,14 @@ def evaluate(args):
         tmp = args.algo_ckpt_dir
         tmp = tmp.format(tmp_seed)
         policy_dir = PROJECT_ROOT_DIR / tmp / args.algo_ckpt_model_name
-        ppo_algo = PPO.load(
+        if args.algo_class == "PPO":
+            algo_class = PPO
+        elif args.algo_class == "SmoothGoalPPO":
+            algo_class = SmoothGoalPPO
+        else:
+            raise ValueError("argo-class only support PPO or SmoothGoalPPO currently!")
+        
+        ppo_algo = algo_class.load(
             policy_dir,
             env=scaled_act_obs_env
         )
@@ -124,6 +132,7 @@ if __name__ == "__main__":
     parser.add_argument("--env-config", type=str, default="configs/env/env_config_for_ppo_easy.json", help="environment configuration file")
     parser.add_argument("--env-flag-str", type=str, default="Hard", help="log str for environment")
     # algorithm
+    parser.add_argument("--algo-class", type=str, default="PPO", help="algorithm class: PPO, SmoothGoalPPO")
     parser.add_argument("--algo-ckpt-dir", type=str, default="checkpoints/rl_single/ppo/ppo_10hz_128_128_2e8steps_easy_{0}_singleRL", help="algorithm checkpoint file")
     parser.add_argument("--algo-ckpt-model-name", type=str, default="best_model", help="algorithm checkpoint model name")
     parser.add_argument("--algo-seeds", nargs="*", type=int, default=[1, 2, 3, 4, 5], help="algorithm random seeds")

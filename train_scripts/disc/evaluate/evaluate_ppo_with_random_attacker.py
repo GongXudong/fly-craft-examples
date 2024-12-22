@@ -13,8 +13,8 @@ PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
-from utils_my.models.ppo_with_bc_loss import PPOWithBCLoss
 from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapper
+from train_scripts.disc.algorithms.smooth_goal_ppo import SmoothGoalPPO
 from train_scripts.disc.attackers.ppo.random_attackers_ppo import RandomAttacker
 from train_scripts.disc.utils.evaluation import my_evaluate_with_customized_dg
 
@@ -58,19 +58,19 @@ def evaluate(args):
         policy_dir = PROJECT_ROOT_DIR / tmp / args.algo_ckpt_model_name
         if args.algo_class == "PPO":
             algo_class = PPO
-        elif args.algo_class == "PPO_BC":
-            algo_class = PPOWithBCLoss
+        elif args.algo_class == "SmoothGoalPPO":
+            algo_class = SmoothGoalPPO
         else:
-            raise ValueError("argo-class only support PPO or PPO_BC currently!")
+            raise ValueError("argo-class only support PPO or SmoothGoalPPO currently!")
         
-        sac_algo = algo_class.load(
+        ppo_algo = algo_class.load(
             policy_dir,
             env=env
         )
 
         # prepare attacker
         randomAttacker = RandomAttacker(
-            policy=sac_algo.policy,
+            policy=ppo_algo.policy,
             env=env,
             epsilon=np.array(args.evaluate_noise_base) * args.evaluate_noise_multiplier
         )
@@ -127,7 +127,7 @@ if __name__ == "__main__":
     parser.add_argument("--env-config", type=str, default="configs/env/env_config_for_sac.json", help="environment configuration file")
     parser.add_argument("--env-flag-str", type=str, default="Hard", help="log str for environment")
     # algorithm
-    parser.add_argument("--algo-class", type=str, default="PPO", help="algorithm class: PPO, PPO_BC")
+    parser.add_argument("--algo-class", type=str, default="PPO", help="algorithm class: PPO, SmoothGoalPPO")
     parser.add_argument("--algo-ckpt-dir", type=str, default="checkpoints/rl_single/sac_her_easy_10hz_128_128_1e6steps_loss_{0}_singleRL", help="algorithm checkpoint file")
     parser.add_argument("--algo-ckpt-model-name", type=str, default="best_model", help="algorithm checkpoint model name")
     parser.add_argument("--algo-seeds", nargs="*", type=int, default=[1, 2, 3, 4, 5], help="algorithm random seeds")
