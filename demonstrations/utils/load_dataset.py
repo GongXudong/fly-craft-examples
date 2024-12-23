@@ -222,11 +222,12 @@ def load_data_from_cache(
         Transitions(obs=test_obs, acts=test_labels, infos=test_infos, next_obs=deepcopy(test_obs), dones=np.array([False]*len(test_infos)))
     )
 
-# python demonstrations/utils/load_dataset.py --demo-dir demonstrations/data/10hz_10_5_5_iter_1_aug --demo-cache-dir demonstrations/cache/10hz_10_5_5_iter_1_aug
+# python demonstrations/utils/load_dataset.py --demo-dir demonstrations/data/10hz_10_5_5_iter_1_aug --demo-cache-dir demonstrations/cache/10hz_10_5_5_iter_1_aug 10hz_10_5_5_iter_1_aug traj
 if __name__ =="__main__":
     parser = argparse.ArgumentParser(description="传入配置文件")
     parser.add_argument("--demo-dir", type=str, help="directory of demonstration dataset", default="demonstrations/data/10hz_10_5_5_iter_1_aug")
-    parser.add_argument("--demo-cache-dir", type=str, help="cache directory of processed demonstrations", default="demonstrations/cache/10hz_10_5_5_iter_1_aug")    
+    parser.add_argument("--demo-cache-dir", type=str, help="cache directory of processed demonstrations", default="demonstrations/cache/10hz_10_5_5_iter_1_aug")
+    parser.add_argument("--traj-prefix", type=str, default="traj", help="the prefix of filename of trajectories in demo-dir.")
     args = parser.parse_args()
 
     data_dir = PROJECT_ROOT_DIR / args.demo_dir
@@ -238,7 +239,7 @@ if __name__ =="__main__":
         data_dir=data_dir,
         cache_data=cache_data,
         cache_data_dir=cache_data_dir,
-        trajectory_save_prefix="traj",
+        trajectory_save_prefix=args.traj_prefix,
         train_size=0.96,
         validation_size=0.02,
         test_size=0.02
