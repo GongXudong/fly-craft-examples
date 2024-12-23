@@ -61,6 +61,7 @@ class SmoothGoalSAC(SAC):
         _init_setup_model: bool = True, 
         goal_noise_epsilon: np.ndarray = np.array([10., 3., 3.]),
         goal_regularization_strength: float = 1e-3,
+        noise_num_for_each_goal: int = 1,
         policy_distance_measure_func: str = "KL",
     ):
         
@@ -96,6 +97,7 @@ class SmoothGoalSAC(SAC):
 
         self.goal_noise_epsilon = goal_noise_epsilon
         self.goal_regularization_strength = goal_regularization_strength
+        self.noise_num_for_each_goal = noise_num_for_each_goal
         self.policy_distance_measure_func = policy_distance_measure_func
     
     def init_desired_goal_params(self, helper_env: gym.Env=None):
@@ -156,8 +158,8 @@ class SmoothGoalSAC(SAC):
             
             # TODO: loc与scale是否需要detach？？？
             action_dist = th.distributions.Normal(
-                loc=self.actor.action_dist.distribution.loc,
-                scale=self.actor.action_dist.distribution.scale
+                loc=self.actor.action_dist.distribution.loc.repeat((self.noise_num_for_each_goal, 1)),
+                scale=self.actor.action_dist.distribution.scale.repeat((self.noise_num_for_each_goal, 1))
             )
             log_prob = log_prob.reshape(-1, 1)
 
@@ -217,6 +219,8 @@ class SmoothGoalSAC(SAC):
             # goal regularization loss !!!!!
             # 1.sample noise and add to obs
             noised_goal_obs = deepcopy(replay_data.observations)
+            for k in noised_goal_obs.keys():
+                noised_goal_obs[k] = noised_goal_obs[k].repeat((self.noise_num_for_each_goal, 1))
             self.add_noise_to_desired_goals(observations=noised_goal_obs)
 
             # 2.get action dist

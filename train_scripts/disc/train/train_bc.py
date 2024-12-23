@@ -96,7 +96,6 @@ def on_best_loss_save(algo: BaseAlgorithm, validation_transitions: TransitionsMi
             # save policy
             checkpoint_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "disc" / EXPERIMENT_NAME
             if not checkpoint_save_dir.exists():
-                # checkpoint_save_dir.mkdir()
                 os.makedirs(checkpoint_save_dir)
 
             algo.save(str(checkpoint_save_dir / POLICY_FILE_SAVE_NAME))
@@ -173,6 +172,7 @@ def train():
         batch_size=BC_BATCH_SIZE,
         ent_weight=BC_ENT_WEIGHT,
         l2_weight=BC_L2_WEIGHT,
+        noise_num_for_each_goal=NOISE_NUM_FOR_EACH_GOAL,
         policy_distance_measure_func=POLICY_DISTANCE_MEASURE_FUNC,
         ng_weight=NOISE_GOAL_LOSS_WEIGHT,
         demonstrations=train_transitions,
@@ -180,6 +180,8 @@ def train():
         device=DEVICE,
         custom_logger=HierarchicalLogger(sb3_logger)
     )
+
+    sb3_logger.log(f"Check algo configs, epsilon: {GOAL_NOISE_EPSILON}, reg: {bc_trainer.loss_calculator.ng_weight}, noise num: {bc_trainer.loss_calculator.noise_num_for_each_goal}")
 
     bc_trainer.loss_calculator.init_desired_goal_params(helper_env, goal_noise_epsilon=np.array(GOAL_NOISE_EPSILON), device=algo_ppo.device)
 
@@ -238,6 +240,7 @@ if __name__ == "__main__":
     GOAL_NOISE_EPSILON = train_config["bc"].get("goal_noise_epsilon", [10., 3., 3.])
     NOISE_GOAL_LOSS_WEIGHT = train_config["bc"].get("noise_goal_loss_weight", 1e-3)
     LOSS_THRESHOLD = train_config["bc"]["loss_threshold"]
+    NOISE_NUM_FOR_EACH_GOAL = train_config["bc"].get("noise_num_for_each_goal", 1)
     POLICY_DISTANCE_MEASURE_FUNC = train_config["bc"].get("policy_distance_measure_func", "KL")
 
     RL_SEED = train_config["rl"]["seed"]

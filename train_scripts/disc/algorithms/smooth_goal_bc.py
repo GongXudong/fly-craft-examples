@@ -110,6 +110,7 @@ class BehaviorCloningLossCalculator:
     l2_weight: float
     ng_weight: float  # weight of noised_goal_loss
     policy_distance_measure_func: str
+    noise_num_for_each_goal: int
 
     def init_desired_goal_params(self, helper_env: gym.Env=None, goal_noise_epsilon: np.array = np.array([1.0, 0.3, 0.3]), device: Union[str, th.device] = "cuda"):
         """_summary_
@@ -191,8 +192,8 @@ class BehaviorCloningLossCalculator:
         entropy = distribution.entropy()
 
         action_dist = th.distributions.Normal(
-            loc=distribution.distribution.loc,
-            scale=distribution.distribution.scale
+            loc=distribution.distribution.loc.repeat((self.noise_num_for_each_goal, 1)),
+            scale=distribution.distribution.scale.repeat((self.noise_num_for_each_goal, 1))
         )
 
         # -----------------为了得到distribution，coyp了evaluation_actions的源码----------------------
@@ -209,6 +210,8 @@ class BehaviorCloningLossCalculator:
         # --------------------begin: goal regularization loss------------------------------
         # 1.sample noise and add to obs
         noised_goal_obs = deepcopy(tensor_obs)
+        for k in noised_goal_obs.keys():
+                noised_goal_obs[k] = noised_goal_obs[k].repeat((self.noise_num_for_each_goal, 1))
         self.add_noise_to_desired_goals(observations=noised_goal_obs, device=policy.device)
 
         # 2.get action dist
@@ -374,6 +377,7 @@ class SmoothGoalBC(algo_base.DemonstrationAlgorithm):
         ent_weight: float = 1e-3,
         l2_weight: float = 0.0,
         policy_distance_measure_func: str = "KL",
+        noise_num_for_each_goal: int = 1,
         ng_weight: float = 1e-3,
         device: Union[str, th.device] = "auto",
         custom_logger: Optional[imit_logger.HierarchicalLogger] = None,
@@ -456,7 +460,13 @@ class SmoothGoalBC(algo_base.DemonstrationAlgorithm):
             **optimizer_kwargs,
         )
 
-        self.loss_calculator = BehaviorCloningLossCalculator(ent_weight=ent_weight, l2_weight=l2_weight,  ng_weight=ng_weight, policy_distance_measure_func=policy_distance_measure_func)
+        self.loss_calculator = BehaviorCloningLossCalculator(
+            ent_weight=ent_weight,
+            l2_weight=l2_weight,
+            ng_weight=ng_weight,
+            noise_num_for_each_goal=noise_num_for_each_goal,
+            policy_distance_measure_func=policy_distance_measure_func,
+        )
 
     @property
     def policy(self) -> policies.ActorCriticPolicy:

@@ -54,6 +54,7 @@ def get_ppo_algo(env):
         device=DEVICE,
         goal_noise_epsilon=np.array(GOAL_NOISE_EPSILON),
         goal_regularization_strength=GOAL_REGULARIZATION_STRENGTH,
+        noise_num_for_each_goal=NOISE_NUM_FOR_EACH_GOAL,
         policy_distance_measure_func=POLICY_DISTANCE_MEASURE_FUNC,
     )
 
@@ -120,6 +121,8 @@ def train():
     # set sb3 logger
     algo_ppo.set_logger(sb3_logger)
 
+    sb3_logger.log(f"Check algo configs, epsilon: {algo_ppo.goal_noise_epsilon}, reg: {algo_ppo.goal_regularization_strength}, noise num: {algo_ppo.noise_num_for_each_goal}.")
+
     eval_callback = MyEvalCallback(
         eval_env_in_callback, 
         best_model_save_path=str((PROJECT_ROOT_DIR / "checkpoints" / "disc" / RL_EXPERIMENT_NAME).absolute()),
@@ -175,6 +178,7 @@ if __name__ == "__main__":
 
     GOAL_NOISE_EPSILON = train_config["rl"].get("goal_noise_epsilon", [10., 3., 3.])
     GOAL_REGULARIZATION_STRENGTH = train_config["rl"].get("goal_regularization_strength", 1e-3)
+    NOISE_NUM_FOR_EACH_GOAL = train_config["rl"].get("noise_num_for_each_goal", 1)
     POLICY_DISTANCE_MEASURE_FUNC = train_config["rl"].get("policy_distance_measure_func", "KL")
 
     DEVICE = train_config["rl"].get("device", "cpu")
