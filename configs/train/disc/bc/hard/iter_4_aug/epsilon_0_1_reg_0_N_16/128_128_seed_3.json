@@ -15,7 +15,7 @@
         "goal_noise_epsilon": [1.0, 0.3, 0.3],
         "noise_goal_loss_weight": 0.0,
         "noise_num_for_each_goal": 16,
-        "loss_threshold": -8.0
+        "loss_threshold": -2.0
     },
     "rl": {
         "seed": 28,
