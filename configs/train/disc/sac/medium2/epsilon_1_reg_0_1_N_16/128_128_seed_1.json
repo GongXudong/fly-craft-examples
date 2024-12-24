@@ -5,9 +5,9 @@
     },
     "rl": {
         "experiment_name": "medium2/her/epsilon_1_reg_0_1_N_16/128_128_1e6steps_seed_1",
-        "seed": 3,
-        "seed_in_train_env": 7,
-        "seed_in_callback_env": 8,
+        "seed": 2,
+        "seed_in_train_env": 4,
+        "seed_in_callback_env": 9,
         "net_arch": [128, 128],
         "gamma": 0.995,
         "train_steps": 1e6,

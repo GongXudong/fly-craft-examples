@@ -1,6 +1,6 @@
 {
     "env": {
-        "config_file": "env_config_for_ppo_easy.json",
+        "config_file": "env_hard_config_for_sac.json",
         "custom_config": {}
     },
     "bc": {
