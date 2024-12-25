@@ -41,7 +41,7 @@
 
 # # epsilon = [1.0, 0.3, 0.3]  regularization_strength = 0.001  N = 16
 python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/bc/hard/epsilon_0_1_reg_0_001_N_16/128_128_seed_1.json --env-config-file configs/env/env_hard_config_for_sac.json --algo bc --seed 23 --n-envs 32 --n-eval-episode 1000
-# python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/bc/hard/epsilon_0_1_reg_0_001_N_16/128_128_seed_2.json --env-config-file configs/env/env_hard_config_for_sac.json --algo bc --seed 298 --n-envs 32 --n-eval-episode 1000
+python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/bc/hard/epsilon_0_1_reg_0_001_N_16/128_128_seed_2.json --env-config-file configs/env/env_hard_config_for_sac.json --algo bc --seed 298 --n-envs 32 --n-eval-episode 1000
 python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/bc/hard/epsilon_0_1_reg_0_001_N_16/128_128_seed_3.json --env-config-file configs/env/env_hard_config_for_sac.json --algo bc --seed 23 --n-envs 32 --n-eval-episode 1000
 python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/bc/hard/epsilon_0_1_reg_0_001_N_16/128_128_seed_4.json --env-config-file configs/env/env_hard_config_for_sac.json --algo bc --seed 385 --n-envs 32 --n-eval-episode 1000
 python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/bc/hard/epsilon_0_1_reg_0_001_N_16/128_128_seed_5.json --env-config-file configs/env/env_hard_config_for_sac.json --algo bc --seed 6922 --n-envs 32 --n-eval-episode 1000

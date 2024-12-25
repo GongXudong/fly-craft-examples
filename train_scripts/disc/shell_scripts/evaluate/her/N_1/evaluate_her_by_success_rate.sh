@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# bash train_scripts/disc/shell_scripts/evaluate/her/evaluate_her_by_success_rate.sh &> tmp_her_res.txt
+# bash train_scripts/disc/shell_scripts/evaluate/her/N_1/evaluate_her_by_success_rate.sh &> tmp_her_res.txt
 
 #---------------------------------------- epsilon = [1.0, 0.3, 0.3] -------------------------------------------------------------
 # epsilon = [1.0, 0.3, 0.3]  regularization_strength = 0

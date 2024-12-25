@@ -66,6 +66,13 @@ python train_scripts/disc/train/train_sac.py --config-file-name configs/train/di
 python train_scripts/disc/train/train_sac.py --config-file-name configs/train/disc/sac/medium2/epsilon_0_1_reg_1_N_16/128_128_seed_5.json
 
 
+# epsilon = [1.0, 0.3, 0.3]  regularization_strength = 0.001  noise_num = 64
+python train_scripts/disc/train/train_sac.py --config-file-name configs/train/disc/sac/medium2/epsilon_0_1_reg_0_001_N_64/128_128_seed_1.json
+python train_scripts/disc/train/train_sac.py --config-file-name configs/train/disc/sac/medium2/epsilon_0_1_reg_0_001_N_64/128_128_seed_2.json
+python train_scripts/disc/train/train_sac.py --config-file-name configs/train/disc/sac/medium2/epsilon_0_1_reg_0_001_N_64/128_128_seed_3.json
+python train_scripts/disc/train/train_sac.py --config-file-name configs/train/disc/sac/medium2/epsilon_0_1_reg_0_001_N_64/128_128_seed_4.json
+python train_scripts/disc/train/train_sac.py --config-file-name configs/train/disc/sac/medium2/epsilon_0_1_reg_0_001_N_64/128_128_seed_5.json
+
 #---------------------------------------- epsilon = [5.0, 1.5, 1.5] -------------------------------------------------------------
 # epsilon = [5.0, 1.5, 1.5]  regularization_strength = 0  noise_num = 1
 python train_scripts/disc/train/train_sac.py --config-file-name configs/train/disc/sac/medium2/epsilon_0_5_reg_0/128_128_seed_1.json
