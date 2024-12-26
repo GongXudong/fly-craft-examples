@@ -1,4 +1,5 @@
 import sys
+import os
 from pathlib import Path
 from copy import deepcopy
 import numpy as np
@@ -106,9 +107,13 @@ def evaluate(args):
                 res_log["cumulative_reward_dg"].append(cumulative_reward)
                 res_log["is_noised_dg_success"].append(is_noised_dg_success)
                 res_log["cumulative_reward_noised_dg"].append(cumulative_reward_noised_dg)
-        
+    
+    save_path: Path = PROJECT_ROOT_DIR / args.res_file_save_name
+    if not save_path.parent.exists():
+        os.makedirs(save_path.parent)
+    
     res_log_df = pd.DataFrame(data=res_log)
-    res_log_df.to_csv(PROJECT_ROOT_DIR / args.res_file_save_name, index=False)
+    res_log_df.to_csv(save_path, index=False)
 
 
 # python train_scripts/disc/evaluate_with_random_attacker.py --env-config configs/env/D2D/env_config_for_sac_hard_b_025.json --env-flag-str Hard-025 --algo-ckpt-dir checkpoints/rl_single/D2D/hard_sac_her_b_025/sac_her_10hz_128_128_b_025_1e6steps_seed_{0}_singleRL --algo-ckpt-model-name best_model --algo-seeds 1 2 3 4 5 --algo-flag-str HER --evaluate-dg-num 20 --evaluate-random-noise-num 10 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 0.1 --attacker-flag-str Random --res-file-save-name train_scripts/disc/evaluate/results/res_log_hard_her_random_10_01.csv
