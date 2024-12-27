@@ -38,9 +38,9 @@ class GradientAscentAttackerTest(unittest.TestCase):
         self.scaled_obs_env = ScaledObservationWrapper(self.original_env)
         self.scaled_act_obs_env = ScaledActionWrapper(self.scaled_obs_env)
 
-        exp_name = "sac_her_easy_10hz_128_128_1e6steps_loss_1_singleRL"
+        exp_name = "medium/sac/epsilon_0_1_reg_0_0001_N_16/128_128_1e6steps_seed_1"
         model_name = "best_model"
-        policy_dir = PROJECT_ROOT_DIR / "checkpoints" / "rl_single" / exp_name / model_name
+        policy_dir = PROJECT_ROOT_DIR / "checkpoints" / "disc" / exp_name / model_name
         sac_algo = SAC.load(
             policy_dir,
             env=self.scaled_act_obs_env
@@ -79,14 +79,17 @@ class GradientAscentAttackerTest(unittest.TestCase):
                 )
             )
         )
+
+        tmp_noise_min = th.tensor(
+            self.scaled_obs_env.goal_scalar.transform(np.array([10, -3, -3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]), 
+            device=self.GAAttacker.device, 
+            requires_grad=False
+        )
+        tmp_noise_min[0] = - tmp_noise_min[0]
         self.assertTrue(
             th.equal(
                 self.GAAttacker.noise_min, 
-                th.tensor(
-                    self.scaled_obs_env.goal_scalar.transform(np.array([-10, -3, -3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]), 
-                    device=self.GAAttacker.device, 
-                    requires_grad=False
-                )
+                tmp_noise_min
             )
         )
 
@@ -112,14 +115,16 @@ class GradientAscentAttackerTest(unittest.TestCase):
 
         # print(self.scaled_obs_env.goal_scalar.transform(np.array([-10, -3, -3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]))
         # print(self.GAAttacker.noise_min)
+        tmp_noise_min = th.tensor(
+            self.scaled_obs_env.goal_scalar.transform(np.array([10, -3, -3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]),
+            device=self.GAAttacker.device, 
+            requires_grad=False
+        )
+        tmp_noise_min[0] = -tmp_noise_min[0]
         self.assertTrue(
             th.equal(
                 self.GAAttacker.noise_min, 
-                th.tensor(
-                    self.scaled_obs_env.goal_scalar.transform(np.array([-10, -3, -3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]),
-                    device=self.GAAttacker.device, 
-                    requires_grad=False
-                )
+                tmp_noise_min
             )
         )
 
@@ -137,14 +142,17 @@ class GradientAscentAttackerTest(unittest.TestCase):
                 )
             )
         )
+
+        tmp_noise_min = th.tensor(
+            self.scaled_obs_env.goal_scalar.transform(np.array([1, -1, -3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]),
+            device=self.GAAttacker.device, 
+            requires_grad=False
+        )
+        tmp_noise_min[0] = -tmp_noise_min[0]
         self.assertTrue(
             th.equal(
                 self.GAAttacker.noise_min, 
-                th.tensor(
-                    self.scaled_obs_env.goal_scalar.transform(np.array([-1, -1, -3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]),
-                    device=self.GAAttacker.device, 
-                    requires_grad=False
-                )
+                tmp_noise_min
             )
         )
     
