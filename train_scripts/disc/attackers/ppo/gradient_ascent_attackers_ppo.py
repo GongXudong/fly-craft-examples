@@ -10,7 +10,6 @@ import torch as th
 
 from stable_baselines3.ppo import PPO, MultiInputPolicy
 from stable_baselines3.common.evaluation import evaluate_policy
-from stable_baselines3.common.distributions import kl_divergence
 from stable_baselines3.common.type_aliases import PyTorchObs
 from stable_baselines3.common.distributions import Distribution
 from torch.cuda import is_available
