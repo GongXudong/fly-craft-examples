@@ -38,19 +38,24 @@ def work(train_config: dict, env_config: Path, algo: str, seed: int=111, n_envs:
     ))
 
     if algo == 'sac':
-        print("测试sac")
+        print("测试SmoothGoalSAC")
         policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "disc" / RL_EXPERIMENT_NAME
-        model_save_name="best_model"
+        model_save_name = "best_model"
         policy_class = SmoothGoalSAC
+    elif algo == "sac_only":
+        print("测试SAC")
+        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "rl_single" / RL_EXPERIMENT_NAME
+        model_save_name = "best_model"
+        policy_class = SAC
     elif algo == 'ppo':
         print("测试ppo")
         policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "disc" / RL_EXPERIMENT_NAME
-        model_save_name="best_model"
+        model_save_name = "best_model"
         policy_class = SmoothGoalPPO
     elif algo == 'bc':
         print("测试bc")
         policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "disc" / RL_EXPERIMENT_NAME
-        model_save_name="bc_checkpoint"
+        model_save_name = "bc_checkpoint"
         policy_class = SmoothGoalPPO
     else:
         print(f"脚本参数--algo只能是sac, ppo, bc")
