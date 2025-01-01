@@ -95,6 +95,10 @@ def evaluate(args):
         for _ in tqdm(range(args.evaluate_dg_num), total=args.evaluate_dg_num):
             # 找到一个能完成的goal
             achieved, achievable_dg, cumulative_reward, obs_list, action_dist_list = attacker.get_an_achievable_desired_goal()
+            
+            if not achieved:
+                continue
+            
             original_achievable_dg = env.env.goal_scalar.inverse_transform(achievable_dg.reshape((1, -1))).reshape((-1))
             print(f"achievable dg: {achievable_dg}, original desired dg: {original_achievable_dg}")
 
