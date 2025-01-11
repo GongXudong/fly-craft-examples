@@ -59,6 +59,7 @@ class SmoothGoalPPO(PPO):
         _init_setup_model: bool = True,
         goal_noise_epsilon: np.ndarray = np.array([10., 3., 3.]),
         goal_regularization_strength: float = 1e-3,
+        goal_regularization_loss_threshold: float = 0.0,
         noise_num_for_each_goal: int = 1,
         policy_distance_measure_func: str = "KL",
     ):
@@ -93,6 +94,7 @@ class SmoothGoalPPO(PPO):
 
         self.goal_noise_epsilon = goal_noise_epsilon
         self.goal_regularization_strength = goal_regularization_strength
+        self.goal_regularization_loss_threshold = goal_regularization_loss_threshold
         self.noise_num_for_each_goal = noise_num_for_each_goal
         self.policy_distance_measure_func = policy_distance_measure_func
         
@@ -231,12 +233,17 @@ class SmoothGoalPPO(PPO):
 
                 # 3. calc KL or JS loss
                 if self.policy_distance_measure_func == "KL":
-                    noised_goal_loss = th.distributions.kl_divergence(action_dist, noised_goal_action_dist.distribution).sum(axis=-1).mean()
+                    noised_goal_loss = th.distributions.kl_divergence(action_dist, noised_goal_action_dist.distribution).sum(axis=-1)
                 elif self.policy_distance_measure_func == "JS":
                     noised_goal_loss = th.distributions.kl_divergence(action_dist, noised_goal_action_dist.distribution).sum(axis=-1) + th.distributions.kl_divergence(noised_goal_action_dist.distribution, action_dist).sum(axis=-1)
-                    noised_goal_loss = noised_goal_loss.mean()
                 else:
                     raise ValueError("policy_distance_measure_func must be either KL or JS!")
+
+                # 4. clip goal regularization loss
+                if self.goal_regularization_loss_threshold > 0.0:
+                    noised_goal_loss = th.maximum(noised_goal_loss - th.ones_like(noised_goal_loss) * self.goal_regularization_loss_threshold, th.zeros_like(noised_goal_loss))
+
+                noised_goal_loss = noised_goal_loss.mean()
 
                 noised_goal_losses.append(noised_goal_loss.item())
                 # ---------------------------------end: goal regularization loss---------------------------------

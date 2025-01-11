@@ -84,6 +84,7 @@ def train():
         device=DEVICE,
         goal_noise_epsilon=np.array(GOAL_NOISE_EPSILON),
         goal_regularization_strength=GOAL_REGULARIZATION_STRENGTH,
+        goal_regularization_loss_threshold=GOAL_REGULARIZATION_LOSS_THRESHOLD,
         noise_num_for_each_goal=NOISE_NUM_FOR_EACH_GOAL,
         policy_distance_measure_func=POLICY_DISTANCE_MEASURE_FUNC,
     )
@@ -149,6 +150,7 @@ if __name__ == "__main__":
 
     GOAL_NOISE_EPSILON = train_config["rl"].get("goal_noise_epsilon", [10., 3., 3.])
     GOAL_REGULARIZATION_STRENGTH = train_config["rl"].get("goal_regularization_strength", 1e-3)
+    GOAL_REGULARIZATION_LOSS_THRESHOLD = train_config["rl"].get("goal_regularization_loss_threshold", 0.0)
     NOISE_NUM_FOR_EACH_GOAL = train_config["rl"].get("noise_num_for_each_goal", 1)
     POLICY_DISTANCE_MEASURE_FUNC = train_config["rl"].get("policy_distance_measure_func", "KL")
     
