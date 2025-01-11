@@ -57,6 +57,7 @@ def evaluate(args):
         "algo": [],
         "algo_epsilon": [],
         "algo_reg": [],
+        "algo_reg_beta": [],
         "seed": [],
         # eval
         "evaluate_adjacent_num": [],
@@ -66,6 +67,8 @@ def evaluate(args):
         "noise_mu": [],
         "noise_chi": [],
         "goal_distance": [],
+        "cumulative_reward": [],
+        "noised_goal_cumulative_reward": [],
         "KL_value": [],
         "success": [],
     }
@@ -128,7 +131,7 @@ def evaluate(args):
                     tmp_KL = calc_KL(policy=algo.policy, new_desired_goal=new_dg, obs_list=obs_list, action_dist_list=action_dist_list)
                     # print(tmp_KL)
                     
-                    tmp_success, _, _ = my_evaluate_with_customized_dg(
+                    tmp_success, _, noised_goal_cumulative_reward = my_evaluate_with_customized_dg(
                         policy=algo.policy, 
                         env=env, 
                         desired_goal=env.env.goal_scalar.inverse_transform(new_dg.cpu().numpy().reshape((1, -1))).reshape((-1))
@@ -138,6 +141,7 @@ def evaluate(args):
                     res_log["algo"].append(args.algo_flag_str)
                     res_log["algo_epsilon"].append(args.algo_epsilon)
                     res_log["algo_reg"].append(args.algo_reg)
+                    res_log["algo_reg_beta"].append(args.algo_reg_beta)
                     res_log["seed"].append(tmp_seed)
                     res_log["evaluate_adjacent_num"].append(args.evaluate_adjacent_num)
                     res_log["desired_goal"].append(achievable_dg)
@@ -145,6 +149,8 @@ def evaluate(args):
                     res_log["noise_mu"].append(tmp_mu_index)
                     res_log["noise_chi"].append(tmp_chi_index)
                     res_log["goal_distance"].append(np.linalg.norm([tmp_mu, tmp_chi]))
+                    res_log["cumulative_reward"].append(cumulative_reward)
+                    res_log["noised_goal_cumulative_reward"].append(noised_goal_cumulative_reward)
                     res_log["KL_value"].append(tmp_KL.detach().item())
                     res_log["success"].append(tmp_success)
 
@@ -178,6 +184,7 @@ if __name__ == "__main__":
     parser.add_argument("--algo-flag-str", type=str, default="HER", help="log str for algorithm")
     parser.add_argument("--algo-epsilon", type=float, default=0.1, help="the noise epsilon used when training models")
     parser.add_argument("--algo-reg", type=float, default=0.001, help="the regularization used when training models")
+    parser.add_argument("--algo-reg-beta", type=float, default=0.0, help="the regularization beta used when calculating goal-regularization-loss")
     # evaluation
     parser.add_argument("--evaluate-dg-num", type=int, default=100, help="how many desired goals are planed to evaluate")
     parser.add_argument("--evaluate-noise-base", nargs="*", type=float, default=[10.0, 3.0, 3.0], help="base noise")
