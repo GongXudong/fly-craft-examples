@@ -4,7 +4,7 @@
         "custom_config": {}
     },
     "rl": {
-        "experiment_name": "medium/her/epsilon_0_1_reg_0_01_N_16/128_128_1e6steps_seed_2",
+        "experiment_name": "medium/her/beta_0/epsilon_0_1_reg_0_01_N_16/128_128_1e6steps_seed_2",
         "seed": 11,
         "seed_in_train_env": 12,
         "seed_in_callback_env": 14,
@@ -25,6 +25,7 @@
         "use_her": true,
         "goal_noise_epsilon": [1.0, 0.3, 0.3],
         "goal_regularization_strength": 0.01,
+        "goal_regularization_loss_threshold": 0.0,
         "noise_num_for_each_goal": 16,
         "policy_distance_measure_func": "KL",
         "device": "cuda"
