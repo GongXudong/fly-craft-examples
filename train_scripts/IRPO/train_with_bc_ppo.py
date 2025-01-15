@@ -224,7 +224,6 @@ if __name__ == "__main__":
     BC_ENT_WEIGHT = train_config["bc"].get("ent_weight", 1e-3)
     RL_LR_RATE = train_config["rl_bc"].get("lr", 3e-4)
     EXPERT_DATA_CACHE_DIR = train_config["bc"]["data_cache_dir"]
-    PROB_TRUE_ACT_THRESHOLD = train_config["bc"]["prob_true_act_threshold"]  # validate的时候，当prob_true_act大于这个值的时候，开始保存prob_true_act最优的policy
     LOSS_THRESHOLD = train_config["bc"]["loss_threshold"]
 
     RL_SEED = train_config["rl"]["seed"]
