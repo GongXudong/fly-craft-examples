@@ -2,6 +2,14 @@
 
 # bash train_scripts/disc/shell_scripts/evaluate/ppo/N_16/evaluate_by_success_rate.sh &> tmp_ppo_res.txt
 
+python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/ppo/medium/ppo_config_10hz_128_128_1.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo_only --seed 3250 --n-envs 32 --n-eval-episode 1000
+python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/ppo/medium/ppo_config_10hz_128_128_2.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo_only --seed 287 --n-envs 32 --n-eval-episode 1000
+python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/ppo/medium/ppo_config_10hz_128_128_3.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo_only --seed 4214 --n-envs 32 --n-eval-episode 1000
+python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/ppo/medium/ppo_config_10hz_128_128_4.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo_only --seed 614 --n-envs 32 --n-eval-episode 1000
+python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/ppo/medium/ppo_config_10hz_128_128_5.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo_only --seed 6581 --n-envs 32 --n-eval-episode 1000
+
+
+
 #---------------------------------------- epsilon = [0.1, 0.03, 0.03] -------------------------------------------------------------
 # # epsilon = [0.1, 0.03, 0.03]  regularization_strength = 0.0001  N = 16
 # python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/ppo/medium/epsilon_0_01_reg_0_0001_N_16/128_128_seed_1.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo --seed 6327 --n-envs 32 --n-eval-episode 1000
@@ -142,8 +150,8 @@
 # python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/ppo/medium/epsilon_1_reg_0_1_N_16/128_128_seed_5.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo --seed 1286004 --n-envs 32 --n-eval-episode 1000
 
 # epsilon = [10.0, 3.0, 3.0]  regularization_strength = 1  N = 16
-python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/ppo/medium/epsilon_1_reg_1_N_16/128_128_seed_1.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo --seed 90167 --n-envs 32 --n-eval-episode 1000
-python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/ppo/medium/epsilon_1_reg_1_N_16/128_128_seed_2.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo --seed 325 --n-envs 32 --n-eval-episode 1000
-python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/ppo/medium/epsilon_1_reg_1_N_16/128_128_seed_3.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo --seed 7245 --n-envs 32 --n-eval-episode 1000
-python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/ppo/medium/epsilon_1_reg_1_N_16/128_128_seed_4.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo --seed 28456 --n-envs 32 --n-eval-episode 1000
-python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/ppo/medium/epsilon_1_reg_1_N_16/128_128_seed_5.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo --seed 1385007 --n-envs 32 --n-eval-episode 1000
+# python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/ppo/medium/epsilon_1_reg_1_N_16/128_128_seed_1.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo --seed 90167 --n-envs 32 --n-eval-episode 1000
+# python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/ppo/medium/epsilon_1_reg_1_N_16/128_128_seed_2.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo --seed 325 --n-envs 32 --n-eval-episode 1000
+# python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/ppo/medium/epsilon_1_reg_1_N_16/128_128_seed_3.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo --seed 7245 --n-envs 32 --n-eval-episode 1000
+# python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/ppo/medium/epsilon_1_reg_1_N_16/128_128_seed_4.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo --seed 28456 --n-envs 32 --n-eval-episode 1000
+# python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/ppo/medium/epsilon_1_reg_1_N_16/128_128_seed_5.json --env-config-file configs/env/D2D/env_config_for_ppo_medium_b_05.json --algo ppo --seed 1385007 --n-envs 32 --n-eval-episode 1000

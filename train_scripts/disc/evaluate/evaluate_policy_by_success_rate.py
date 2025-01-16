@@ -48,15 +48,25 @@ def work(train_config: dict, env_config: Path, algo: str, seed: int=111, n_envs:
         model_save_name = "best_model"
         policy_class = SAC
     elif algo == 'ppo':
-        print("测试ppo")
+        print("测试SmoothGoalPPO")
         policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "disc" / RL_EXPERIMENT_NAME
         model_save_name = "best_model"
         policy_class = SmoothGoalPPO
+    elif algo == "ppo_only":
+        print("测试PPO")
+        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "rl_single" / RL_EXPERIMENT_NAME
+        model_save_name = "best_model"
+        policy_class = PPO
     elif algo == 'bc':
-        print("测试bc")
+        print("测试SmoothGoalBC")
         policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "disc" / RL_EXPERIMENT_NAME
         model_save_name = "bc_checkpoint"
         policy_class = SmoothGoalPPO
+    elif algo == "bc_only":
+        print("测试bc")
+        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "bc" / train_config["bc"]["experiment_name"]
+        model_save_name = "bc_checkpoint"
+        policy_class = PPO
     else:
         print(f"脚本参数--algo只能是sac, ppo, bc")
 
@@ -93,7 +103,7 @@ if __name__ == "__main__":
 
     custom_config = load_config(PROJECT_ROOT_DIR / args.algo_config_file)
 
-    RL_EXPERIMENT_NAME = custom_config["rl"]["experiment_name"] if args.algo != "bc" else custom_config["bc"]["experiment_name"]
+    RL_EXPERIMENT_NAME = custom_config["rl"]["experiment_name"] if (args.algo != "bc" or args.algo !="bc_only") else custom_config["bc"]["experiment_name"]
     
     print(f"evaluate {RL_EXPERIMENT_NAME} on {args.env_config_file}................")
 

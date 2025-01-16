@@ -16,7 +16,7 @@
         "loss_threshold": -3.0
     },
     "rl_bc": {
-        "experiment_name": "iter4/256_256_128_128_64_5e8steps_4",
+        "experiment_name": "iter4/256_256_128_128_64_5e8steps_lambda_1e-1_4",
         "seed": 35,
         "seed_for_load_algo": 39,
         "net_arch": [256, 256, 128, 128, 64],
@@ -34,7 +34,7 @@
         "__evaluate_nums_in_evaluation": "使用evaluate_nums_in_evaluation * evaluate_process_num个episodes评估策略",
         "evaluate_nums_in_callback": 3,
         "__evaluate_nums_in_callback": "使用evaluate_nums_in_callback * evaluate_process_num个episodes评估策略",
-        "kl_with_bc_model_coef": 1e-3
+        "kl_with_bc_model_coef": 1e-1
     },
     "rl": {
         "experiment_name": "10hz_128_128_2e8steps_easy_1_singleRL",

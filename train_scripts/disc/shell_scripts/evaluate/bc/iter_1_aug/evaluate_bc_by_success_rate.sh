@@ -2,6 +2,14 @@
 
 # bash train_scripts/disc/shell_scripts/evaluate/bc/iter_1_aug/evaluate_bc_by_success_rate.sh &> tmp_bc_res.txt
 
+
+python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/IRPO/iter4/ppo_bc_config_10hz_128_128_easy_1.json --env-config-file configs/env/env_hard_config_for_sac.json --algo bc_only --seed 74515 --n-envs 32 --n-eval-episode 1000
+python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/IRPO/iter4/ppo_bc_config_10hz_128_128_easy_2.json --env-config-file configs/env/env_hard_config_for_sac.json --algo bc_only --seed 1346 --n-envs 32 --n-eval-episode 1000
+python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/IRPO/iter4/ppo_bc_config_10hz_128_128_easy_3.json --env-config-file configs/env/env_hard_config_for_sac.json --algo bc_only --seed 468 --n-envs 32 --n-eval-episode 1000
+python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/IRPO/iter4/ppo_bc_config_10hz_128_128_easy_4.json --env-config-file configs/env/env_hard_config_for_sac.json --algo bc_only --seed 2135 --n-envs 32 --n-eval-episode 1000
+python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/IRPO/iter4/ppo_bc_config_10hz_128_128_easy_5.json --env-config-file configs/env/env_hard_config_for_sac.json --algo bc_only --seed 5213547 --n-envs 32 --n-eval-episode 1000
+
+
 #---------------------------------------- epsilon = [1.0, 0.3, 0.3] -------------------------------------------------------------
 # # epsilon = [1.0, 0.3, 0.3]  regularization_strength = 0
 # python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --algo-config-file configs/train/disc/bc/hard/epsilon_0_1_reg_0/128_128_seed_1.json --env-config-file configs/env/env_hard_config_for_sac.json --algo bc --seed 11 --n-envs 32 --n-eval-episode 1000
