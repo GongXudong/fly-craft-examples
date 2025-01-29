@@ -144,7 +144,7 @@ class SmoothGoalPPO(PPO):
 
         entropy_losses = []
         pg_losses, value_losses = [], []
-        noised_goal_losses = []
+        noised_goal_kls, noised_goal_losses = [], []
         clip_fractions = []
 
         continue_training = True
@@ -233,18 +233,19 @@ class SmoothGoalPPO(PPO):
 
                 # 3. calc KL or JS loss
                 if self.policy_distance_measure_func == "KL":
-                    noised_goal_loss = th.distributions.kl_divergence(action_dist, noised_goal_action_dist.distribution).sum(axis=-1)
+                    noised_goal_kl = th.distributions.kl_divergence(action_dist, noised_goal_action_dist.distribution).sum(axis=-1)
                 elif self.policy_distance_measure_func == "JS":
-                    noised_goal_loss = th.distributions.kl_divergence(action_dist, noised_goal_action_dist.distribution).sum(axis=-1) + th.distributions.kl_divergence(noised_goal_action_dist.distribution, action_dist).sum(axis=-1)
+                    noised_goal_kl = th.distributions.kl_divergence(action_dist, noised_goal_action_dist.distribution).sum(axis=-1) + th.distributions.kl_divergence(noised_goal_action_dist.distribution, action_dist).sum(axis=-1)
                 else:
                     raise ValueError("policy_distance_measure_func must be either KL or JS!")
 
                 # 4. clip goal regularization loss
                 if self.goal_regularization_loss_threshold > 0.0:
-                    noised_goal_loss = th.maximum(noised_goal_loss - th.ones_like(noised_goal_loss) * self.goal_regularization_loss_threshold, th.zeros_like(noised_goal_loss))
+                    noised_goal_loss = th.maximum(noised_goal_kl - th.ones_like(noised_goal_kl) * self.goal_regularization_loss_threshold, th.zeros_like(noised_goal_kl)).mean()
+                else:
+                    noised_goal_loss = noised_goal_kl.mean()
 
-                noised_goal_loss = noised_goal_loss.mean()
-
+                noised_goal_kls.append(noised_goal_kl.mean().item())
                 noised_goal_losses.append(noised_goal_loss.item())
                 # ---------------------------------end: goal regularization loss---------------------------------
 
@@ -282,6 +283,7 @@ class SmoothGoalPPO(PPO):
         self.logger.record("train/entropy_loss", np.mean(entropy_losses))
         self.logger.record("train/policy_gradient_loss", np.mean(pg_losses))
         self.logger.record("train/value_loss", np.mean(value_losses))
+        self.logger.record("train/noised_goal_kl", np.mean(noised_goal_kls))
         self.logger.record("train/noised_goal_loss", np.mean(noised_goal_losses))
         self.logger.record("train/approx_kl", np.mean(approx_kl_divs))
         self.logger.record("train/clip_fraction", np.mean(clip_fractions))
