@@ -32,6 +32,7 @@ def load_data_from_csv_files(
         validation_size: float=0.05, 
         test_size: float=0.05,
         shuffle: bool=True,
+        control_mode: str="guidance_law_mode",
     ) -> Tuple[TransitionsMinimal, TransitionsMinimal, TransitionsMinimal]:
     """加载数据，并根据比例划分训练集、验证集、测试集。
 
@@ -106,11 +107,22 @@ def load_data_from_csv_files(
                     [target_mu] * cur_traj.count()['time'],
                     [target_chi] * cur_traj.count()['time'],
                 )])
-                acts.extend(zip(
-                    cur_traj['a_p'].tolist(),
-                    cur_traj['a_nz'].tolist(),
-                    cur_traj['a_pla'].tolist(),
-                ))
+                if control_mode == "guidance_law_mode":
+                    acts.extend(zip(
+                        cur_traj['a_p'].tolist(),
+                        cur_traj['a_nz'].tolist(),
+                        cur_traj['a_pla'].tolist(),
+                    ))
+                elif control_mode == "end_to_end_mode":
+                    acts.extend(zip(
+                        cur_traj['a_end_ail'].tolist(),
+                        cur_traj['a_end_ele'].tolist(),
+                        cur_traj['a_end_rud'].tolist(),
+                        cur_traj['a_end_pla'].tolist(),
+                    ))
+                else:
+                    raise ValueError("control mode must be one of guidance_law_mode or end_to_end_mode!")
+
                 infos.extend([None] * cur_traj.count()['time'])
 
     # 数据标准化. 这里的标准化最耗时.
@@ -222,12 +234,14 @@ def load_data_from_cache(
         Transitions(obs=test_obs, acts=test_labels, infos=test_infos, next_obs=deepcopy(test_obs), dones=np.array([False]*len(test_infos)))
     )
 
-# python demonstrations/utils/load_dataset.py --demo-dir demonstrations/data/10hz_10_5_5_iter_1_aug --demo-cache-dir demonstrations/cache/10hz_10_5_5_iter_1_aug 10hz_10_5_5_iter_1_aug traj
+# python demonstrations/utils/load_dataset.py --demo-dir demonstrations/data/10hz_10_5_5_iter_1_aug --demo-cache-dir demonstrations/cache/10hz_10_5_5_iter_1_aug --traj-prefix traj --control-mode guidance_law_mode --env-config-file configs/env/IRPO/env_hard_end2end_config_for_ppo.json
 if __name__ =="__main__":
     parser = argparse.ArgumentParser(description="传入配置文件")
     parser.add_argument("--demo-dir", type=str, help="directory of demonstration dataset", default="demonstrations/data/10hz_10_5_5_iter_1_aug")
     parser.add_argument("--demo-cache-dir", type=str, help="cache directory of processed demonstrations", default="demonstrations/cache/10hz_10_5_5_iter_1_aug")
     parser.add_argument("--traj-prefix", type=str, default="traj", help="the prefix of filename of trajectories in demo-dir.")
+    parser.add_argument("--control-mode", type=str, default="guidance_law_mode", help="control mode: be one of guidance_law_mode or end_to_end_mode")
+    parser.add_argument("--env-config-file", type=str, default="configs/env/IRPO/env_hard_end2end_config_for_ppo.json", help="")
     args = parser.parse_args()
 
     data_dir = PROJECT_ROOT_DIR / args.demo_dir
@@ -240,9 +254,11 @@ if __name__ =="__main__":
         cache_data=cache_data,
         cache_data_dir=cache_data_dir,
         trajectory_save_prefix=args.traj_prefix,
+        env_config_file= PROJECT_ROOT_DIR / args.env_config_file,
         train_size=0.96,
         validation_size=0.02,
-        test_size=0.02
+        test_size=0.02,
+        control_mode=args.control_mode,
     )
 
     # train_trans, validation_trans, test_trans = load_data_from_cache(

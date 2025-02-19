@@ -59,11 +59,15 @@ class ParallelScheduleForRollout:
         def rollout_func(target):
             rollout_worker = self.rollout_class(
                 target_v=target[0], target_mu=target[1], target_chi=target[2], 
+                log_state_keys=["phi", "theta", "psi", "v", "mu", "chi", "p", "q", "r", "h", "lon", "lat", "thrust", "nx", "ny", "nz", "alpha", "beta", "lef", "npos", "epos"],
+                log_guidance_law_action_keys=["p", "nz", "pla", "rud"],
+                log_control_law_action_keys=["ail", "ele", "rud", "pla"],
                 my_logger=None,  # my_logger,
                 traj_save_dir=self.traj_save_dir,
                 step_frequence=self.step_frequence,
             )
             episode_length = rollout_worker.rollout()
+            print(f"check: {target[0], target[1], target[2], episode_length}")
             return target[0], target[1], target[2], episode_length
 
         with Pool(processes=self.pool_size) as pool:
@@ -86,8 +90,15 @@ class ParallelScheduleForRollout:
                 all_iters   
             ), total=all_iter_num, desc="采样进度"))
 
+        # res = [[*item] for item in res] 
+        print(type(res[0]))
+        tmp_res = []
+        for i in range(len(res)):
+            print(res[i])
+            # tmp_res.append([*res[i]])
         res = np.array(res)
         
+        print(res)
         log["v"] = res[:, 0]
         log["mu"] = res[:, 1]
         log["chi"] = res[:, 2]
@@ -98,7 +109,7 @@ class ParallelScheduleForRollout:
 
         print("time used: ", time.time() - start_time)
 
-
+# python demonstrations/rollout_trajs/rollout_by_pid_parallel.py --data-dir-suffix e2e_iter_1 --step-frequence 10 --v-min 100 --v-max 300 --v-interval 10 --mu-min -85 --mu-max 85 --mu-interval 5 --chi-min -180 --chi-max 175 --chi-interval 5
 if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description="")

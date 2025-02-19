@@ -36,6 +36,9 @@ class Rollout:
         v_threshold=10., mu_threshold=1., chi_threshold=1., 
         integral_time_length=1, step_frequence=100, 
         max_rollout_time=120, 
+        log_state_keys = ["phi", "theta", "psi", "v", "mu", "chi", "p", "h"],
+        log_guidance_law_action_keys = ["p", "nz", "pla", "rud"],
+        log_control_law_action_keys = ["ail", "ele", "rud", "pla"],
         traj_save_dir: Path=PROJECT_ROOT_DIR / "data" / "tmp",
         trajectory_save_prefix: str="traj",
         my_logger: logging.Logger=None
@@ -84,8 +87,10 @@ class Rollout:
         # log_name = f"f16trace_{target_v}_{target_mu}_{target_chi}.csv"
         # self.f16model.setLog(logName=log_name)  # 设置日志名
 
-        self.log_state_keys = ["phi", "theta", "psi", "v", "mu", "chi", "p", "h"]
-        self.log_action_keys = ["p", "nz", "pla", "rud"]
+        self.log_state_keys = log_state_keys
+        self.log_guidance_law_action_keys = log_guidance_law_action_keys
+        self.log_control_law_action_keys = log_control_law_action_keys
+
         self.logs = {}
         
         self.init_log()
@@ -166,10 +171,12 @@ class Rollout:
         self.logs["time"] = []
         for k in self.log_state_keys:
             self.logs[f"s_{k}"] = []
-        for k in self.log_action_keys:
+        for k in self.log_guidance_law_action_keys:
             self.logs[f"a_{k}"] = []
+        for k in self.log_control_law_action_keys:
+            self.logs[f"a_end_{k}"] = []
 
-    def log(self, state, action, time:float):
+    def log(self, state, guidance_law_action, control_law_action, time:float):
         """将state与action记入logs属性
 
         Args:
@@ -180,8 +187,13 @@ class Rollout:
         self.logs["time"].append(round(time, 2))
         for k in self.log_state_keys:
             self.logs[f"s_{k}"].append(state[k])
-        for k in self.log_action_keys:
-            self.logs[f"a_{k}"].append(action[k])
+        
+        for k in self.log_guidance_law_action_keys:
+            self.logs[f"a_{k}"].append(guidance_law_action[k])
+        
+        for k in self.log_control_law_action_keys:
+            self.logs[f"a_end_{k}"].append(control_law_action[k])
+            
 
     def save(self):
         """将logs属性存数的数据存成csv文件
@@ -241,8 +253,9 @@ class Rollout:
             self.f16cl.step(gout, stsDict)
             clout = self.f16cl.getOutputDict()
             self.f16model.step(clout)
-            
-            self.log(state=stsDict, action=gout, time=i * self.sim_interval)
+            # print(clout)
+
+            self.log(state=stsDict, guidance_law_action=gout, control_law_action=clout, time=i * self.sim_interval)
             # print(f"v = {stsDict['v']:.1f}, mu = {stsDict['mu']:.1f}, chi = {stsDict['chi']:.1f}")
 
             # 高度小于0，直接结束！！！
@@ -313,6 +326,9 @@ class ScheduleForRollout:
             
             rollout_worker = self.rollout_class(
                 target_v=v, target_mu=mu, target_chi=chi, 
+                log_state_keys=["phi", "theta", "psi", "v", "mu", "chi", "p", "q", "r", "h", "lon", "lat", "thrust", "nx", "ny", "nz", "alpha", "beta", "lef", "npos", "epos"],
+                log_guidance_law_action_keys=["p", "nz", "pla", "rud"],
+                log_control_law_action_keys=["ail", "ele", "rud", "pla"],
                 my_logger=my_logger,
                 traj_save_dir=self.save_dir,
                 step_frequence=self.step_frequence
@@ -324,6 +340,7 @@ class ScheduleForRollout:
             log["chi"].append(chi)
             log["length"].append(episode_length)
 
+        print(log)
         df = pd.DataFrame(log)
         df.to_csv(self.save_dir / "res.csv", index=False)
 

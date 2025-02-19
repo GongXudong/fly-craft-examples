@@ -1,0 +1,45 @@
+{
+    "env": {
+        "config_file": "IRPO/env_hard_end2end_config_for_ppo.json",
+        "custom_config": {}
+    },
+    "bc": {
+        "experiment_name": "end_to_end_mode/iter_1/128_128_300epochs_1",
+        "policy_file_save_name": "bc_checkpoint",
+        "policy_after_value_head_trained_file_save_name": "bc_checkpoint_after_value_head_trained",
+        "data_cache_dir": "cache/10hz_10_5_5_e2e_iter_1",
+        "seed": 14,
+        "train_epochs": 300,
+        "batch_size": 4096,
+        "l2_weight": 0.0,
+        "ent_weight": 1e-2,
+        "loss_threshold": 0.0
+    },
+    "rl_bc": {
+        "experiment_name": "end_to_end_mode/iter_1/128_128_2e8steps_lambda_1e-3_1",
+        "seed": 2,
+        "seed_for_load_algo": 5,
+        "net_arch": [128, 128],
+        "batch_size": 4096,
+        "gamma": 0.995,
+        "activate_value_head_train_steps": 2e7,
+        "train_steps": 2e8,
+        "rollout_process_num": 64,
+        "evaluate_process_num": 32,
+        "callback_process_num": 32,
+        "evaluate_on_all_tasks": true,
+        "evaluate_frequence": 2048,
+        "__evaluate_frequence": "多少次env.step()评估一次，如果设置为1000，且VecEnv有72个并行环境，所以实际相当于72*1000次step，评估一次",
+        "evaluate_nums_in_evaluation": 30,
+        "__evaluate_nums_in_evaluation": "使用evaluate_nums_in_evaluation * evaluate_process_num个episodes评估策略",
+        "evaluate_nums_in_callback": 3,
+        "__evaluate_nums_in_callback": "使用evaluate_nums_in_callback * evaluate_process_num个episodes评估策略",
+        "kl_with_bc_model_coef": 1e-3
+    },
+    "rl": {
+        "experiment_name": "10hz_128_128_2e8steps_easy_1_singleRL",
+        "seed": 7,
+        "rollout_process_num": 64,
+        "train_steps": 2e8
+    }
+}

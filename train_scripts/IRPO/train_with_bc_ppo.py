@@ -109,7 +109,7 @@ def train():
     sb3_logger: Logger = configure(folder=str((PROJECT_ROOT_DIR / "logs" / "IRPO" / "bc" / EXPERIMENT_NAME).absolute()), format_strings=['stdout', 'log', 'csv', 'tensorboard'])
 
     vec_env = get_vec_env(
-        num_process=RL_TRAIN_PROCESS_NUM,
+        num_process=16,
         seed=RL_SEED,
         config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / train_config["env"].get("config_file", "env_config_for_sac.json")),
         custom_config={"debug_mode": False}
