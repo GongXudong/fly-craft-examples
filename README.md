@@ -96,6 +96,24 @@ python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/s
 python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/hard_her_framestack_sparse_negative_non_markov_reward_persist_1_sec/sac_config_10hz_128_128_1.json
 ```
 
+## Evaluating policies
+
+### Visualization
+
+The script _train_scripts/IRPO/evaluate/rollout_one_trajectory.py_ can be used to generate _.acmi_ files, which can be used to visualize the flight trajectory with the help of [**Tacview**](https://www.tacview.net/).
+
+```bash
+python train_scripts/IRPO/evaluate/rollout_one_trajectory.py --config-file-name configs/train/IRPO/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json --algo rl_bc --save-acmi --use-fixed-target --target-v 210 --target-mu 5 --target-chi 10 --save-dir train_scripts/IRPO/evaluate/rolled_out_trajs/
+```
+
+### Statistical Evaluation
+
+The script _train_scripts/IRPO/evaluate/evaluate_policy_by_success_rate.py_ can be used to evaluate trained policies statistically, which will obtain information such as the success rate, cumulative rewards, and trajectory length of the policy.
+
+```bash
+python train_scripts/IRPO/evaluate/evaluate_policy_by_success_rate.py --config-file-name configs/train/IRPO/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json --algo rl_bc --seed 11 --n-envs 8 --n-eval-episode 100
+```
+
 ## Citation
 
 Cite as
