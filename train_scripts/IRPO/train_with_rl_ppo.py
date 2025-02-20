@@ -10,7 +10,7 @@ import sys
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.logger import configure, Logger
-from stable_baselines3.common.callbacks import CheckpointCallback
+from stable_baselines3.common.callbacks import CheckpointCallback, EvalCallback
 from stable_baselines3.ppo import MultiInputPolicy
 from stable_baselines3.common.vec_env import SubprocVecEnv, VecCheckNan
 
@@ -95,7 +95,8 @@ def train():
     # set sb3 logger
     algo_ppo.set_logger(sb3_logger)
 
-    eval_callback = MyEvalCallback(
+    # sb3自带的EvalCallback根据最高平均reward保存最优策略；改成MyEvalCallback，根据最高胜率保存最优策略
+    eval_callback = EvalCallback(
         eval_env_in_callback, 
         best_model_save_path=str((PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "rl_single" / RL_EXPERIMENT_NAME).absolute()),
         log_path=str((PROJECT_ROOT_DIR / "logs" / "IRPO" / "rl_single" / RL_EXPERIMENT_NAME).absolute()), 

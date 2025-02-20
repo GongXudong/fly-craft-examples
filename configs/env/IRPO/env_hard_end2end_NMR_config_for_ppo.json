@@ -1,5 +1,5 @@
 {
-    "description": "Markov reward used for HER, must satisfy: task.step_frequence * terminations.RT.integral_time_length == 1",
+    "description": "Non-Markovian reward used for HER, must satisfy: task.step_frequence * terminations.RT.integral_time_length == 1",
     "flag_str": "Train",
     "debug_mode": true,
     "task": {
@@ -36,8 +36,15 @@
         }
     },
     "terminations": {
-        "RT_SINGLE_STEP": {
+        "RT": {
             "use": true,
+            "integral_time_length": 1,
+            "v_threshold": 10,
+            "angle_threshold": 3,
+            "termination_reward": 0.0
+        },
+        "RT_SINGLE_STEP": {
+            "use": false,
             "v_threshold": 10,
             "angle_threshold": 3,
             "termination_reward": 0.0

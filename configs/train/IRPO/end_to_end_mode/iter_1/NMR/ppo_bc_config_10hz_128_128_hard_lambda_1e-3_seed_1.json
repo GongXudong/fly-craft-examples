@@ -1,14 +1,14 @@
 {
     "env": {
-        "config_file": "IRPO/env_hard_end2end_config_for_ppo.json",
+        "config_file": "IRPO/env_hard_end2end_NMR_config_for_ppo.json",
         "custom_config": {}
     },
     "bc": {
-        "experiment_name": "end_to_end_mode/iter_1/128_128_300epochs_3",
+        "experiment_name": "end_to_end_mode/iter_1/128_128_300epochs_1",
         "policy_file_save_name": "bc_checkpoint",
         "policy_after_value_head_trained_file_save_name": "bc_checkpoint_after_value_head_trained",
         "data_cache_dir": "cache/10hz_10_5_5_e2e_iter_1",
-        "seed": 92,
+        "seed": 14,
         "train_epochs": 300,
         "batch_size": 4096,
         "l2_weight": 0.0,
@@ -16,9 +16,9 @@
         "loss_threshold": 0.0
     },
     "rl_bc": {
-        "experiment_name": "end_to_end_mode/iter_1/128_128_2e8steps_lambda_1e-3_3",
-        "seed": 26,
-        "seed_for_load_algo": 29,
+        "experiment_name": "end_to_end_mode/iter_1/NMR/128_128_2e8steps_lambda_1e-3_1",
+        "seed": 51,
+        "seed_for_load_algo": 15,
         "net_arch": [128, 128],
         "batch_size": 4096,
         "gamma": 0.995,
