@@ -25,7 +25,7 @@ def work(train_config: dict, algo: str, env_config: str, seed: int=111, n_envs: 
     env_config_dict_in_training = {
         "num_process": n_envs,
         "seed": seed,
-        "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / env_config),
+        "config_file": str(PROJECT_ROOT_DIR / env_config),
         "custom_config": {"debug_mode": False, "flag_str": "Train"}
     }
 
