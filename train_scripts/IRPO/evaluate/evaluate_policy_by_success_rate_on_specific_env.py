@@ -20,12 +20,12 @@ from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
 gym.register_envs(flycraft)
 
 
-def work(train_config: dict, algo: str, seed: int=111, n_envs: int=8, n_eval_episodes: int=100):
+def work(train_config: dict, algo: str, env_config: str, seed: int=111, n_envs: int=8, n_eval_episodes: int=100):
 
     env_config_dict_in_training = {
         "num_process": n_envs,
         "seed": seed,
-        "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / train_config["env"].get("config_file", "env_config_for_sac.json")),
+        "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / env_config),
         "custom_config": {"debug_mode": False, "flag_str": "Train"}
     }
 
@@ -68,11 +68,12 @@ def work(train_config: dict, algo: str, seed: int=111, n_envs: int=8, n_eval_epi
 
     print(f"mean reward: {mean_reward}, mean episode length: {mean_episode_length}, success rate: {success_rate}")
 
-# python train_scripts/IRPO/evaluate/evaluate_policy_by_success_rate.py --config-file-name configs/train/IRPO/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json --algo rl_bc --seed 11 --n-envs 8 --n-eval-episode 100
+# python train_scripts/IRPO/evaluate/evaluate_policy_by_success_rate_on_specific_env.py --config-file-name configs/train/IRPO/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json --env-config configs/env/IRPO/env_hard_end2end_MR_config_for_ppo.json --algo rl_bc --seed 11 --n-envs 8 --n-eval-episode 100
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="pass configurations")
     parser.add_argument("--config-file-name", type=str, help="train configuration file", default="configs/train/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json")
+    parser.add_argument("--env-config", type=str, help="env configuration file", default="configs/env/IRPO/env_hard_end2end_MR_config_for_ppo.json")
     parser.add_argument("--algo", type=str, help="the algorithm model to be evaluated, can be rl, bc, or rl_bc", default="rl_bc")
     parser.add_argument("--seed", type=int, default=11, help="the seed used in evaluation")
     parser.add_argument("--n-envs", type=int, default=8, help="the number of environments used in this evaluation")
@@ -84,6 +85,7 @@ if __name__ == "__main__":
     work(
         train_config=custom_config, 
         algo=args.algo, 
+        env_config=args.env_config,
         seed=args.seed,
         n_envs=args.n_envs,
         n_eval_episodes=args.n_eval_episodes,
