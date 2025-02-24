@@ -1,6 +1,6 @@
 {
     "env": {
-        "config_file": "IRPO/env_hard_end2end_config_for_ppo.json",
+        "config_file": "IRPO/env_hard_end2end_NMR_config_for_ppo.json",
         "custom_config": {}
     },
     "bc": {
@@ -16,9 +16,9 @@
         "loss_threshold": 0.0
     },
     "rl_bc": {
-        "experiment_name": "end_to_end_mode/iter_1/128_128_2e8steps_lambda_1e-3_5",
-        "seed": 42,
-        "seed_for_load_algo": 47,
+        "experiment_name": "end_to_end_mode/iter_1/NMR/128_128_2e8steps_lambda_1e-3_5",
+        "seed": 78,
+        "seed_for_load_algo": 53,
         "net_arch": [128, 128],
         "batch_size": 4096,
         "gamma": 0.995,

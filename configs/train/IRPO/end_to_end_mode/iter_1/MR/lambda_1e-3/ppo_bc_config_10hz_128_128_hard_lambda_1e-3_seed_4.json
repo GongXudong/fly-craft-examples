@@ -1,6 +1,6 @@
 {
     "env": {
-        "config_file": "IRPO/env_hard_end2end_config_for_ppo.json",
+        "config_file": "IRPO/env_hard_end2end_MR_config_for_ppo.json",
         "custom_config": {}
     },
     "bc": {

@@ -12,6 +12,7 @@ import torch as th
 from stable_baselines3.ppo import MultiInputPolicy
 from stable_baselines3.common.vec_env import SubprocVecEnv, VecCheckNan
 from stable_baselines3.common.logger import configure, Logger
+from stable_baselines3.common.callbacks import EvalCallback
 
 import flycraft
 from flycraft.env import FlyCraftEnv
@@ -135,7 +136,7 @@ def train():
     #     print(k, v.requires_grad)
 
     # sb3自带的EvalCallback根据最高平均reward保存最优策略；改成MyEvalCallback，根据最高胜率保存最优策略
-    eval_callback = MyEvalCallback(
+    eval_callback = EvalCallback(
         eval_env_in_callback, 
         best_model_save_path=str((PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "rl" / RL_EXPERIMENT_NAME).absolute()),
         log_path=str((PROJECT_ROOT_DIR / "logs" / "IRPO" / "rl" / RL_EXPERIMENT_NAME).absolute()), 
