@@ -65,7 +65,7 @@ python train_scripts/IRPO/train_with_rl_bc_ppo.py --config-file-name configs/tra
 
 
 
-# 待分散 100
+# 待分散 110
 # python train_scripts/IRPO/train_with_rl_bc_ppo.py --config-file-name configs/train/IRPO/end_to_end_mode/iter_1/MR/lambda_1e-4/ppo_bc_config_10hz_128_128_hard_lambda_1e-4_seed_3.json
 # python train_scripts/IRPO/train_with_rl_bc_ppo.py --config-file-name configs/train/IRPO/end_to_end_mode/iter_1/MR/lambda_1e-4/ppo_bc_config_10hz_128_128_hard_lambda_1e-4_seed_4.json
 # python train_scripts/IRPO/train_with_rl_bc_ppo.py --config-file-name configs/train/IRPO/end_to_end_mode/iter_1/MR/lambda_1e-4/ppo_bc_config_10hz_128_128_hard_lambda_1e-4_seed_5.json
