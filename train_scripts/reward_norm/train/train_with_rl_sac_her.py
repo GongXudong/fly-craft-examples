@@ -19,9 +19,11 @@ PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
+from train_scripts.reward_norm.algorithms.normalizers.vec_normalize_goal_conditioned_reward_scaling import VecNormalizeGoalConditionedRewardScaling
 from utils_my.sb3.vec_env_helper import get_vec_env
 from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapper
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
+from utils_my.sb3.my_vec_normalize_save_callback import MyVecNormalizeSaveCallback
 
 import warnings
 warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
@@ -36,6 +38,18 @@ def train():
         config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / ENV_CONFIG_FILE),
         custom_config={"debug_mode": True, "flag_str": "Train"}
     )
+
+    if ENV_NORMALIZE_REWARD == "reward_scaling_cluster":
+        vec_env = VecNormalizeGoalConditionedRewardScaling(
+            vec_env,
+            training=True,
+            norm_obs=False,
+            norm_reward=True,
+            gamma=GAMMA,
+        )
+        # TODO: other reward scaling methods
+    else:
+        pass
 
     eval_env_in_callback = get_vec_env(
         num_process=RL_EVALUATE_PROCESS_NUM,
@@ -82,12 +96,29 @@ def train():
         render=False,
     )
 
-    checkpoint_on_event = CheckpointCallback(save_freq=1, save_path=str((PROJECT_ROOT_DIR / "checkpoints" / RL_EXPERIMENT_NAME).absolute()))
-    event_callback = EveryNTimesteps(n_steps=50000, callback=checkpoint_on_event)
+    checkpoint_on_event = CheckpointCallback(
+        save_freq=1, 
+        save_path=str((PROJECT_ROOT_DIR / "checkpoints" / RL_EXPERIMENT_NAME).absolute()),
+        save_vecnormalize=True,
+    )
+    event_callback = EveryNTimesteps(
+        n_steps=SAVE_CKPT_EVERY_N_TIMESTEPS, 
+        callback=checkpoint_on_event,
+    )
+
+    save_vec_normalize_callback = EveryNTimesteps(
+        n_steps=SAVE_CKPT_EVERY_N_TIMESTEPS,
+        callback=MyVecNormalizeSaveCallback(
+            save_freq=1,
+            save_path=str((PROJECT_ROOT_DIR / "checkpoints" / RL_EXPERIMENT_NAME).absolute()),
+            name_prefix="my",
+            verbose=2,
+        )
+    )
 
     sac_algo.learn(
         total_timesteps=int(RL_TRAIN_STEPS), 
-        callback=[eval_callback, event_callback]
+        callback=[eval_callback, event_callback, save_vec_normalize_callback],
     )
     # sac_algo.save(str(PROJECT_ROOT_DIR / "checkpoints" / RL_EXPERIMENT_NAME))
 
@@ -150,6 +181,7 @@ if __name__ == "__main__":
 
     ENV_CONFIG_FILE = train_config["env"]["config_file"]
     ENV_CUSTOM_CONFIG = train_config["env"].get("custom_config", {})
+    ENV_NORMALIZE_REWARD = train_config["env"].get("normarlize_reward", "none")
 
     SEED = train_config["rl"].get("seed")
     SEED_IN_TRAINING_ENV = train_config["rl"].get("seed_in_train_env")
@@ -172,6 +204,7 @@ if __name__ == "__main__":
 
     EVAL_FREQ = train_config["rl"].get("eval_freq", 1000)
     N_EVAL_EPISODES = train_config["rl"].get("n_eval_episodes", CALLBACK_PROCESS_NUM*10)
+    SAVE_CKPT_EVERY_N_TIMESTEPS = train_config["rl"].get("save_checkpoint_every_n_timesteps", 50000)
     
 
     train()
