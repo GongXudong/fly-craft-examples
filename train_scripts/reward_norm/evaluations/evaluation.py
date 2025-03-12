@@ -39,7 +39,10 @@ def work(algo: str, algo_ckpt: str, env_config: str, n_envs: int, eval_episode_n
     else:
         raise ValueError("algo must be one of: ppo, bc, sac, her!")
     
-    loaded_algo = algo_class.load(PROJECT_ROOT_DIR / algo_ckpt)
+    loaded_algo = algo_class.load(
+        path=PROJECT_ROOT_DIR / algo_ckpt,
+        env=vec_env,
+    )
 
     # 3.evaluate
     mean_reward, std_reward, success_rate, res_dict_arr = evaluate_policy_with_stat(loaded_algo, vec_env, n_eval_episodes=eval_episode_num, deterministic=True)
@@ -95,4 +98,4 @@ if __name__ == "__main__":
         save_result_file_name=args.result_file_save_name,
     )
 
-    print(f"reward: {round(res_df['cumulative_reward'].mean(), 2)} +- {round(res_df['cumulative_reward'].std(), 2)}, length: {round(res_df['episode_length'].mean(), 2)} += {round(res_df['episode_length'].std(), 2)}")
+    print(f"reward: {round(res_df['cumulative_reward'].mean(), 2)} +- {round(res_df['cumulative_reward'].std(), 2)}, length: {round(res_df['episode_length'].mean(), 2)} += {round(res_df['episode_length'].std(), 2)}, success: {round(res_df['is_success'].mean(), 2)}")
