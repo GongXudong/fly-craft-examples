@@ -16,14 +16,14 @@
         "loss_threshold": 0.0
     },
     "rl_bc": {
-        "experiment_name": "guidance_law_mode/iter_4/256_256_128_128_64_2e8steps_lambda_1e-1_5",
+        "experiment_name": "guidance_law_mode/iter_4/256_256_128_128_64_5e8steps_lambda_1e-1_5",
         "seed": 43,
         "seed_for_load_algo": 45,
         "net_arch": [256, 256, 128, 128, 64],
         "batch_size": 4096,
         "gamma": 0.995,
         "activate_value_head_train_steps": 2e7,
-        "train_steps": 2e8,
+        "train_steps": 5e8,
         "rollout_process_num": 64,
         "evaluate_process_num": 32,
         "callback_process_num": 32,
