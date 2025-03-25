@@ -6,6 +6,11 @@ python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/s
 python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/medium_her/sac_config_10hz_128_128_3.json
 python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/medium_her/sac_config_10hz_128_128_4.json
 python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/medium_her/sac_config_10hz_128_128_5.json
+python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/medium_her/sac_config_10hz_128_128_6.json
+python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/medium_her/sac_config_10hz_128_128_7.json
+python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/medium_her/sac_config_10hz_128_128_8.json
+python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/medium_her/sac_config_10hz_128_128_9.json
+python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/medium_her/sac_config_10hz_128_128_10.json
 
 
 #---------------------------------------- epsilon = [1.0, 0.3, 0.3] -------------------------------------------------------------
