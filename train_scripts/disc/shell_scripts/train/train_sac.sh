@@ -135,6 +135,11 @@ python train_scripts/disc/train/train_sac.py --config-file-name configs/train/di
 python train_scripts/disc/train/train_sac.py --config-file-name configs/train/disc/sac/medium/beta_0_1/epsilon_0_1_reg_0_001_N_16/128_128_seed_3.json
 python train_scripts/disc/train/train_sac.py --config-file-name configs/train/disc/sac/medium/beta_0_1/epsilon_0_1_reg_0_001_N_16/128_128_seed_4.json
 python train_scripts/disc/train/train_sac.py --config-file-name configs/train/disc/sac/medium/beta_0_1/epsilon_0_1_reg_0_001_N_16/128_128_seed_5.json
+python train_scripts/disc/train/train_sac.py --config-file-name configs/train/disc/sac/medium/beta_0_1/epsilon_0_1_reg_0_001_N_16/128_128_seed_6.json
+python train_scripts/disc/train/train_sac.py --config-file-name configs/train/disc/sac/medium/beta_0_1/epsilon_0_1_reg_0_001_N_16/128_128_seed_7.json
+python train_scripts/disc/train/train_sac.py --config-file-name configs/train/disc/sac/medium/beta_0_1/epsilon_0_1_reg_0_001_N_16/128_128_seed_8.json
+python train_scripts/disc/train/train_sac.py --config-file-name configs/train/disc/sac/medium/beta_0_1/epsilon_0_1_reg_0_001_N_16/128_128_seed_9.json
+python train_scripts/disc/train/train_sac.py --config-file-name configs/train/disc/sac/medium/beta_0_1/epsilon_0_1_reg_0_001_N_16/128_128_seed_10.json
 
 #---------------------------------------- epsilon = [10.0, 3.0, 3.0] -------------------------------------------------------------
 # epsilon = [10.0, 3.0, 3.0]  regularization_strength = 0.0001  noise_num = 16
