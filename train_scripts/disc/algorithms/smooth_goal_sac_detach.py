@@ -133,7 +133,7 @@ class SmoothGoalSAC(SAC):
 
         ent_coef_losses, ent_coefs = [], []
         actor_losses, critic_losses = [], []
-        noised_goal_losses = []
+        noised_goal_kls, noised_goal_losses = [], []
 
         for gradient_step in range(gradient_steps):
             # Sample replay buffer
