@@ -50,9 +50,9 @@ if __name__ == '__main__':
     new_rewards = vec_env.env_method(
         method_name="compute_reward",
         indices=[0],
-        achieved_goal=sac_algo.replay_buffer.observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
+        achieved_goal=sac_algo.replay_buffer.next_observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
         desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
         info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
     )[0]
-
+    new_rewards = new_rewards.reshape(-1, 1)  
     sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
