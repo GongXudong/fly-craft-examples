@@ -18,9 +18,9 @@ PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
-from utils_my.sb3.vec_env_helper import get_vec_env
 from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
+from train_scripts.D2D.utils.get_vec_env import get_vec_env
 from train_scripts.D2D.utils.load_data_from_csv import load_random_trajectories_from_csv_files
 
 import warnings
@@ -55,6 +55,7 @@ def train(train_config):
         THIS_ITER_LEARNING_STARTS = train_this_iter_config["rl"].get("learning_starts", 10240)
         THIS_ITER_LEARNING_RATE = train_this_iter_config["rl"].get("learning_rate", 3e-4)
         THIS_ITER_RESET_POLICY = train_this_iter_config["rl"].get("reset_policy", False)
+        THIS_ITER_WRAPPER_LIST = train_this_iter_config['rl'].get("wrappers", [])
         THIS_ITER_RESET_REPLAY_BUFFER = train_this_iter_config["rl"].get("reset_replay_buffer", False)
         THIS_ITER_RELABEL_REPLAY_BUFFER = train_this_iter_config["rl"].get("relabel_replay_buffer", False)
         THIS_ITER_HAS_TRAINED = train_this_iter_config["rl"].get("has_trained", False)
@@ -64,19 +65,33 @@ def train(train_config):
 
         if THIS_ITER_HAS_TRAINED:
             continue
-
+        
         # initialize env and algo
+        env_config_in_training = {
+            "num_process": RL_TRAIN_PROCESS_NUM,
+            "seed": THIS_ITER_SEED_IN_TRAINING_ENV,
+            "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
+            "custom_config": {"debug_mode": True, "flag_str": "Train"},
+        }
+        env_config_in_evaluation = {
+            "num_process": RL_EVALUATE_PROCESS_NUM,
+            "seed": THIS_ITER_SEED_IN_CALLBACK_ENV,
+            "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
+            "custom_config": {"debug_mode": True, "flag_str": "Callback"}
+        }
+        
+        for wrp in THIS_ITER_WRAPPER_LIST:
+            if wrp["type"] == "frame_skip":
+                env_config_in_training.update(frame_skip=True, skip=wrp.get("skip", 1))
+                env_config_in_evaluation.update(frame_skip=True, skip=wrp.get("skip", 1))
+            else:
+                raise ValueError(f"Cann't process this type of wrapper: {wrp['type']}!")
+
         vec_env = get_vec_env(
-            num_process=RL_TRAIN_PROCESS_NUM,
-            seed=THIS_ITER_SEED_IN_TRAINING_ENV,
-            config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
-            custom_config={"debug_mode": True, "flag_str": "Train"}
+            **env_config_in_training
         )
         eval_env_in_callback = get_vec_env(
-            num_process=RL_EVALUATE_PROCESS_NUM,
-            seed=THIS_ITER_SEED_IN_CALLBACK_ENV,
-            config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
-            custom_config={"debug_mode": True, "flag_str": "Callback"}
+            **env_config_in_evaluation
         )
 
         policy_save_dir = PROJECT_ROOT_DIR / "checkpoints"
@@ -198,7 +213,7 @@ def train(train_config):
         event_callback = EveryNTimesteps(n_steps=50000, callback=checkpoint_on_event)
 
         sac_algo.learn(
-            total_timesteps=int(THIS_ITER_RL_TRAIN_STEPS), 
+            total_timesteps=int(THIS_ITER_RL_TRAIN_STEPS),
             callback=[eval_callback, event_callback]
         )
 
