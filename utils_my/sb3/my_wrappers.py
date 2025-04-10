@@ -1,6 +1,6 @@
-from gymnasium import ObservationWrapper, ActionWrapper, Env, spaces
+from gymnasium import Wrapper, ObservationWrapper, ActionWrapper, Env, spaces
 from sklearn.preprocessing import MinMaxScaler
-from typing import TypeVar, Dict, Union, List
+from typing import TypeVar, Dict, Union, List, SupportsFloat, Any
 import numpy as np
 from pathlib import Path
 import sys
@@ -156,4 +156,38 @@ class ScaledActionWrapper(ActionWrapper):
         elif len(action_var.shape) == 2:
             return self.action_scalar.transform(action_var)
         else:
-            raise TypeError("action_var只能是1维或者2维！") 
+            raise TypeError("action_var只能是1维或者2维！")
+        
+class FrameSkipWrapper(Wrapper):
+    """
+    Return only every ``skip``-th frame (frameskipping).
+
+    :param env: Environment to wrap
+    :param skip: Number of ``skip``-th frame
+        The same action will be taken ``skip`` times.
+    """
+
+    def __init__(self, env: Env, skip: int = 4) -> None:
+        super().__init__(env)
+        
+        self._skip = skip
+
+    def step(self, action: ActType) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
+        """
+        Step the environment with the given action
+        Repeat action, sum reward, and max over last observations.
+
+        :param action: the action
+        :return: observation, reward, terminated, truncated, information
+        """
+        total_reward = 0.0
+        terminated = truncated = False
+        for i in range(self._skip):
+            obs, reward, terminated, truncated, info = self.env.step(action)
+            done = terminated or truncated
+            total_reward += float(reward)
+            if done:
+                break
+        # Note that the observation on the done=True frame
+        # doesn't matter
+        return obs, total_reward, terminated, truncated, info
