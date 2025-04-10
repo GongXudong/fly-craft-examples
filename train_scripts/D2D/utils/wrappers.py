@@ -1,7 +1,8 @@
 from typing import Dict, Any
 import numpy as np
 from gymnasium import RewardWrapper
-
+from utils_my.env_utils.register_env import register_all_with_default_dense_params, register_all_with_default_sparse_params
+register_all_with_default_dense_params() 
 
 class PowerRewardWrapper(RewardWrapper):
     def __init__(self, env, b=1.0):

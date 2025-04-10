@@ -27,7 +27,9 @@ import warnings
 warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
 # gym.register_envs(flycraft)
 
-from utils_my.sb3.my_reach_reward_wrapper import PowerRewardWrapper
+
+# from utils_my.sb3.my_reach_reward_wrapper import PowerRewardWrapper
+from train_scripts.D2D.utils.wrappers import PowerRewardWrapper
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import SubprocVecEnv
 
@@ -208,7 +210,7 @@ def train(train_config):
                     new_rewards = vec_env.env_method(
                         method_name="compute_reward",
                         indices=[0],
-                        achieved_goal=sac_algo.replay_buffer.observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
+                        achieved_goal=sac_algo.replay_buffer.next_observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
                         desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
                         info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
                     )[0]
