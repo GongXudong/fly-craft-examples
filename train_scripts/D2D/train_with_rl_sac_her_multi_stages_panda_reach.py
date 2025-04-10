@@ -25,7 +25,11 @@ from train_scripts.D2D.utils.load_data_from_csv import load_random_trajectories_
 
 import warnings
 warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
-gym.register_envs(flycraft)
+# gym.register_envs(flycraft)
+
+from utils_my.sb3.my_reach_reward_wrapper import PowerRewardWrapper
+from stable_baselines3.common.env_util import make_vec_env
+from stable_baselines3.common.vec_env import SubprocVecEnv
 
 
 def train(train_config):
@@ -44,8 +48,14 @@ def train(train_config):
     USE_HER = train_config["rl_common"].get("use_her", True)
 
     for index, train_this_iter_config in enumerate(train_config["rl_train"]):
-        THIS_ITER_ENV_CONFIG_FILE = train_this_iter_config["env"]["config_file"]
-        THIS_ITER_ENV_CUSTOM_CONFIG = train_this_iter_config["env"].get("custom_config", {})
+        #THIS_ITER_ENV_CONFIG_FILE = train_this_iter_config["env"]["config_file"]
+        #THIS_ITER_ENV_CUSTOM_CONFIG = train_this_iter_config["env"].get("custom_config", {})
+        # change env 
+        This_ITER_ENV_ID = train_this_iter_config["env"]["id"]
+        This_ITER_ENV_BETA = train_this_iter_config["env"]["b"]
+        This_ITER_ENV_REWARD_TYPE = train_this_iter_config["env"]["reward_type"],
+        This_ITER_ENV_CONTROL_TYPE = train_this_iter_config["env"]["control_type"]
+
 
         THIS_ITER_SEED = train_this_iter_config["rl"].get("seed")
         THIS_ITER_SEED_IN_TRAINING_ENV = train_this_iter_config["rl"].get("seed_in_train_env")
@@ -64,20 +74,48 @@ def train(train_config):
 
         if THIS_ITER_HAS_TRAINED:
             continue
+        
 
-        # initialize env and algo
-        vec_env = get_vec_env(
-            num_process=RL_TRAIN_PROCESS_NUM,
+        # prepare env
+        vec_env = make_vec_env(
+            env_id=This_ITER_ENV_ID,
+            n_envs=RL_TRAIN_PROCESS_NUM,
             seed=THIS_ITER_SEED_IN_TRAINING_ENV,
-            config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
-            custom_config={"debug_mode": True, "flag_str": "Train"}
+            vec_env_cls=SubprocVecEnv, 
+            wrapper_class=PowerRewardWrapper, 
+            wrapper_kwargs={"b": This_ITER_ENV_BETA},
+            env_kwargs={
+                "reward_type": This_ITER_ENV_REWARD_TYPE,
+                "control_type": This_ITER_ENV_CONTROL_TYPE,
+            }
         )
-        eval_env_in_callback = get_vec_env(
-            num_process=RL_EVALUATE_PROCESS_NUM,
+
+        eval_env_in_callback = make_vec_env(
+            env_id= This_ITER_ENV_ID,
+            n_envs= CALLBACK_PROCESS_NUM,
             seed=THIS_ITER_SEED_IN_CALLBACK_ENV,
-            config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
-            custom_config={"debug_mode": True, "flag_str": "Callback"}
+            wrapper_class=PowerRewardWrapper, 
+            wrapper_kwargs={"b": This_ITER_ENV_BETA},
+            vec_env_cls=SubprocVecEnv, 
+            env_kwargs={
+                "reward_type": This_ITER_ENV_REWARD_TYPE,
+                "control_type": This_ITER_ENV_CONTROL_TYPE,
+            }
         )
+
+        # # initialize env and algo
+        # vec_env = get_vec_env(
+        #     num_process=RL_TRAIN_PROCESS_NUM,
+        #     seed=THIS_ITER_SEED_IN_TRAINING_ENV,
+        #     config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
+        #     custom_config={"debug_mode": True, "flag_str": "Train"}
+        # )
+        # eval_env_in_callback = get_vec_env(
+        #     num_process=RL_EVALUATE_PROCESS_NUM,
+        #     seed=THIS_ITER_SEED_IN_CALLBACK_ENV,
+        #     config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
+        #     custom_config={"debug_mode": True, "flag_str": "Callback"}
+        # )
 
         policy_save_dir = PROJECT_ROOT_DIR / "checkpoints"
         policy_save_name = "best_model"
@@ -196,7 +234,7 @@ def train(train_config):
 
         checkpoint_on_event = CheckpointCallback(save_freq=1, save_path=str((PROJECT_ROOT_DIR / "checkpoints" / THIS_ITER_RL_EXPERIMENT_NAME).absolute()))
         event_callback = EveryNTimesteps(n_steps=50000, callback=checkpoint_on_event)
-
+        print(sac_algo.replay_buffer)
         sac_algo.learn(
             total_timesteps=int(THIS_ITER_RL_TRAIN_STEPS), 
             callback=[eval_callback, event_callback]

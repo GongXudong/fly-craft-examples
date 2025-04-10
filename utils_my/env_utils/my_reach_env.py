@@ -7,8 +7,8 @@ from panda_gym.envs.robots.panda import Panda
 from panda_gym.envs.tasks.flip import Flip
 from panda_gym.envs.tasks.pick_and_place import PickAndPlace
 from panda_gym.envs.tasks.push import Push
-#from panda_gym.envs.tasks.reach import Reach
-from utils_my.env_utils.task.my_reach_task import ChangeRewardReach
+from panda_gym.envs.tasks.reach import Reach
+#from utils_my.env_utils.task.my_reach_task import ChangeRewardReach
 from panda_gym.envs.tasks.slide import Slide
 from panda_gym.envs.tasks.stack import Stack
 from panda_gym.pybullet import PyBullet
@@ -52,7 +52,7 @@ class MyPandaReachEnv(RobotTaskEnv):
     ) -> None:
         sim = PyBullet(render_mode=render_mode, renderer=renderer)
         robot = Panda(sim, block_gripper=True, base_position=np.array([-0.6, 0.0, 0.0]), control_type=control_type)
-        task = ChangeRewardReach(sim, reward_type=reward_type, get_ee_position=robot.get_ee_position, distance_threshold=distance_threshold, goal_range=goal_range)
+        task = Reach(sim, reward_type=reward_type, get_ee_position=robot.get_ee_position, distance_threshold=distance_threshold, goal_range=goal_range)
         super().__init__(
             robot,
             task,
