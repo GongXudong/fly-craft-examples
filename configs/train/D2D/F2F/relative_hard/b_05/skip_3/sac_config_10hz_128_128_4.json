@@ -18,7 +18,7 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/F2F/skip_3_2_skip_1/her_128_128_b_05_1e6steps_skip_3_seed_4_singleRL",
+            "experiment_name": "D2D/F2F/b_05/skip_3/her_128_128_b_05_1e6steps_skip_3_seed_4_singleRL",
             "seed": 34,
             "seed_in_train_env": 39,
             "seed_in_callback_env": 37,
