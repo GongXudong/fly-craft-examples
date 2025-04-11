@@ -18,7 +18,7 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/F2F/skip_3_2_skip_1/her_128_128_b_05_5e5steps_skip_3_seed_1_singleRL",
+            "experiment_name": "D2D/F2F/b_05/skip_3_2_skip_1/her_128_128_b_05_5e5steps_skip_3_seed_1_singleRL",
             "seed": 89,
             "seed_in_train_env": 38,
             "seed_in_callback_env": 524,
@@ -39,7 +39,7 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/F2F/skip_3_2_skip_1/her_128_128_b_05_5e5steps_skip_3_to_skip_1_seed_1_singleRL",
+            "experiment_name": "D2D/F2F/b_05/skip_3_2_skip_1/her_128_128_b_05_5e5steps_skip_3_to_skip_1_seed_1_singleRL",
             "seed": 87,
             "seed_in_train_env": 75,
             "seed_in_callback_env": 24,
