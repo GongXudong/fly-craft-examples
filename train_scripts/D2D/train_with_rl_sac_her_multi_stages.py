@@ -109,6 +109,7 @@ def train(train_config):
                 replay_buffer_kwargs=dict(
                     n_sampled_goal=4,
                     goal_selection_strategy="future",
+                    copy_info_dict=True
                 ) if USE_HER else None,
                 verbose=1,
                 buffer_size=int(BUFFER_SIZE),
@@ -140,18 +141,40 @@ def train(train_config):
                 # relabel rewards of transitions in the loaded replay buffer
                 if THIS_ITER_RELABEL_REPLAY_BUFFER:
                     # sac_algo.replay_buffer.observations
-                    loaded_replay_buffer_size = sac_algo.replay_buffer.size()
-                    new_rewards = vec_env.env_method(
-                        method_name="compute_reward",
-                        indices=[0],
-                        achieved_goal=sac_algo.replay_buffer.next_observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
-                        desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
-                        info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
-                    )[0]
+                    if not THIS_ITER_WRAPPER_LIST :
+                        loaded_replay_buffer_size = sac_algo.replay_buffer.size()
+                        new_rewards = vec_env.env_method(
+                            method_name="compute_reward",
+                            indices=[0],
+                            achieved_goal=sac_algo.replay_buffer.next_observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
+                            desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
+                            info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
+                        )[0]
+                        tmp_reward = new_rewards.reshape(-1, 1)
+                        sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
 
-                    sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
+                        print(f"Iter {index}: reset rewards in replay buffer.")
+                    else:
+                        contains_frame_skip = any(wrapper.get("type") == "frame_skip" for wrapper in THIS_ITER_WRAPPER_LIST)
+                        print("compute relabel reward for skip wrapper")
+                        if contains_frame_skip:
+                            loaded_replay_buffer_size = sac_algo.replay_buffer.size()
+                            
+                            new_rewards = []
 
-                    print(f"Iter {index}: reset rewards in replay buffer.")
+                            for info in sac_algo.replay_buffer.infos:
+                                frame_skip_info = info[0].get('frame_skip_info')
+                                if frame_skip_info is not None:
+                                    reward = frame_skip_info[0].get('reward')
+                                    new_rewards.append(reward)
+                                else:
+                                    new_rewards.append(0.0)
+ 
+                            new_rewards = np.array(new_rewards).reshape(-1, 1)
+                            sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
+                            print(f"Iter {index}: reset rewards in replay buffer.")
+
+                        
             else:
                 print(f"Iter {index}: reset replay buffer.")
         else:
@@ -185,7 +208,7 @@ def train(train_config):
                     new_rewards = vec_env.env_method(
                         method_name="compute_reward",
                         indices=[0],
-                        achieved_goal=sac_algo.replay_buffer.observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
+                        achieved_goal=sac_algo.replay_buffer.next_observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
                         desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
                         info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
                     )[0]

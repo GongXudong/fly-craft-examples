@@ -24,13 +24,14 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
 
 # register_all_with_default_dense_params()  # 注意此处：max_episode_steps, 根据环境文件的配置修改此值！！！！
 # register_all_with_default_sparse_params()
-from utils_my.sb3.my_reach_reward_wrapper import PowerRewardWrapper
+from train_scripts.D2D.utils.wrappers import PowerRewardWrapper
+# from utils_my.sb3.my_reach_reward_wrapper import PowerRewardWrapper
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import SubprocVecEnv
 
-def work(args):
+def evaluate_distance(args):
 
-    print(f"seed in eval: {args.env_random_seed}")
+
     # vec_env = make_vec_env(
     #     env_id=args.env,
     #     n_envs=args.n_envs,
@@ -64,16 +65,23 @@ def work(args):
         desired_goals.append(obs["desired_goal"])  # 目标位置
 
         done = False
+        terminated = False
+        truncated = False
         while not done:
             action, _ = algo.predict(obs, deterministic=True)
             obs, reward, terminated, truncated, info = env.step(action)
             done = terminated or truncated
-
-        final_positions.append(obs["observation"])  # 终止位置
-        goal_distances.append(np.linalg.norm(obs["achieved_goal"] - obs["desired_goal"]))  # 终止位置和目标位置的距离
+        if terminated:
+            initial_positions.pop()
+            desired_goals.pop()
+        elif truncated:
+            final_positions.append(obs["observation"])  # 终止位置
+            goal_distances.append(np.linalg.norm(obs["achieved_goal"] - obs["desired_goal"]))  # 终止位置和目标位置的距离
 
         if episode % 100 == 0:
             print(f"Episode {episode + 1}/1000 completed")
+    print(f"evaluation on {args.algo_ckpt_dir} ")
+    print(f"success rate = {(args.n_eval_episodes -len(initial_positions))/args.n_eval_episodes}, fail episodes number ={len(initial_positions)}, average_distance = {sum(goal_distances)/args.n_eval_episodes}, whole_distance= {sum(goal_distances)}")
 
 
     data = {
@@ -82,7 +90,7 @@ def work(args):
         "desired_goal": desired_goals,
         "goal_distance": goal_distances
     }
-    save_path: Path = PROJECT_ROOT_DIR / args.res_file_save_name
+    save_path: Path = PROJECT_ROOT_DIR / args.res_file_save_name / 'evaluate_with_distance.csv'
     df = pd.DataFrame(data)
     df.to_csv(save_path, index=False)    
     
@@ -100,19 +108,21 @@ if __name__ == "__main__":
     # environment
     parser.add_argument("--env-id", type=str, default="my-reach", help="environment ID")
     parser.add_argument("--env-beta", type=float, default="1.0", help="beta b")
-    parser.add_argument("--n-envs", type=int, default=8, help="the number of environments used in this evaluation")
+    #parser.add_argument("--n-envs", type=int, default=8, help="the number of environments used in this evaluation")
     parser.add_argument("--n-eval-episodes", type=int, default=1000, help="the number of episodes used in this evaluation")
-    parser.add_argument("--env-random-seed", type=int, default=2426, help="environment random seed")
+    #parser.add_argument("--env-random-seed", type=int, default=2426, help="environment random seed")
     # algorithm
-    parser.add_argument("--algo-class", type=str, default="SAC", help="algorithm class, can be one of: SAC")
+    #parser.add_argument("--algo-class", type=str, default="SAC", help="algorithm class, can be one of: SAC")
     parser.add_argument("--algo-ckpt-dir", type=str, default="checkpoints/D2D/panda_reach_dense/distance_threshold_0_01/her/two_stage_relative_hard_b_2_b_05/sac_her_10hz_128_128_b_2_5e4steps_seed_1_singleRL", help="algorithm checkpoint file")
     parser.add_argument("--algo-ckpt-model-name", type=str, default="best_model", help="algorithm checkpoint model name")
     
 
     # save res file
-    parser.add_argument("--res-file-save-name", type=str, default="logs/D2D/panda_reach_dense/distance_threshold_0_01/her/two_stage_relative_hard_b_2_b_05/sac_her_10hz_128_128_b_2_5e4steps_seed_1_singleRL/evaluate_with_distance.csv", help="result file save name")
+    parser.add_argument("--res-file-save-name", type=str, default="logs/D2D/panda_reach_dense/distance_threshold_0_01/her/two_stage_relative_hard_b_2_b_05/sac_her_10hz_128_128_b_2_5e4steps_seed_1_singleRL", help="result file save name")
 
 
     args = parser.parse_args()
 
-    work(args)
+    evaluate_distance(args)
+# python evaluation/evaluate_with_distance.py --env-beta 2.0 --algo-ckpt-dir checkpoints/D2D/panda_reach_dense/distance_threshold_0_01/her/two_stage_relative_hard_b_2_b_05/sac_her_10hz_128_128_b_2_5e4steps_seed_1_singleRL --res-file-save-name logs/D2D/panda_reach_dense/distance_threshold_0_01/her/two_stage_relative_hard_b_2_b_05/sac_her_10hz_128_128_b_2_5e4steps_seed_1_singleRL
+# python evaluation/evaluate_with_distance.py --env-beta 0.5 --algo-ckpt-dir checkpoints/D2D/panda_reach_dense/distance_threshold_0_01/her/two_stage_relative_hard_b_2_b_05/sac_her_10hz_128_128_b_2_5e4_b_05_5e4steps_seed_1_singleRL --res-file-save-name logs/D2D/panda_reach_dense/distance_threshold_0_01/her/two_stage_relative_hard_b_2_b_05/sac_her_10hz_128_128_b_2_5e4_b_05_5e4steps_seed_1_singleRL

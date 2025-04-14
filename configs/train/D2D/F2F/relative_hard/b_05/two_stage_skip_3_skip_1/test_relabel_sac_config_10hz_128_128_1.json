@@ -18,11 +18,11 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/F2F/b_05/skip_3_2_skip_1/her_128_128_b_05_5e5steps_skip_3_seed_1_singleRL",
+            "experiment_name": "D2D/F2F/b_05/skip_3_2_skip_1/her_128_128_b_05_5e5steps_skip_3_seed_1_singleRL_for_test",
             "seed": 89,
             "seed_in_train_env": 38,
             "seed_in_callback_env": 524,
-            "train_steps": 5e5,
+            "train_steps": 1.2e4,
             "learning_rate": 3e-4,
             "learning_starts": 10240,
             "wrappers": [{
@@ -39,11 +39,11 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/F2F/b_05/skip_3_2_skip_1/her_128_128_b_05_5e5steps_skip_3_to_skip_1_seed_1_singleRL",
+            "experiment_name": "D2D/F2F/b_05/skip_3_2_skip_1/her_128_128_b_05_5e5steps_skip_3_to_skip_1_seed_1_singleRL_for_test",
             "seed": 87,
             "seed_in_train_env": 75,
             "seed_in_callback_env": 24,
-            "train_steps": 5e5,
+            "train_steps": 1.2e4,
             "learning_rate": 3e-4,
             "learning_starts": 0,
             "wrappers": [{
@@ -55,5 +55,6 @@
             "relabel_replay_buffer": true,
             "has_trained": false
         }
-    }]
+    }
+]
 }
