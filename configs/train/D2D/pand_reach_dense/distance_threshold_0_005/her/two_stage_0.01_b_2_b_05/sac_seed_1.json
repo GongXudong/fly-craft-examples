@@ -18,7 +18,7 @@
             "id": "my-reach",
             "__help": "goal_range, distance_threshold, max_episode_steps只用于记录，环境的实际配置需在脚本中指定！！！",
             "goal_range": 0.5,
-            "distance_threshold": 0.01,
+            "distance_threshold": 0.005,
             "max_episode_steps": 50,
             "reward_type": "dense", 
             "control_type": "joints",
@@ -26,7 +26,7 @@
             "b": 2.0
         },
         "rl": {
-            "experiment_name": "D2D/panda_reach_dense/distance_threshold_0_01/her/two_stage_relative_hard_b_2_b_05/sac_her_10hz_128_128_b_2_5e4steps_seed_1_singleRL",
+            "experiment_name": "D2D/panda_reach_dense/distance_threshold_0_005/her/two_stage_relative_hard_b_2_b_05/sac_her_10hz_128_128_b_2_5e4steps_seed_1_singleRL",
             "seed": 3,
             "seed_in_train_env": 7,
             "seed_in_callback_env": 8,
@@ -42,7 +42,7 @@
             "id": "my-reach",
             "__help": "goal_range, distance_threshold, max_episode_steps只用于记录，环境的实际配置需在脚本中指定！！！",
             "goal_range": 0.5,
-            "distance_threshold": 0.01,
+            "distance_threshold": 0.005,
             "max_episode_steps": 50,
             "reward_type": "dense", 
             "control_type": "joints",
@@ -50,7 +50,7 @@
             "b": 0.5
         },
         "rl": {
-            "experiment_name": "D2D/panda_reach_dense/distance_threshold_0_01/her/two_stage_relative_hard_b_2_b_05/sac_her_10hz_128_128_b_2_5e4_b_05_5e4steps_seed_1_singleRL",
+            "experiment_name": "D2D/panda_reach_dense/distance_threshold_0_005/her/two_stage_relative_hard_b_2_b_05/sac_her_10hz_128_128_b_2_5e4_b_05_5e4steps_seed_1_singleRL",
             "seed": 1,
             "seed_in_train_env": 2,
             "seed_in_callback_env": 5,

@@ -87,7 +87,9 @@ def register_my_stack_env(env_id: str, reward_type: str="dense", control_type: s
 
 def register_all_with_default_dense_params():
     # reach
-    register_my_reach_env(env_id="my-reach", reward_type="dense", control_type="joints", goal_range=0.5, distance_threshold=0.01, max_episode_steps=50)
+    #register_my_reach_env(env_id="my-reach", reward_type="dense", control_type="joints", goal_range=0.5, distance_threshold=0.01, max_episode_steps=50)
+    register_my_reach_env(env_id="my-reach", reward_type="dense", control_type="joints", goal_range=0.8, distance_threshold=0.005, max_episode_steps=80)
+
 
     # push
     register_my_push_env(env_id="my-push-dense", reward_type="dense", control_type="joints", goal_xy_range=0.5, obj_xy_range=0.0, distance_threshold=0.05, max_episode_steps=50)
