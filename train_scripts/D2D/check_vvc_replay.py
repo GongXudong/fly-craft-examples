@@ -22,25 +22,25 @@ gym.register_envs(flycraft)
 if __name__ == '__main__':
 
 
-    env_config_in_training = {
-        "num_process": 32,
-        "seed": 3165,
-        "config_file": "/home/sen/pythonprojects/fly-craft-examples/configs/train/D2D/F2F/relative_hard/b_05/two_stage_skip_3_skip_1/sac_config_10hz_128_128_1.json",
-        "custom_config": {"debug_mode": True, "flag_str": "Train"},
-    }
+    # env_config_in_training = {
+    #     "num_process": 32,
+    #     "seed": 3165,
+    #     "config_file": "/home/sen/pythonprojects/fly-craft-examples/configs/train/D2D/F2F/relative_hard/b_05/two_stage_skip_3_skip_1/test_relabel_sac_config_10hz_128_128_1.json",
+    #     "custom_config": {"debug_mode": True, "flag_str": "Train"},
+    # }
 
-    
+    env = gym.make('FlyCraft')
 
-    env_config_in_training.update(frame_skip=True, skip=1)
+    # env_config_in_training.update(frame_skip=True, skip=1)
 
-    vec_env = get_vec_env(
-        **env_config_in_training
-    )
+    # vec_env = get_vec_env(
+    #     **env_config_in_training
+    # )
 
     USE_HER =True
     sac_algo = SAC(
         "MultiInputPolicy",
-        vec_env,
+        env,
         seed=2258,
         replay_buffer_class=HerReplayBuffer if USE_HER else DictReplayBuffer,
         replay_buffer_kwargs=dict(
@@ -50,16 +50,16 @@ if __name__ == '__main__':
         verbose=1,
     )
 
-    sac_algo.load_replay_buffer('/home/sen/pythonprojects/fly-craft-examples/checkpoints/D2D/F2F/b_05/skip_3_2_skip_1/her_128_128_b_05_5e5steps_skip_3_seed_1_singleRL/replay_buffer.pkl')
+    sac_algo.load_replay_buffer('/home/sen/pythonprojects/fly-craft-examples/checkpoints/D2D/F2F/b_05/skip_3_2_skip_1/her_128_128_b_05_5e5steps_skip_3_seed_1_singleRL_for_test/replay_buffer.pkl')
 
     # sac_algo.replay_buffer.observations
     loaded_replay_buffer_size = sac_algo.replay_buffer.size()
-    new_rewards = vec_env.env_method(
-        method_name="compute_reward",
-        indices=[0],
-        achieved_goal=sac_algo.replay_buffer.next_observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
-        desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
-        info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
-    )[0]
-    new_rewards = new_rewards.reshape(-1, 1)  
-    sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
+    # new_rewards = vec_env.env_method(
+    #     method_name="compute_reward",
+    #     indices=[0],
+    #     achieved_goal=sac_algo.replay_buffer.next_observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
+    #     desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
+    #     info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
+    # )[0]
+    # new_rewards = new_rewards.reshape(-1, 1)  
+    # sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)

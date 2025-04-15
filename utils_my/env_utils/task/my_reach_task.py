@@ -6,7 +6,7 @@ from panda_gym.envs.core import Task
 from panda_gym.utils import distance
 
 
-class ChangeRewardReach(Task):
+class ChangeGoalReach(Task):
     def __init__(
         self,
         sim,
@@ -20,7 +20,7 @@ class ChangeRewardReach(Task):
         self.distance_threshold = distance_threshold
         self.get_ee_position = get_ee_position
         self.goal_range_low = np.array([-goal_range / 2, -goal_range / 2, 0])
-        self.goal_range_high = np.array([goal_range / 2, goal_range / 2, goal_range])
+        self.goal_range_high = np.array([goal_range / 2, goal_range / 2, goal_range/2])
         with self.sim.no_rendering():
             self._create_scene()
 
@@ -56,9 +56,9 @@ class ChangeRewardReach(Task):
         d = distance(achieved_goal, desired_goal)
         return np.array(d < self.distance_threshold, dtype=bool)
 
-    def compute_reward(self, achieved_goal, desired_goal, info: Dict[str, Any],b) -> np.ndarray:
+    def compute_reward(self, achieved_goal, desired_goal, info: Dict[str, Any]) -> np.ndarray:
         d = distance(achieved_goal, desired_goal)
         if self.reward_type == "sparse":
             return -np.array(d > self.distance_threshold, dtype=np.float32)
         else:
-            return -np.power(d,b).astype(np.float32)
+            return -d.astype(np.float32)

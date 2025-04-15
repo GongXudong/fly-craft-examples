@@ -59,7 +59,7 @@ def train(train_config):
         THIS_ITER_RESET_REPLAY_BUFFER = train_this_iter_config["rl"].get("reset_replay_buffer", False)
         THIS_ITER_RELABEL_REPLAY_BUFFER = train_this_iter_config["rl"].get("relabel_replay_buffer", False)
         THIS_ITER_HAS_TRAINED = train_this_iter_config["rl"].get("has_trained", False)
-
+        THIS_ITER_STORE_INFO =  train_this_iter_config["rl"].get("store_info", False)
         THIS_ITER_PRE_FILL_REPLAY_BUFFER = train_this_iter_config["rl"].get("pre_fill_replay_buffer", False)
         THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS = train_this_iter_config["rl"].get("pre_fill_replay_buffer_kwargs", {})
 
@@ -109,7 +109,7 @@ def train(train_config):
                 replay_buffer_kwargs=dict(
                     n_sampled_goal=4,
                     goal_selection_strategy="future",
-                    copy_info_dict=True
+                    copy_info_dict=THIS_ITER_STORE_INFO
                 ) if USE_HER else None,
                 verbose=1,
                 buffer_size=int(BUFFER_SIZE),
