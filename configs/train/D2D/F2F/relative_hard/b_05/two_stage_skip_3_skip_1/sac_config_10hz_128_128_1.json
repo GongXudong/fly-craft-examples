@@ -47,6 +47,10 @@
             "train_steps": 5e5,
             "learning_rate": 3e-4,
             "learning_starts": 0,
+            "wrappers": [{
+                "type": "frame_skip",
+                "skip": 1
+            }],
             "store_info": false,
             "reset_policy": true,
             "reset_replay_buffer": false,
