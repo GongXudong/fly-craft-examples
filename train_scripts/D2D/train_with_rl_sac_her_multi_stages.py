@@ -155,24 +155,24 @@ def train(train_config):
 
                         print(f"Iter {index}: reset rewards in replay buffer.")
                     else:
-                        contains_frame_skip = any(wrapper.get("type") == "frame_skip" for wrapper in THIS_ITER_WRAPPER_LIST)
+                        # contains_frame_skip = any(wrapper.get("type") == "frame_skip" for wrapper in THIS_ITER_WRAPPER_LIST)
                         print("compute relabel reward for skip wrapper")
-                        if contains_frame_skip:
-                            loaded_replay_buffer_size = sac_algo.replay_buffer.size()
-                            
-                            new_rewards = []
+                        # if contains_frame_skip:
+                        loaded_replay_buffer_size = sac_algo.replay_buffer.size()
+                        
+                        new_rewards = []
 
-                            for info in sac_algo.replay_buffer.infos:
-                                frame_skip_info = info[0].get('frame_skip_info')
-                                if frame_skip_info is not None:
-                                    reward = frame_skip_info[0].get('reward')
-                                    new_rewards.append(reward)
-                                else:
-                                    new_rewards.append(0.0)
- 
-                            new_rewards = np.array(new_rewards).reshape(-1, 1)
-                            sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
-                            print(f"Iter {index}: reset rewards in replay buffer.")
+                        for info in sac_algo.replay_buffer.infos:
+                            frame_skip_info = info[0].get('frame_skip_info')
+                            if frame_skip_info is not None:
+                                reward = frame_skip_info[0].get('reward')
+                                new_rewards.append(reward)
+                            else:
+                                new_rewards.append(0.0)
+
+                        new_rewards = np.array(new_rewards).reshape(-1, 1)
+                        sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
+                        print(f"Iter {index}: reset rewards in replay buffer.")
 
                         
             else:

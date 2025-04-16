@@ -50,7 +50,7 @@ class MyPandaReachEnv(RobotTaskEnv):
         goal_range: float = 0.1, 
         distance_threshold: float = 0.01
     ) -> None:
-        sim = PyBullet(render_mode=render_mode,n_substeps = 10, renderer=renderer)
+        sim = PyBullet(render_mode=render_mode,n_substeps = 20, renderer=renderer)
         robot = Panda(sim, block_gripper=True, base_position=np.array([-0.6, 0.0, 0.0]), control_type=control_type)
         task = ChangeGoalReach(sim, reward_type=reward_type, get_ee_position=robot.get_ee_position, distance_threshold=distance_threshold, goal_range=goal_range)
         super().__init__(
