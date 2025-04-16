@@ -6,7 +6,7 @@ PROJECT_ROOT_DIR = Path(__file__).parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
-from utils_my.env_utils.my_reach_env import MyPandaReachEnv
+from utils_my.env_utils.my_reach_env import MyPandaReachEnv,MyPandaReachEnv_20,MyPandaReachEnv_10,MyPandaReachEnv_5
 from utils_my.env_utils.my_push_env import MyPandaPushEnv
 from utils_my.env_utils.my_slide_env import MyPandaSlideEnv
 from utils_my.env_utils.my_pick_and_place_env import MyPandaPickAndPlaceEnv
@@ -88,7 +88,7 @@ def register_my_stack_env(env_id: str, reward_type: str="dense", control_type: s
 def register_all_with_default_dense_params():
     # reach
     #register_my_reach_env(env_id="my-reach", reward_type="dense", control_type="joints", goal_range=0.5, distance_threshold=0.01, max_episode_steps=50)
-    register_my_reach_env(env_id="my-reach", reward_type="dense", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=80)
+    register_my_reach_env(env_id="my-reach", reward_type="dense", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=160)
 
 
     # push
@@ -118,3 +118,54 @@ def register_all_with_default_sparse_params():
 
     # stack
     register_my_stack_env(env_id="my-stack-sparse", reward_type="sparse", control_type="joints", goal_xy_range=0.5, obj_xy_range=0.0, distance_threshold=0.1, max_episode_steps=100)
+
+
+
+
+def register_my_reach_env_20(env_id: str, reward_type: str="dense", control_type: str="joints", goal_range: float=0.3, distance_threshold: float=0.01, max_episode_steps: int=50):
+    register(
+        id=env_id,
+        entry_point=MyPandaReachEnv_20,
+        # kwargs={"reward_type": "sparse", "control_type": "ee", "goal_range": goal_range, "distance_threshold": distance_threshold},
+        kwargs={
+            "reward_type": reward_type, 
+            "control_type": control_type, 
+            "goal_range": goal_range, 
+            "distance_threshold": distance_threshold
+        },
+        max_episode_steps=max_episode_steps,
+    )
+
+def register_my_reach_env_10(env_id: str, reward_type: str="dense", control_type: str="joints", goal_range: float=0.3, distance_threshold: float=0.01, max_episode_steps: int=50):
+    register(
+        id=env_id,
+        entry_point=MyPandaReachEnv_10,
+        # kwargs={"reward_type": "sparse", "control_type": "ee", "goal_range": goal_range, "distance_threshold": distance_threshold},
+        kwargs={
+            "reward_type": reward_type, 
+            "control_type": control_type, 
+            "goal_range": goal_range, 
+            "distance_threshold": distance_threshold
+        },
+        max_episode_steps=max_episode_steps,
+    )
+
+def register_my_reach_env_5(env_id: str, reward_type: str="dense", control_type: str="joints", goal_range: float=0.3, distance_threshold: float=0.01, max_episode_steps: int=50):
+    register(
+        id=env_id,
+        entry_point=MyPandaReachEnv_5,
+        # kwargs={"reward_type": "sparse", "control_type": "ee", "goal_range": goal_range, "distance_threshold": distance_threshold},
+        kwargs={
+            "reward_type": reward_type, 
+            "control_type": control_type, 
+            "goal_range": goal_range, 
+            "distance_threshold": distance_threshold
+        },
+        max_episode_steps=max_episode_steps,
+    )
+
+def register_nsubsteps_all_with_sparse_params():
+
+    register_my_reach_env(env_id="my-reach-sparse-20", reward_type="sparse", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=80)
+    register_my_reach_env(env_id="my-reach-sparse-10", reward_type="sparse", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=160)
+    register_my_reach_env(env_id="my-reach-sparse-5", reward_type="sparse", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=320)

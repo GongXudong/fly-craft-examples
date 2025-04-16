@@ -1,5 +1,5 @@
 import numpy as np
-data = np.load('/home/sen/pythonprojects/fly-craft-examples/checkpoints/D2D/F2F/b_05/skip_3_2_skip_1/her_128_128_b_05_5e5steps_skip_3_seed_1_singleRL_for_test/replay_buffer.pkl', allow_pickle=True)
+data = np.load('/home/sen/pythonprojects/fly-craft-examples/checkpoints/D2D/VVC/relative_hard/b_05/sac_her_10hz_128_128_b_05_1e6steps_seed_1_singleRL/replay_buffer.pkl', allow_pickle=True)
 count = 0
 for reward  in data.rewards:
     if reward !=0.0:

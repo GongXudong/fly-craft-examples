@@ -101,6 +101,7 @@ def train(train_config):
 
         # prepare policy
         if (index == 0) or (index > 0 and THIS_ITER_RESET_POLICY):
+            print(f'index= {index}',f'copy_info_dict= {THIS_ITER_STORE_INFO}')
             sac_algo = SAC(
                 "MultiInputPolicy",
                 vec_env,
@@ -172,7 +173,8 @@ def train(train_config):
  
                             new_rewards = np.array(new_rewards).reshape(-1, 1)
                             sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
-                            print(f"Iter {index}: reset rewards in replay buffer.")
+                            for info in sac_algo.replay_buffer.infos:
+                                info=np.array([{}])
 
                         
             else:
