@@ -37,7 +37,7 @@ class ChangeGoalReach(Task):
         )
 
     def get_obs(self) -> np.ndarray:
-        return np.array([])  # no tasak-specific observation
+        return np.array([])  # no task-specific observation
 
     def get_achieved_goal(self) -> np.ndarray:
         ee_position = np.array(self.get_ee_position())
@@ -52,11 +52,11 @@ class ChangeGoalReach(Task):
         goal = self.np_random.uniform(self.goal_range_low, self.goal_range_high)
         return goal
 
-    def is_success(self, achieved_goal: np.ndarray, desired_goal: np.ndarray) -> np.ndarray:
+    def is_success(self, achieved_goal: np.ndarray, desired_goal: np.ndarray, info: Dict[str, Any] = {}) -> np.ndarray:
         d = distance(achieved_goal, desired_goal)
         return np.array(d < self.distance_threshold, dtype=bool)
 
-    def compute_reward(self, achieved_goal, desired_goal, info: Dict[str, Any]) -> np.ndarray:
+    def compute_reward(self, achieved_goal: np.ndarray, desired_goal: np.ndarray, info: Dict[str, Any] = {}) -> np.ndarray:
         d = distance(achieved_goal, desired_goal)
         if self.reward_type == "sparse":
             return -np.array(d > self.distance_threshold, dtype=np.float32)

@@ -29,9 +29,10 @@
                 "type": "frame_skip",
                 "skip": 3
             }],
+            "store_info": true,
             "reset_policy": false,
             "relabel_replay_buffer": false,
-            "has_trained": false
+            "has_trained": true
         }
     }, {
         "env": {
@@ -50,6 +51,7 @@
                 "type": "frame_skip",
                 "skip": 1
             }],
+            "store_info": false,
             "reset_policy": true,
             "reset_replay_buffer": false,
             "relabel_replay_buffer": true,
