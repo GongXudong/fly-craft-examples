@@ -173,8 +173,11 @@ def train(train_config):
  
                             new_rewards = np.array(new_rewards).reshape(-1, 1)
                             sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
-                            for info in sac_algo.replay_buffer.infos:
-                                info=np.array([{}])
+                            if not THIS_ITER_STORE_INFO:
+                                sac_algo.replay_buffer.infos = np.array([[{} for _ in range(sac_algo.replay_buffer.n_envs)] for _ in range(sac_algo.replay_buffer.buffer_size)])
+                                sac_algo.replay_buffer.copy_info_dict = False
+                            # for info in sac_algo.replay_buffer.infos:
+                            #     info=np.array([{}])
 
                         
             else:

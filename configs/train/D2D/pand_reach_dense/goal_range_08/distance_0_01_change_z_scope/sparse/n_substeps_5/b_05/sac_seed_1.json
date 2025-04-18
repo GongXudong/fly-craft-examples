@@ -26,7 +26,7 @@
             "b": 0.5
         },
         "rl": {
-            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/sparse/n_substeps_20/b_05/sac_her_10hz_128_128_b_05_1e6steps_seed_1_singleRL",
+            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/sparse/n_substeps_5/b_05/sac_her_10hz_128_128_b_05_1e6steps_seed_1_singleRL",
             "seed": 14,
             "seed_in_train_env": 60,
             "seed_in_callback_env": 302,

@@ -6,7 +6,7 @@ PROJECT_ROOT_DIR = Path(__file__).parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
-from utils_my.env_utils.my_reach_env import MyPandaReachEnv,MyPandaReachEnv_20,MyPandaReachEnv_10,MyPandaReachEnv_5
+from utils_my.env_utils.my_reach_env import MyPandaReachEnv,MyPandaReachEnv_20,MyPandaReachEnv_10,MyPandaReachEnv_5,MyPandaReachEnv_3,MyPandaReachEnv_1
 from utils_my.env_utils.my_push_env import MyPandaPushEnv
 from utils_my.env_utils.my_slide_env import MyPandaSlideEnv
 from utils_my.env_utils.my_pick_and_place_env import MyPandaPickAndPlaceEnv
@@ -164,8 +164,38 @@ def register_my_reach_env_5(env_id: str, reward_type: str="dense", control_type:
         max_episode_steps=max_episode_steps,
     )
 
+def register_my_reach_env_3(env_id: str, reward_type: str="dense", control_type: str="joints", goal_range: float=0.3, distance_threshold: float=0.01, max_episode_steps: int=50):
+    register(
+        id=env_id,
+        entry_point=MyPandaReachEnv_3,
+        # kwargs={"reward_type": "sparse", "control_type": "ee", "goal_range": goal_range, "distance_threshold": distance_threshold},
+        kwargs={
+            "reward_type": reward_type, 
+            "control_type": control_type, 
+            "goal_range": goal_range, 
+            "distance_threshold": distance_threshold
+        },
+        max_episode_steps=max_episode_steps,
+    )
+
+def register_my_reach_env_1(env_id: str, reward_type: str="dense", control_type: str="joints", goal_range: float=0.3, distance_threshold: float=0.01, max_episode_steps: int=50):
+    register(
+        id=env_id,
+        entry_point=MyPandaReachEnv_1,
+        # kwargs={"reward_type": "sparse", "control_type": "ee", "goal_range": goal_range, "distance_threshold": distance_threshold},
+        kwargs={
+            "reward_type": reward_type, 
+            "control_type": control_type, 
+            "goal_range": goal_range, 
+            "distance_threshold": distance_threshold
+        },
+        max_episode_steps=max_episode_steps,
+    )
+
 def register_nsubsteps_all_with_sparse_params():
 
     register_my_reach_env_20(env_id="my-reach-sparse-20", reward_type="sparse", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=80)
     register_my_reach_env_10(env_id="my-reach-sparse-10", reward_type="sparse", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=160)
     register_my_reach_env_5(env_id="my-reach-sparse-5", reward_type="sparse", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=320)
+    register_my_reach_env_3(env_id="my-reach-sparse-5", reward_type="sparse", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=500)
+    register_my_reach_env_1(env_id="my-reach-sparse-1", reward_type="sparse", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=1000)

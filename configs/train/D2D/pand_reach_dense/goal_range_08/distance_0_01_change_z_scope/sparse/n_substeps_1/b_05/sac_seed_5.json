@@ -15,7 +15,7 @@
     
     "rl_train": [{
         "env": {
-            "id": "my-reach-sparse-20",
+            "id": "my-reach-sparse-1",
             "__help": "goal_range, distance_threshold, max_episode_steps只用于记录，环境的实际配置需在脚本中指定！！！",
             "goal_range": 0.8,
             "distance_threshold": 0.01,
@@ -26,10 +26,10 @@
             "b": 0.5
         },
         "rl": {
-            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/sparse/n_substeps_20/b_05/sac_her_10hz_128_128_b_05_1e6steps_seed_1_singleRL",
-            "seed": 14,
-            "seed_in_train_env": 60,
-            "seed_in_callback_env": 302,
+            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/sparse/n_substeps_1/b_05/sac_her_10hz_128_128_b_05_1e6steps_seed_5_singleRL",
+            "seed": 96,
+            "seed_in_train_env": 45,
+            "seed_in_callback_env": 80,
             "train_steps": 1e6,
             "learning_rate": 3e-4,
             "learning_starts": 1000,
