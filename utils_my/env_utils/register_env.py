@@ -199,3 +199,13 @@ def register_nsubsteps_all_with_sparse_params():
     register_my_reach_env_5(env_id="my-reach-sparse-5", reward_type="sparse", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=320)
     register_my_reach_env_3(env_id="my-reach-sparse-3", reward_type="sparse", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=500)
     register_my_reach_env_1(env_id="my-reach-sparse-1", reward_type="sparse", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=1000)
+
+
+
+
+def register_nsubsteps_all_with_dense_params():
+    register_my_reach_env_20(env_id="my-reach-dense-20", reward_type="dense", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=80)
+    register_my_reach_env_10(env_id="my-reach-dense-10", reward_type="dense", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=160)
+    register_my_reach_env_5(env_id="my-reach-dense-5", reward_type="dense", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=320)
+    register_my_reach_env_3(env_id="my-reach-dense-3", reward_type="dense", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=500)
+    register_my_reach_env_1(env_id="my-reach-dense-1", reward_type="dense", control_type="joints", goal_range=0.8, distance_threshold=0.01, max_episode_steps=1000)
