@@ -15,45 +15,45 @@
     
     "rl_train": [{
         "env": {
-            "id": "my-reach-sparse-3",
+            "id": "my-reach-dense-3",
             "__help": "goal_range, distance_threshold, max_episode_steps只用于记录，环境的实际配置需在脚本中指定！！！",
             "goal_range": 0.8,
             "distance_threshold": 0.01,
             "max_episode_steps": 80,
-            "reward_type": "sparse", 
+            "reward_type": "dense", 
             "control_type": "joints",
             "normalize": false,
             "b": 1.0
         },
         "rl": {
-            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/sparse/sac/two_stage_n_substeps_3_to_n_substeps_1/b_05/sac_her_10hz_128_128_n_substeps_3_5e5steps_seed_1_singleRL",
-            "seed": 18,
-            "seed_in_train_env": 63,
-            "seed_in_callback_env": 305,
+            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/dense/sac/two_stage_n_substeps_3_to_n_substeps_1/b_05/sac_her_10hz_128_128_n_substeps_3_5e5steps_seed_2_singleRL",
+            "seed": 20,
+            "seed_in_train_env": 67,
+            "seed_in_callback_env": 342,
             "train_steps": 5e5,
             "learning_rate": 3e-4,
             "learning_starts": 1000,
             "reset_policy": false,
             "relabel_replay_buffer": false,
-            "has_trained": true
+            "has_trained": false
         }
     },{
         "env": {
-            "id": "my-reach-sparse-1",
+            "id": "my-reach-dense-1",
             "__help": "goal_range, distance_threshold, max_episode_steps只用于记录，环境的实际配置需在脚本中指定！！！",
             "goal_range": 0.8,
             "distance_threshold": 0.01,
             "max_episode_steps": 80,
-            "reward_type": "sparse", 
+            "reward_type": "dense", 
             "control_type": "joints",
             "normalize": false,
             "b": 1.0
         },
         "rl": {
-            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/sparse/sac/two_stage_n_substeps_3_to_n_substeps_1/b_05/sac_her_10hz_128_128_n_substeps_3_5e5steps_n_substeps_1_5e5steps_seed_1_singleRL",
-            "seed": 99,
-            "seed_in_train_env": 26,
-            "seed_in_callback_env": 420,
+            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/dense/sac/two_stage_n_substeps_3_to_n_substeps_1/b_05/sac_her_10hz_128_128_n_substeps_3_5e5steps_n_substeps_1_5e5steps_seed_2_singleRL",
+            "seed": 105,
+            "seed_in_train_env": 29,
+            "seed_in_callback_env": 43,
             "train_steps": 5e5,
             "learning_rate": 3e-4,
             "learning_starts": 0,

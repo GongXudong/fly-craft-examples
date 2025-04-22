@@ -166,7 +166,7 @@ def train(train_config):
                 print(f"Iter {index}: load replay buffer from {policy_save_dir / train_config['rl_train'][index-1]['rl']['experiment_name'] / replay_buffer_save_name}.")
 
                 # relabel rewards of transitions in the loaded replay buffer
-                if THIS_ITER_RELABEL_REPLAY_BUFFER:
+                if THIS_ITER_RELABEL_REPLAY_BUFFER and USE_HER:
                     # sac_algo.replay_buffer.observations
                     loaded_replay_buffer_size = sac_algo.replay_buffer.size()
                     new_rewards = vec_env.env_method(
@@ -178,8 +178,21 @@ def train(train_config):
                     )[0]
 
                     sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
-
                     print(f"Iter {index}: reset rewards in replay buffer.")
+                elif THIS_ITER_RELABEL_REPLAY_BUFFER and not USE_HER:
+                    # sac_algo.replay_buffer.observations
+                    loaded_replay_buffer_size = sac_algo.replay_buffer.size()
+                    new_rewards = vec_env.env_method(
+                        method_name="compute_reward",
+                        indices=[0],
+                        achieved_goal=sac_algo.replay_buffer.next_observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
+                        desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
+                        
+                    )[0]
+
+                    sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
+                    print(f"Iter {index}: reset rewards in replay buffer.")
+                
             else:
                 print(f"Iter {index}: reset replay buffer.")
         else:
