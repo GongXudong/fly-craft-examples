@@ -18,9 +18,9 @@ PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
-from utils_my.sb3.vec_env_helper import get_vec_env
 from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
+from train_scripts.D2D.utils.get_vec_env import get_vec_env
 from train_scripts.D2D.utils.load_data_from_csv import load_random_trajectories_from_csv_files
 
 import warnings
@@ -55,28 +55,43 @@ def train(train_config):
         THIS_ITER_LEARNING_STARTS = train_this_iter_config["rl"].get("learning_starts", 10240)
         THIS_ITER_LEARNING_RATE = train_this_iter_config["rl"].get("learning_rate", 3e-4)
         THIS_ITER_RESET_POLICY = train_this_iter_config["rl"].get("reset_policy", False)
+        THIS_ITER_WRAPPER_LIST = train_this_iter_config['rl'].get("wrappers", [])
         THIS_ITER_RESET_REPLAY_BUFFER = train_this_iter_config["rl"].get("reset_replay_buffer", False)
         THIS_ITER_RELABEL_REPLAY_BUFFER = train_this_iter_config["rl"].get("relabel_replay_buffer", False)
         THIS_ITER_HAS_TRAINED = train_this_iter_config["rl"].get("has_trained", False)
-
+        THIS_ITER_STORE_INFO =  train_this_iter_config["rl"].get("store_info", False)
         THIS_ITER_PRE_FILL_REPLAY_BUFFER = train_this_iter_config["rl"].get("pre_fill_replay_buffer", False)
         THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS = train_this_iter_config["rl"].get("pre_fill_replay_buffer_kwargs", {})
 
         if THIS_ITER_HAS_TRAINED:
             continue
-
+        
         # initialize env and algo
+        env_config_in_training = {
+            "num_process": RL_TRAIN_PROCESS_NUM,
+            "seed": THIS_ITER_SEED_IN_TRAINING_ENV,
+            "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
+            "custom_config": {"debug_mode": True, "flag_str": "Train"},
+        }
+        env_config_in_evaluation = {
+            "num_process": RL_EVALUATE_PROCESS_NUM,
+            "seed": THIS_ITER_SEED_IN_CALLBACK_ENV,
+            "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
+            "custom_config": {"debug_mode": True, "flag_str": "Callback"}
+        }
+        
+        for wrp in THIS_ITER_WRAPPER_LIST:
+            if wrp["type"] == "frame_skip":
+                env_config_in_training.update(frame_skip=True, skip=wrp.get("skip", 1))
+                env_config_in_evaluation.update(frame_skip=True, skip=wrp.get("skip", 1))
+            else:
+                raise ValueError(f"Cann't process this type of wrapper: {wrp['type']}!")
+
         vec_env = get_vec_env(
-            num_process=RL_TRAIN_PROCESS_NUM,
-            seed=THIS_ITER_SEED_IN_TRAINING_ENV,
-            config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
-            custom_config={"debug_mode": True, "flag_str": "Train"}
+            **env_config_in_training
         )
         eval_env_in_callback = get_vec_env(
-            num_process=RL_EVALUATE_PROCESS_NUM,
-            seed=THIS_ITER_SEED_IN_CALLBACK_ENV,
-            config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
-            custom_config={"debug_mode": True, "flag_str": "Callback"}
+            **env_config_in_evaluation
         )
 
         policy_save_dir = PROJECT_ROOT_DIR / "checkpoints"
@@ -86,6 +101,7 @@ def train(train_config):
 
         # prepare policy
         if (index == 0) or (index > 0 and THIS_ITER_RESET_POLICY):
+            print(f'index= {index}',f'copy_info_dict= {THIS_ITER_STORE_INFO}')
             sac_algo = SAC(
                 "MultiInputPolicy",
                 vec_env,
@@ -94,6 +110,7 @@ def train(train_config):
                 replay_buffer_kwargs=dict(
                     n_sampled_goal=4,
                     goal_selection_strategy="future",
+                    copy_info_dict=THIS_ITER_STORE_INFO
                 ) if USE_HER else None,
                 verbose=1,
                 buffer_size=int(BUFFER_SIZE),
@@ -125,18 +142,44 @@ def train(train_config):
                 # relabel rewards of transitions in the loaded replay buffer
                 if THIS_ITER_RELABEL_REPLAY_BUFFER:
                     # sac_algo.replay_buffer.observations
-                    loaded_replay_buffer_size = sac_algo.replay_buffer.size()
-                    new_rewards = vec_env.env_method(
-                        method_name="compute_reward",
-                        indices=[0],
-                        achieved_goal=sac_algo.replay_buffer.observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
-                        desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
-                        info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
-                    )[0]
+                    if not THIS_ITER_WRAPPER_LIST :
+                        loaded_replay_buffer_size = sac_algo.replay_buffer.size()
+                        new_rewards = vec_env.env_method(
+                            method_name="compute_reward",
+                            indices=[0],
+                            achieved_goal=sac_algo.replay_buffer.next_observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
+                            desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
+                            info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
+                        )[0]
+                        tmp_reward = new_rewards.reshape(-1, 1)
+                        sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
 
-                    sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
+                        print(f"Iter {index}: reset rewards in replay buffer.")
+                    else:
+                        contains_frame_skip = any(wrapper.get("type") == "frame_skip" for wrapper in THIS_ITER_WRAPPER_LIST)
+                        print("compute relabel reward for skip wrapper")
+                        if contains_frame_skip:
+                            loaded_replay_buffer_size = sac_algo.replay_buffer.size()
+                            
+                            new_rewards = []
 
-                    print(f"Iter {index}: reset rewards in replay buffer.")
+                            for info in sac_algo.replay_buffer.infos:
+                                frame_skip_info = info[0].get('frame_skip_info')
+                                if frame_skip_info is not None:
+                                    reward = frame_skip_info[0].get('reward')
+                                    new_rewards.append(reward)
+                                else:
+                                    new_rewards.append(0.0)
+ 
+                            new_rewards = np.array(new_rewards).reshape(-1, 1)
+                            sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
+                            if not THIS_ITER_STORE_INFO:
+                                sac_algo.replay_buffer.infos = np.array([[{} for _ in range(sac_algo.replay_buffer.n_envs)] for _ in range(sac_algo.replay_buffer.buffer_size)])
+                                sac_algo.replay_buffer.copy_info_dict = False
+                            # for info in sac_algo.replay_buffer.infos:
+                            #     info=np.array([{}])
+
+                        
             else:
                 print(f"Iter {index}: reset replay buffer.")
         else:
@@ -170,7 +213,7 @@ def train(train_config):
                     new_rewards = vec_env.env_method(
                         method_name="compute_reward",
                         indices=[0],
-                        achieved_goal=sac_algo.replay_buffer.observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
+                        achieved_goal=sac_algo.replay_buffer.next_observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
                         desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
                         info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
                     )[0]
@@ -198,7 +241,7 @@ def train(train_config):
         event_callback = EveryNTimesteps(n_steps=50000, callback=checkpoint_on_event)
 
         sac_algo.learn(
-            total_timesteps=int(THIS_ITER_RL_TRAIN_STEPS), 
+            total_timesteps=int(THIS_ITER_RL_TRAIN_STEPS),
             callback=[eval_callback, event_callback]
         )
 
