@@ -26,7 +26,7 @@
             "b": 1.0
         },
         "rl": {
-            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/dense/sac/two_stage_n_substeps_5_to_n_substeps_1/b_05/sac_her_10hz_128_128_n_substeps_5_5e5steps_seed_5_singleRL",
+            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/dense/sac/two_stage_n_substeps_5_to_n_substeps_1/b_1/sac_her_10hz_128_128_n_substeps_5_5e5steps_seed_5_singleRL",
             "seed": 49,
             "seed_in_train_env": 981,
             "seed_in_callback_env": 604,
@@ -50,7 +50,7 @@
             "b": 1.0
         },
         "rl": {
-            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/dense/sac/two_stage_n_substeps_5_to_n_substeps_1/b_05/sac_her_10hz_128_128_n_substeps_5_5e5steps_n_substeps_1_5e5steps_seed_5_singleRL",
+            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/dense/sac/two_stage_n_substeps_5_to_n_substeps_1/b_1/sac_her_10hz_128_128_n_substeps_5_5e5steps_n_substeps_1_5e5steps_seed_5_singleRL",
             "seed": 40,
             "seed_in_train_env": 452,
             "seed_in_callback_env": 952,
