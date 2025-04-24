@@ -8,14 +8,14 @@
         "evaluate_process_num": 8,
         "callback_process_num": 8,
         "gradient_steps": 1,
-        "eval_freq": 1e3,
+        "eval_freq": 1e4,
         "n_eval_episodes": 96,
         "use_her": false
     },
     
     "rl_train": [{
         "env": {
-            "id": "my-reach-dense-3",
+            "id": "my-reach-dense-20",
             "__help": "goal_range, distance_threshold, max_episode_steps只用于记录，环境的实际配置需在脚本中指定！！！",
             "goal_range": 0.8,
             "distance_threshold": 0.01,
@@ -23,23 +23,24 @@
             "reward_type": "dense", 
             "control_type": "joints",
             "normalize": false,
-            "b": 1.0
+            "b": 2.0
         },
         "rl": {
-            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/dense/sac/two_stage_n_substeps_3_to_n_substeps_1/b_1/sac_her_10hz_128_128_n_substeps_3_5e5steps_seed_5_singleRL",
-            "seed": 74,
-            "seed_in_train_env": 4,
-            "seed_in_callback_env": 91,
+            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/dense/sac/D2D/two_stage_b2_b05/sac_10hz_128_128_b_2_5e5steps_seed_2_singleRL",
+            "seed": 14,
+            "seed_in_train_env": 689,
+            "seed_in_callback_env": 40,
             "train_steps": 5e5,
             "learning_rate": 3e-4,
             "learning_starts": 1000,
             "reset_policy": false,
             "relabel_replay_buffer": false,
-            "has_trained": false
+            "has_trained": true
         }
-    },{
+    },
+    {
         "env": {
-            "id": "my-reach-dense-1",
+            "id": "my-reach-dense-20",
             "__help": "goal_range, distance_threshold, max_episode_steps只用于记录，环境的实际配置需在脚本中指定！！！",
             "goal_range": 0.8,
             "distance_threshold": 0.01,
@@ -47,13 +48,13 @@
             "reward_type": "dense", 
             "control_type": "joints",
             "normalize": false,
-            "b": 1.0
+            "b": 0.25
         },
         "rl": {
-            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/dense/sac/two_stage_n_substeps_3_to_n_substeps_1/b_1/sac_her_10hz_128_128_n_substeps_3_5e5steps_n_substeps_1_5e5steps_seed_5_singleRL",
-            "seed": 78,
-            "seed_in_train_env": 85,
-            "seed_in_callback_env": 5989,
+            "experiment_name": "D2D/panda_reach_dense/goal_range_08/distance_0_01_change_z_scope/dense/sac/D2D/two_stage_b2_b025/sac_10hz_128_128_b_2_5e5steps_b_025_5e5steps_seed_2_singleRL",
+            "seed": 151,
+            "seed_in_train_env": 298,
+            "seed_in_callback_env": 425,
             "train_steps": 5e5,
             "learning_rate": 3e-4,
             "learning_starts": 0,
@@ -62,6 +63,7 @@
             "relabel_replay_buffer": true,
             "has_trained":false
         }
-    }]
+    }
+]
 
 }
