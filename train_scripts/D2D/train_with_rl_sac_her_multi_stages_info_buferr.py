@@ -14,6 +14,7 @@ from stable_baselines3.common.callbacks import CheckpointCallback, EveryNTimeste
 import flycraft
 from flycraft.utils.load_config import load_config
 
+
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
@@ -22,6 +23,7 @@ from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
 from train_scripts.D2D.utils.get_vec_env import get_vec_env
 from train_scripts.D2D.utils.load_data_from_csv import load_random_trajectories_from_csv_files
+from train_scripts.D2D.utils.InfoDictReplayBuffer import InfoDictReplayBuffer
 
 import warnings
 warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
@@ -106,7 +108,7 @@ def train(train_config):
                 "MultiInputPolicy",
                 vec_env,
                 seed=THIS_ITER_SEED,
-                replay_buffer_class=HerReplayBuffer if USE_HER else DictReplayBuffer,
+                replay_buffer_class=HerReplayBuffer if USE_HER else InfoDictReplayBuffer,
                 replay_buffer_kwargs=dict(
                     n_sampled_goal=4,
                     goal_selection_strategy="future",
@@ -149,7 +151,7 @@ def train(train_config):
                             indices=[0],
                             achieved_goal=sac_algo.replay_buffer.next_observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
                             desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
-                          #  info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
+                            info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
                         )[0]
                         tmp_reward = new_rewards.reshape(-1, 1)
                         sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
