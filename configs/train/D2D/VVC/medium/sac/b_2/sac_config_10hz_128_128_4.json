@@ -10,18 +10,18 @@
         "gradient_steps": 1,
         "eval_freq": 1e4,
         "n_eval_episodes": 96,
-        "use_her": true
+        "use_her": false
     },
     "rl_train": [{
         "env": {
-            "config_file": "D2D/env_config_for_sac_hard_b_1.json",
+            "config_file": "D2D/env_config_for_sac_medium_b_2.json",
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/hard_sac/b_1/sac_her_10hz_128_128_b_1_1e6steps_seed_1_singleRL",
-            "seed": 31,
-            "seed_in_train_env": 76,
-            "seed_in_callback_env": 98,
+            "experiment_name": "D2D/VVC/medium/b_2/sac_10hz_128_128_b_2_1e6steps_seed_4_singleRL",
+            "seed": 246,
+            "seed_in_train_env": 18,
+            "seed_in_callback_env": 10,
             "train_steps": 1e6,
             "learning_rate": 3e-4,
             "learning_starts": 10240,
