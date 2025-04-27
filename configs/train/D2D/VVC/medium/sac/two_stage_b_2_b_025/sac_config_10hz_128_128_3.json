@@ -19,9 +19,9 @@
         },
         "rl": {
             "experiment_name": "D2D/VVC/medium/two_stage_b_2_b_05/sac_10hz_128_128_b_2_5e5steps_seed_3_singleRL",
-            "seed": 156,
-            "seed_in_train_env": 78,
-            "seed_in_callback_env": 23,
+            "seed": 246,
+            "seed_in_train_env": 9218,
+            "seed_in_callback_env": 36,
             "train_steps": 5e5,
             "learning_rate": 3e-4,
             "learning_starts": 10240,
@@ -31,14 +31,14 @@
         }
     },{
         "env": {
-            "config_file": "D2D/env_config_for_sac_medium_b_05.json",
+            "config_file": "D2D/env_config_for_sac_medium_b_025.json",
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/VVC/medium/two_stage_b_2_b_05/sac_10hz_128_128_b_2_5e5steps_b_05_5e5steps_seed_3_singleRL",
-            "seed": 5163,
-            "seed_in_train_env": 2470,
-            "seed_in_callback_env": 3090,
+            "experiment_name": "D2D/VVC/medium/two_stage_b_2_b_025/sac_10hz_128_128_b_2_5e5steps_b_025_5e5steps_seed_3_singleRL",
+            "seed": 24,
+            "seed_in_train_env": 719,
+            "seed_in_callback_env": 154,
             "train_steps": 5e5,
             "learning_rate": 3e-4,
             "learning_starts": 0,
