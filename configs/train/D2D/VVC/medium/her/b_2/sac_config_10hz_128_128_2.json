@@ -19,9 +19,9 @@
         },
         "rl": {
             "experiment_name": "D2D/VVC/medium/her/b_2/sac_10hz_128_128_b_2_1e6steps_seed_2_singleRL",
-            "seed": 2155,
-            "seed_in_train_env": 145,
-            "seed_in_callback_env": 985,
+            "seed": 198,
+            "seed_in_train_env": 246,
+            "seed_in_callback_env": 8799,
             "train_steps": 1e6,
             "learning_rate": 3e-4,
             "learning_starts": 10240,
