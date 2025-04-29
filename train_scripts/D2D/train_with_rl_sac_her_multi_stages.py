@@ -21,7 +21,7 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
 from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
 from train_scripts.D2D.utils.get_vec_env import get_vec_env
-from train_scripts.D2D.utils.load_data_from_csv import load_random_trajectories_from_csv_files
+from train_scripts.D2D.utils.load_data_from_csv import load_random_trajectories_from_csv_files,load_random_transitions_from_csv_files
 
 import warnings
 warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
@@ -185,24 +185,61 @@ def train(train_config):
         else:
             # check whether to fill replay buffer with expert demonstrations
             if THIS_ITER_PRE_FILL_REPLAY_BUFFER:
-                loaded_obs, loaded_next_obs, loaded_action, loaded_reward, loaded_done, loaded_info = load_random_trajectories_from_csv_files(
+                if USE_HER:
+                    loaded_obs, loaded_next_obs, loaded_action, loaded_reward, loaded_done, loaded_info = load_random_trajectories_from_csv_files(
+                        data_dir=PROJECT_ROOT_DIR / THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["data_dir"],
+                        cache_data=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["cache_data"],
+                        cache_data_dir=PROJECT_ROOT_DIR / THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["cache_data_dir"],
+                        trajectory_save_prefix=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["trajectory_save_prefix"],
+                        env_config_file=PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE,
+                        select_transition_num=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["selected_transition_num"],
+                        random_state=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["random_state"]
+                    )
+                    # sac_algo.replay_buffer.extend(
+                    #     obs=loaded_obs,
+                    #     next_obs=loaded_next_obs,
+                    #     action=loaded_action,
+                    #     reward=loaded_reward,
+                    #     done=loaded_done,
+                    #     infos=loaded_info,
+                    # )
+                    sac_algo.replay_buffer.extend(
+                        observations=loaded_obs,
+                        next_observations=loaded_next_obs,
+                        actions=loaded_action,
+                        rewards=loaded_reward,
+                        dones=loaded_done,
+                        infos=loaded_info,
+                    )
+                else:
+                    loaded_obs, loaded_next_obs, loaded_action, loaded_reward, loaded_done, loaded_info = load_random_transitions_from_csv_files(
                     data_dir=PROJECT_ROOT_DIR / THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["data_dir"],
                     cache_data=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["cache_data"],
                     cache_data_dir=PROJECT_ROOT_DIR / THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["cache_data_dir"],
                     trajectory_save_prefix=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["trajectory_save_prefix"],
                     env_config_file=PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE,
                     select_transition_num=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["selected_transition_num"],
-                    random_state=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["random_state"]
-                )
-
-                sac_algo.replay_buffer.extend(
-                    obs=loaded_obs,
-                    next_obs=loaded_next_obs,
-                    action=loaded_action,
-                    reward=loaded_reward,
-                    done=loaded_done,
-                    infos=loaded_info,
-                )
+                    n_env = RL_TRAIN_PROCESS_NUM
+                    )
+                    
+                    # sac_algo.replay_buffer.extend(
+                    #     obs=loaded_obs,
+                    #     next_obs=loaded_next_obs,
+                    #     action=loaded_action,
+                    #     reward=loaded_reward,
+                    #     done=loaded_done,
+                    #     infos=loaded_info,
+                    # )
+                    sac_algo.replay_buffer.extend(
+                        # observations=loaded_obs,
+                        # next_observations=loaded_next_obs,
+                        obs=loaded_obs,         
+                        next_obs=loaded_next_obs,
+                        action=loaded_action,
+                        reward=loaded_reward,
+                        done=loaded_done,
+                        infos=loaded_info,
+                    )
 
                 print(f"Iter {index}: pre-fill replay buffer.")
 
@@ -215,7 +252,7 @@ def train(train_config):
                         indices=[0],
                         achieved_goal=sac_algo.replay_buffer.next_observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
                         desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
-                        info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
+                        #info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
                     )[0]
 
                     sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)

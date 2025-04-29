@@ -30,6 +30,7 @@ def load_random_transitions_from_csv_files(
         env_config_file: Path=PROJECT_ROOT_DIR / "configs" / "env" / "env_config_for_sac.json",
         my_logger: logging.Logger=None, 
         select_transition_num: int=100_000,
+        n_env = 1
     ):
     """加载数据集：从所有trajectories中随机挑选transitions（最终返回的数据集里的transitions是打乱顺序的）
     """
@@ -65,10 +66,11 @@ def load_random_transitions_from_csv_files(
             continue
 
         if cur_length > 0:
+            cur_length -=1 #丢掉最后一个不完整的transition
             # 能够生成轨迹的目标速度矢量
             cur_filename = f"{trajectory_save_prefix}_{int(target_v)}_{int(target_mu)}_{int(target_chi)}.csv"
             cur_file_path = data_dir / cur_filename
-            transitions_cnt += cur_length
+            transitions_cnt += cur_length 
             traj_cnt += 1
             if cur_file_path.exists():
                 if my_logger is not None:
@@ -90,14 +92,14 @@ def load_random_transitions_from_csv_files(
                     "achieved_goal": np.array(item[3:6], dtype=np.float32),
                     "desired_goal": np.array(item[8:11], dtype=np.float32)
                 } for item in zip(
-                    cur_traj['s_phi'].tolist()[:-2],
-                    cur_traj['s_theta'].tolist()[:-2],
-                    cur_traj['s_psi'].tolist()[:-2],
-                    cur_traj['s_v'].tolist()[:-2],
-                    cur_traj['s_mu'].tolist()[:-2],
-                    cur_traj['s_chi'].tolist()[:-2],
-                    cur_traj['s_p'].tolist()[:-2],
-                    cur_traj['s_h'].tolist()[:-2],
+                    cur_traj['s_phi'].tolist()[:-1],
+                    cur_traj['s_theta'].tolist()[:-1],
+                    cur_traj['s_psi'].tolist()[:-1],
+                    cur_traj['s_v'].tolist()[:-1],
+                    cur_traj['s_mu'].tolist()[:-1],
+                    cur_traj['s_chi'].tolist()[:-1],
+                    cur_traj['s_p'].tolist()[:-1],
+                    cur_traj['s_h'].tolist()[:-1],
                     [target_v] * (cur_traj.count()['time'] - 1),
                     [target_mu] * (cur_traj.count()['time'] - 1),
                     [target_chi] * (cur_traj.count()['time'] - 1),
@@ -122,9 +124,9 @@ def load_random_transitions_from_csv_files(
                 )])
 
                 acts.extend(zip(
-                    cur_traj['a_p'].tolist()[:-2],
-                    cur_traj['a_nz'].tolist()[:-2],
-                    cur_traj['a_pla'].tolist()[:-2],
+                    cur_traj['a_p'].tolist()[:-1],
+                    cur_traj['a_nz'].tolist()[:-1],
+                    cur_traj['a_pla'].tolist()[:-1],
                 ))
                 rewards.extend([0.] * (cur_traj.count()['time']-1))
                 dones.extend([False] * (cur_traj.count()['time']-2) + [True])
@@ -136,18 +138,41 @@ def load_random_transitions_from_csv_files(
 
     # 先挑选select_transition_num个transition
     indices = np.arange(len(obs))
-    selected_indices = np.random.choice(indices, select_transition_num, replace=False)
+    selected_indices = np.random.choice(indices, select_transition_num * n_env, replace=False)
 
     selected_obs = np.array(obs)[selected_indices]
-    selected_next_obs = np.array(obs)[selected_indices]
+    selected_next_obs = np.array(next_obs)[selected_indices]
     selected_actions = np.array(acts)[selected_indices]
-    selected_rewards = np.array(rewards)[selected_indices]
-    selected_dones = np.array(dones)[selected_indices]
+    selected_rewards = np.array(rewards)[selected_indices].astype(np.float32)
+    selected_dones = np.array(dones)[selected_indices].astype(np.float32)
     selected_infos = np.array(infos)[selected_indices]
+
+
 
     scaled_selected_obs = np.array([scaled_obs_env.scale_state(item) for item in selected_obs])
     scaled_selected_next_obs = np.array([scaled_obs_env.scale_state(item) for item in selected_next_obs])
-    scaled_selected_acts = np.array([scaled_act_env.scale_action(np.array(item)) for item in selected_actions])
+    scaled_selected_acts = np.array([scaled_act_env.scale_action(np.array(item)) for item in selected_actions], dtype=np.float32)
+    
+    #new_obs = {"observation":[item for item in scaled_selected_obs['observation']  ],"achieved_goal":[item for item in scaled_selected_obs['achieved_goal']],"desired_goal":[item for item in scaled_selected_obs['desired_goal']]} 
+
+    # new_obs = {
+    #     # "observation": np.array([item['observation'] for item in scaled_selected_obs], dtype=np.float32),
+    #     # "achieved_goal": np.array([item['achieved_goal'] for item in scaled_selected_obs], dtype=np.float32),
+    #     # "desired_goal": np.array([item['desired_goal'] for item in scaled_selected_obs], dtype=np.float32),
+        
+    #     "observation": np.array([np.expand_dims(item['observation'], axis=0) for item in scaled_selected_obs], dtype=np.float32),
+    #     "achieved_goal": np.array([np.expand_dims(item['achieved_goal'], axis=0) for item in scaled_selected_obs], dtype=np.float32),
+    #     "desired_goal": np.array([np.expand_dims(item['desired_goal'], axis=0) for item in scaled_selected_obs],dtype=np.float32)
+    # }
+
+    # new_next_obs = {
+    #     # "observation": np.array([item['observation'] for item in scaled_selected_next_obs], dtype=np.float32),
+    #     # "achieved_goal": np.array([item['achieved_goal'] for item in scaled_selected_next_obs], dtype=np.float32),
+    #     # "desired_goal": np.array([item['desired_goal'] for item in scaled_selected_next_obs], dtype=np.float32),
+    #     "observation": np.array([np.expand_dims(item['observation'], axis=0) for item in scaled_selected_next_obs], dtype=np.float32),
+    #     "achieved_goal": np.array([np.expand_dims(item['achieved_goal'], axis=0) for item in scaled_selected_next_obs], dtype=np.float32),
+    #     "desired_goal": np.array([np.expand_dims(item['desired_goal'], axis=0) for item in scaled_selected_next_obs],dtype=np.float32)
+    # }
 
     if cache_data:
     # 缓存标准化后的数据
@@ -175,10 +200,36 @@ def load_random_transitions_from_csv_files(
         print(f"process time: {time() - start_time}(s).")
     
     print(f"划分集合后总时间：{time() - start_time}(s).")
-    
-   
-    return DictObs.from_obs_list(scaled_selected_obs), DictObs.from_obs_list(scaled_selected_next_obs), scaled_selected_acts, selected_rewards, selected_dones, selected_infos
 
+    # scaled_selected_obs = scaled_selected_obs.reshape(select_transition_num, n_env, -1)
+    # scaled_selected_next_obs = scaled_selected_next_obs.reshape(select_transition_num, n_env, -1)
+    # scaled_selected_acts = scaled_selected_acts.reshape(select_transition_num, n_env, -1)
+    # selected_rewards = selected_rewards.reshape(select_transition_num, n_env, -1)
+    # selected_dones = selected_dones.reshape(select_transition_num, n_env, -1)
+    # selected_infos = selected_infos.reshape(select_transition_num, n_env, -1)
+    # scaled_selected_acts = np.expand_dims(scaled_selected_acts, axis=1)
+    # selected_rewards = np.expand_dims(selected_rewards, axis=1)
+    # selected_dones = np.expand_dims(selected_dones, axis=1)
+    # selected_infos = np.expand_dims(selected_infos, axis=1)
+    # for key,input_shape in scaled_selected_obs[0].items():
+    #     scaled_selected_obs.reshape((select_transition_num,n_env,*input_shape))
+    # for key,input_shape in scaled_selected_next_obs[0].items():
+    #     scaled_selected_next_obs.reshape((select_transition_num,n_env,*input_shape))
+    # scaled_selected_obs.reshape((select_transition_num,n_env))
+    # scaled_selected_next_obs.reshape((select_transition_num,n_env))
+    scaled_selected_obs =  np.expand_dims(scaled_selected_obs, axis=1).tolist()
+    scaled_selected_next_obs =  np.expand_dims(scaled_selected_next_obs, axis=1).tolist()
+    scaled_selected_acts = np.expand_dims(scaled_selected_acts, axis=1).tolist()
+    #scaled_selected_acts.reshape((select_transition_num,n_env,scaled_selected_acts[0].shape(-1)))
+    scaled_selected_obs.reshape((select_transition_num,n_env))
+    scaled_selected_next_obs.reshape((select_transition_num,n_env))
+    scaled_selected_acts.reshape((select_transition_num,n_env))
+    selected_rewards.reshape((select_transition_num,n_env))
+    selected_dones.reshape((select_transition_num,n_env)) 
+    selected_infos.reshape((select_transition_num,n_env)) 
+
+    return DictObs.from_obs_list(scaled_selected_obs), DictObs.from_obs_list(scaled_selected_next_obs), scaled_selected_acts, selected_rewards, selected_dones, selected_infos
+    # return new_obs, new_next_obs, scaled_selected_acts, selected_rewards, selected_dones, selected_infos
 
 def load_random_trajectories_from_csv_files(
         data_dir: Path, 
@@ -192,7 +243,7 @@ def load_random_trajectories_from_csv_files(
     ):
     """加载数据集：随机挑选完整的trajectories，transion总数 <= select_transition_num
     """
-    
+    """需改维度 变换为select_transition_num * n_env * obs的维度"""
     start_time = time()
     res_file = data_dir / "res.csv"
     res_df = pd.read_csv(res_file)
@@ -227,6 +278,7 @@ def load_random_trajectories_from_csv_files(
             continue
 
         if cur_length > 0:
+            cur_length -=1 #丢掉最后一个不完整的transition
             # 保证选择完整的轨迹
             if tmp_transition_cnt + cur_length > select_transition_num:
                 break
@@ -270,7 +322,7 @@ def load_random_trajectories_from_csv_files(
                     [target_mu] * (cur_traj.count()['time'] - 1),
                     [target_chi] * (cur_traj.count()['time'] - 1),
                 )])
-
+                """obs和acts 应为[:-1] 除去最后一个都要取 参考load_random_transitions_from_csv_files"""
                 next_obs.extend([{
                     "observation": np.array(item[0:8], dtype=np.float32),
                     "achieved_goal": np.array(item[3:6], dtype=np.float32),
@@ -342,4 +394,5 @@ def load_random_trajectories_from_csv_files(
     
    
     return DictObs.from_obs_list(scaled_selected_obs), DictObs.from_obs_list(scaled_selected_next_obs), scaled_selected_acts, selected_rewards, selected_dones, selected_infos
+
 
