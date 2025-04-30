@@ -14,14 +14,14 @@
     },
     "rl_train": [{
         "env": {
-            "config_file": "D2D/env_config_for_sac_easy_b_1.json",
+            "config_file": "D2D/env_config_for_sac_easy_b_05.json",
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/goal_sapce/easy_to_medium/sac_10hz_128_128_b_1_easy_5e5steps_seed_4_singleRL",
-            "seed": 188,
-            "seed_in_train_env": 98,
-            "seed_in_callback_env": 27,
+            "experiment_name": "D2D/goal_sapce/easy_to_medium/b_05/sac_10hz_128_128_b_05_easy_5e5steps_seed_2_singleRL",
+            "seed": 98,
+            "seed_in_train_env": 245,
+            "seed_in_callback_env": 39,
             "train_steps": 5e5,
             "learning_rate": 3e-4,
             "learning_starts": 10240,
@@ -31,14 +31,14 @@
         }
     },{
         "env": {
-            "config_file": "D2D/env_config_for_sac_medium_b_1.json",
+            "config_file": "D2D/env_config_for_sac_medium_b_05.json",
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/goal_sapce/easy_to_medium/sac_10hz_128_128_b_1_easy_to_medium_5e5steps_seed_4_singleRL",
-            "seed": 35,
-            "seed_in_train_env": 985,
-            "seed_in_callback_env": 271,
+            "experiment_name": "D2D/goal_sapce/easy_to_medium/b_05/sac_10hz_128_128_b_05_easy_to_medium_5e5steps_seed_2_singleRL",
+            "seed": 19,
+            "seed_in_train_env": 289,
+            "seed_in_callback_env": 7485,
             "train_steps": 5e5,
             "learning_rate": 3e-4,
             "learning_starts": 0,

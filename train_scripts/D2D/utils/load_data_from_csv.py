@@ -145,13 +145,19 @@ def load_random_transitions_from_csv_files(
     selected_actions = np.array(acts)[selected_indices]
     selected_rewards = np.array(rewards)[selected_indices].astype(np.float32)
     selected_dones = np.array(dones)[selected_indices].astype(np.float32)
-    selected_infos = np.array(infos)[selected_indices]
-
+    #selected_infos = np.array(infos)[selected_indices]
+    selected_infos = np.array([{} for _ in range(len(selected_indices))])
 
 
     scaled_selected_obs = np.array([scaled_obs_env.scale_state(item) for item in selected_obs])
     scaled_selected_next_obs = np.array([scaled_obs_env.scale_state(item) for item in selected_next_obs])
     scaled_selected_acts = np.array([scaled_act_env.scale_action(np.array(item)) for item in selected_actions], dtype=np.float32)
+    print(f"before reshape    scaled_selected_obs shape = {scaled_selected_obs.shape}")
+    print(f"before reshape    scaled_selected_next_obs shape = {scaled_selected_next_obs.shape}")
+    print(f"before reshape    scaled_selected_acts shape = {scaled_selected_acts.shape}")
+    print(f"before reshape    selected_rewards shape = {selected_rewards.shape}")
+    print(f"before reshape    selected_dones shape = {selected_dones.shape}")
+    print(f"before reshape    selected_infos shape = {selected_infos.shape}")
     
     #new_obs = {"observation":[item for item in scaled_selected_obs['observation']  ],"achieved_goal":[item for item in scaled_selected_obs['achieved_goal']],"desired_goal":[item for item in scaled_selected_obs['desired_goal']]} 
 
@@ -211,25 +217,67 @@ def load_random_transitions_from_csv_files(
     # selected_rewards = np.expand_dims(selected_rewards, axis=1)
     # selected_dones = np.expand_dims(selected_dones, axis=1)
     # selected_infos = np.expand_dims(selected_infos, axis=1)
-    # for key,input_shape in scaled_selected_obs[0].items():
-    #     scaled_selected_obs.reshape((select_transition_num,n_env,*input_shape))
-    # for key,input_shape in scaled_selected_next_obs[0].items():
-    #     scaled_selected_next_obs.reshape((select_transition_num,n_env,*input_shape))
-    # scaled_selected_obs.reshape((select_transition_num,n_env))
-    # scaled_selected_next_obs.reshape((select_transition_num,n_env))
-    scaled_selected_obs =  np.expand_dims(scaled_selected_obs, axis=1).tolist()
-    scaled_selected_next_obs =  np.expand_dims(scaled_selected_next_obs, axis=1).tolist()
-    scaled_selected_acts = np.expand_dims(scaled_selected_acts, axis=1).tolist()
-    #scaled_selected_acts.reshape((select_transition_num,n_env,scaled_selected_acts[0].shape(-1)))
-    scaled_selected_obs.reshape((select_transition_num,n_env))
-    scaled_selected_next_obs.reshape((select_transition_num,n_env))
-    scaled_selected_acts.reshape((select_transition_num,n_env))
-    selected_rewards.reshape((select_transition_num,n_env))
-    selected_dones.reshape((select_transition_num,n_env)) 
-    selected_infos.reshape((select_transition_num,n_env)) 
 
-    return DictObs.from_obs_list(scaled_selected_obs), DictObs.from_obs_list(scaled_selected_next_obs), scaled_selected_acts, selected_rewards, selected_dones, selected_infos
-    # return new_obs, new_next_obs, scaled_selected_acts, selected_rewards, selected_dones, selected_infos
+    # scaled_selected_next_obs.reshape((select_transition_num,n_env))
+    # scaled_selected_obs =  np.expand_dims(scaled_selected_obs, axis=1)
+    # scaled_selected_next_obs =  np.expand_dims(scaled_selected_next_obs, axis=1)
+    # scaled_selected_acts = np.expand_dims(scaled_selected_acts, axis=1)
+    #scaled_selected_acts.reshape((select_transition_num,n_env,scaled_selected_acts[0].shape(-1)))
+    
+    # scaled_selected_obs = scaled_selected_obs.reshape((-1,n_env))
+    # scaled_selected_next_obs = scaled_selected_next_obs.reshape((select_transition_num,n_env))
+    scaled_selected_acts = scaled_selected_acts.reshape((select_transition_num,n_env,-1))
+    selected_rewards = selected_rewards.reshape((select_transition_num,n_env))
+    selected_dones = selected_dones.reshape((select_transition_num,n_env)) 
+    selected_infos = selected_infos.reshape((select_transition_num,n_env))
+     
+    print(f"after reshape    scaled_selected_obs shape = {scaled_selected_obs.shape}")
+    print(f"after reshape    scaled_selected_next_obs shape = {scaled_selected_next_obs.shape}")
+    print(f"after reshape    scaled_selected_acts shape = {scaled_selected_acts.shape}")
+    print(f"after reshape    selected_rewards shape = {selected_rewards.shape}")
+    print(f"after reshape    selected_dones shape = {selected_dones.shape}")
+    print(f"after reshape    selected_infos shape = {selected_infos.shape}")
+
+    # Dict_obs = DictObs.from_obs_list(scaled_selected_obs)
+    # Dict_next_obs =DictObs.from_obs_list(scaled_selected_next_obs)
+    # print(f"after reshape    Dict_obs shape = {Dict_obs.shape}")
+    # print(f"after reshape    Dict_next_obs shape = {Dict_next_obs.shape}")
+
+    # obs_array = Dict_obs.get("observation")
+    # ag_array = Dict_obs.get("achieved_goal")
+    # dg_array = Dict_obs.get("desired_goal")
+
+
+    # # reshape 成新的结构
+    # Dict_obs = {
+    #     "observation": obs_array.reshape(select_transition_num, n_env, -1),
+    #     "achieved_goal": ag_array.reshape(select_transition_num, n_env, -1),
+    #     "desired_goal": dg_array.reshape(select_transition_num, n_env, -1)
+    # }
+
+    # next_obs_array = Dict_next_obs.get("observation")
+    # next_ag_array = Dict_next_obs.get("achieved_goal")
+    # next_dg_array = Dict_next_obs.get("desired_goal")
+
+    # Dict_next_obs = {
+    #     "observation": next_obs_array.reshape(select_transition_num, n_env, -1),
+    #     "achieved_goal": next_ag_array.reshape(select_transition_num, n_env, -1),
+    #     "desired_goal": next_dg_array.reshape(select_transition_num, n_env, -1)
+    # }
+    # Dict_obs = {
+    # key: Dict_obs.get(key).reshape(select_transition_num, n_env, -1)
+    # for key in ["observation", "achieved_goal", "desired_goal"]
+    # }
+
+    # Dict_next_obs = {
+    #     key: Dict_next_obs.get(key).reshape(select_transition_num, n_env, -1)
+    #     for key in ["observation", "achieved_goal", "desired_goal"]
+    # }
+
+
+    return scaled_selected_obs,scaled_selected_next_obs,scaled_selected_acts, selected_rewards, selected_dones, selected_infos
+    #return DictObs.from_obs_list(scaled_selected_obs), DictObs.from_obs_list(scaled_selected_next_obs), scaled_selected_acts, selected_rewards, selected_dones, selected_infos
+
 
 def load_random_trajectories_from_csv_files(
         data_dir: Path, 
