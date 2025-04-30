@@ -60,7 +60,7 @@ python train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-nam
 python train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/her/two_stage_b_2_b_05/sac_config_10hz_128_128_5.json
 
 
-#medium b = 2 to b 0.25
+#medium b = 2 to b 0.25 251
 python train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/her/two_stage_b_2_b_025/sac_config_10hz_128_128_1.json
 python train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/her/two_stage_b_2_b_025/sac_config_10hz_128_128_2.json
 python train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/her/two_stage_b_2_b_025/sac_config_10hz_128_128_3.json
