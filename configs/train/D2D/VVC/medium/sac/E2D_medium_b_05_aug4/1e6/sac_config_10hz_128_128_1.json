@@ -1,0 +1,41 @@
+{
+    "rl_common": {
+        "net_arch": [128, 128],
+        "gamma": 0.995,
+        "batch_size": 1024,
+        "buffer_size": 2e5,
+        "rollout_process_num": 1,
+        "evaluate_process_num": 32,
+        "callback_process_num": 32,
+        "gradient_steps": 1,
+        "eval_freq": 1e4,
+        "n_eval_episodes": 96,
+        "use_her": false
+    },
+    "rl_train": [{
+        "env": {
+            "config_file": "D2D/env_config_for_sac_medium_b_05.json",
+            "custom_config": {}
+        },
+        "rl": {
+            "experiment_name": "D2D/VVC/medium/sac/E2D_medium_b_05_aug4/sac_medium_10hz_128_128_b_05_1e6steps_seed_1_singleRL",
+            "seed": 2,
+            "seed_in_train_env": 6,
+            "seed_in_callback_env": 9,
+            "train_steps": 1e6,
+            "learning_rate": 3e-4,
+            "learning_starts": 10240,
+            "reset_policy": false,
+            "pre_fill_replay_buffer": true,
+            "pre_fill_replay_buffer_kwargs": {
+                "data_dir": "demonstrations/data/10hz_10_5_5_iter_4_aug",
+                "trajectory_save_prefix": "traj",
+                "cache_data": false,
+                "cache_data_dir": "demonstrations/cache/10hz_10_5_5_iter_4_aug",
+                "selected_transition_num": 200000,
+                "random_state": 7452
+            },
+            "relabel_replay_buffer": true
+        }
+    }]
+}

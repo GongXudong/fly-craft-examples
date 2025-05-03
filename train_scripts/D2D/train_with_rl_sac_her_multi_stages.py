@@ -46,6 +46,7 @@ def train(train_config):
     for index, train_this_iter_config in enumerate(train_config["rl_train"]):
         THIS_ITER_ENV_CONFIG_FILE = train_this_iter_config["env"]["config_file"]
         THIS_ITER_ENV_CUSTOM_CONFIG = train_this_iter_config["env"].get("custom_config", {})
+        ThIS_ITER_ENV_EVAL_CONFIG_FILE = train_this_iter_config["env"].get("evaluate_config","")
 
         THIS_ITER_SEED = train_this_iter_config["rl"].get("seed")
         THIS_ITER_SEED_IN_TRAINING_ENV = train_this_iter_config["rl"].get("seed_in_train_env")
@@ -73,12 +74,23 @@ def train(train_config):
             "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
             "custom_config": {"debug_mode": True, "flag_str": "Train"},
         }
-        env_config_in_evaluation = {
-            "num_process": RL_EVALUATE_PROCESS_NUM,
-            "seed": THIS_ITER_SEED_IN_CALLBACK_ENV,
-            "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
-            "custom_config": {"debug_mode": True, "flag_str": "Callback"}
-        }
+
+        env_config_in_evaluation = {}
+
+        if ThIS_ITER_ENV_EVAL_CONFIG_FILE =="":
+            env_config_in_evaluation = {
+                "num_process": RL_EVALUATE_PROCESS_NUM,
+                "seed": THIS_ITER_SEED_IN_CALLBACK_ENV,
+                "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
+                "custom_config": {"debug_mode": True, "flag_str": "Callback"}
+            }
+        else:
+            env_config_in_evaluation = {
+                "num_process": RL_EVALUATE_PROCESS_NUM,
+                "seed": THIS_ITER_SEED_IN_CALLBACK_ENV,
+                "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / ThIS_ITER_ENV_EVAL_CONFIG_FILE),
+                "custom_config": {"debug_mode": True, "flag_str": "Callback"}
+            }
         
         for wrp in THIS_ITER_WRAPPER_LIST:
             if wrp["type"] == "frame_skip":
