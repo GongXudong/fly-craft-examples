@@ -49,6 +49,7 @@ def load_random_transitions_from_csv_files(
     traj_cnt = 0
     traj_file_cnt = 0
     transitions_cnt = 0
+    mycount = 0
 
     origin_env = FlyCraftEnv(config_file=env_config_file)
     
@@ -63,6 +64,7 @@ def load_random_transitions_from_csv_files(
             and
             (origin_env.env_config["goal"]["chi_min"] <= target_chi <= origin_env.env_config["goal"]["chi_max"])
         ):
+            mycount +=1
             continue
 
         if cur_length > 0:

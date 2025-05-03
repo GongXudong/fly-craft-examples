@@ -29,7 +29,7 @@
             "pre_fill_replay_buffer": true,
             "pre_fill_replay_buffer_kwargs": {
                 "data_dir": "demonstrations/data/10hz_10_5_5_iter_4_aug",
-                "trajectory_save_prefix": "traj",
+                "trajectory_save_prefix": "my_f16trace",
                 "cache_data": false,
                 "cache_data_dir": "demonstrations/cache/10hz_10_5_5_iter_4_aug",
                 "selected_transition_num": 200000,
