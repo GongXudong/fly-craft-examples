@@ -225,7 +225,7 @@ python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-na
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/reward_devide/medium/b_05_only/sac_config_10hz_128_128_4.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/reward_devide/medium/b_05_only/sac_config_10hz_128_128_5.json
 
-# b = 1  only angle 
+# b = 1  only angle 242
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/reward_devide/medium/b_1_only/sac_config_10hz_128_128_1.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/reward_devide/medium/b_1_only/sac_config_10hz_128_128_2.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/reward_devide/medium/b_1_only/sac_config_10hz_128_128_3.json
@@ -233,7 +233,7 @@ python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-na
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/reward_devide/medium/b_1_only/sac_config_10hz_128_128_5.json
 
 
-# b = 0.5  only angle  baseline  onlyreset
+# b = 0.5  only angle  baseline  onlyreset 10
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/reward_devide/medium/baseline/b_05/sac_config_10hz_128_128_1.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/reward_devide/medium/baseline/b_05/sac_config_10hz_128_128_2.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/reward_devide/medium/baseline/b_05/sac_config_10hz_128_128_3.json
@@ -241,9 +241,43 @@ python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-na
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/reward_devide/medium/baseline/b_05/sac_config_10hz_128_128_5.json
 
 
-# b = 1  only angle  baseline  onlyreset
+# b = 1  only angle  baseline  onlyreset 
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/reward_devide/medium/baseline/b_1/sac_config_10hz_128_128_1.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/reward_devide/medium/baseline/b_1/sac_config_10hz_128_128_2.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/reward_devide/medium/baseline/b_1/sac_config_10hz_128_128_3.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/reward_devide/medium/baseline/b_1/sac_config_10hz_128_128_4.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/reward_devide/medium/baseline/b_1/sac_config_10hz_128_128_5.json
+
+
+## supplement D2D  b = 1 to b = 0.5  242
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_05/sac_config_10hz_128_128_1.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_05/sac_config_10hz_128_128_2.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_05/sac_config_10hz_128_128_3.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_05/sac_config_10hz_128_128_4.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_05/sac_config_10hz_128_128_5.json
+
+
+## supplement D2D  b = 1 to b = 0.25 120
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/sac_config_10hz_128_128_1.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/sac_config_10hz_128_128_2.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/sac_config_10hz_128_128_3.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/sac_config_10hz_128_128_4.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/sac_config_10hz_128_128_5.json
+
+
+## supplement D2D  b = 0.5 to b = 0.25  10
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_025/sac_config_10hz_128_128_1.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_025/sac_config_10hz_128_128_2.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_025/sac_config_10hz_128_128_3.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_025/sac_config_10hz_128_128_4.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_025/sac_config_10hz_128_128_5.json
+
+
+
+
+## supplement D2D hard   b = 2 to b = 0.5 140
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_config_10hz_128_128_1.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_config_10hz_128_128_2.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_config_10hz_128_128_3.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_config_10hz_128_128_4.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_config_10hz_128_128_5.json
