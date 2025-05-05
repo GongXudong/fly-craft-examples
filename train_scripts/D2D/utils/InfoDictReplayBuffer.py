@@ -23,10 +23,9 @@ class InfoDictReplayBufferSamples(DictReplayBufferSamples):
         super().__init__(observations, actions, next_observations, dones, rewards)
         self.infos = infos
 
+
+
 class InfoDictReplayBuffer(DictReplayBuffer):
-    """
-    自定义的DictReplayBuffer，能够存储环境返回的info信息
-    """
     def __init__(
         self,
         buffer_size: int,
@@ -38,21 +37,23 @@ class InfoDictReplayBuffer(DictReplayBuffer):
         handle_timeout_termination: bool = True,
     ):
         # 调用父类初始化
-        super().__init__(buffer_size, observation_space, action_space, device, n_envs)
-        # 初始化info存储结构，使用对象数组以容纳字典
-        self.infos = np.zeros((self.buffer_size, self.n_envs), dtype=object)
+        super().__init__(buffer_size, observation_space, action_space, device, n_envs,)
+        self.infos = np.array([[{} for _ in range(self.n_envs)] for _ in range(self.buffer_size)])
         # 初始化为空字典避免None
-        self.infos[:] = {}
+        # self.infos[:] = {}
 
-    def add(
+
+    def add(  # type: ignore[override]
         self,
-        obs: dict[str, np.ndarray],
-        next_obs: dict[str, np.ndarray],
+        obs: Dict[str, np.ndarray],
+        next_obs: Dict[str, np.ndarray],
         action: np.ndarray,
         reward: np.ndarray,
         done: np.ndarray,
-        infos: list[dict[str, Any]],
+        infos: List[Dict[str, Any]],
     ) -> None:
+        # Copy to avoid modification by reference
+
         for key in self.observations.keys():
             # Reshape needed when using multiple envs with discrete observations
             # as numpy cannot broadcast (n_discrete,) to (n_discrete, 1)
@@ -71,7 +72,9 @@ class InfoDictReplayBuffer(DictReplayBuffer):
         self.actions[self.pos] = np.array(action)
         self.rewards[self.pos] = np.array(reward)
         self.dones[self.pos] = np.array(done)
+
         self.infos[self.pos] = np.array(infos)
+
         if self.handle_timeout_termination:
             self.timeouts[self.pos] = np.array([info.get("TimeLimit.truncated", False) for info in infos])
 
@@ -81,14 +84,11 @@ class InfoDictReplayBuffer(DictReplayBuffer):
             self.pos = 0
 
 
-    
-
-    def _get_samples(
-        self, 
-        batch_inds: np.ndarray, 
+    def _get_samples(  # type: ignore[override]
+        self,
+        batch_inds: np.ndarray,
         env: Optional[VecNormalize] = None,
-    ) -> InfoDictReplayBufferSamples:
-        # Sample randomly the env idx
+    ) -> DictReplayBufferSamples:
         # Sample randomly the env idx
         env_indices = np.random.randint(0, high=self.n_envs, size=(len(batch_inds),))
 
@@ -103,10 +103,13 @@ class InfoDictReplayBuffer(DictReplayBuffer):
         # Convert to torch tensor
         observations = {key: self.to_torch(obs) for key, obs in obs_.items()}
         next_observations = {key: self.to_torch(obs) for key, obs in next_obs_.items()}
-        # 提取对应的info数据
-        selected_infos =self.infos[batch_inds, env_indices]
 
-        # 返回包含info的样本对象
+        infos_ =self.infos[batch_inds, env_indices]
+        infos = { "obs":self._normalize_obs({key: obs[batch_inds, env_indices, :] for key, obs in infos_["obs"].items()}, env),
+                #   "reward":self.to_torch(self._normalize_reward(self.rewards[batch_inds, env_indices].reshape(-1, 1), env)),
+        }
+
+
         return InfoDictReplayBufferSamples(
             observations=observations,
             actions=self.to_torch(self.actions[batch_inds, env_indices]),
@@ -117,8 +120,51 @@ class InfoDictReplayBuffer(DictReplayBuffer):
                 -1, 1
             ),
             rewards=self.to_torch(self._normalize_reward(self.rewards[batch_inds, env_indices].reshape(-1, 1), env)),
-            infos=selected_infos
+            infos = infos
+
         )
+
+
+
+
+    
+
+    # def _get_samples(
+    #     self, 
+    #     batch_inds: np.ndarray, 
+    #     env: Optional[VecNormalize] = None,
+    # ) -> InfoDictReplayBufferSamples:
+    #     # Sample randomly the env idx
+    #     # Sample randomly the env idx
+    #     env_indices = np.random.randint(0, high=self.n_envs, size=(len(batch_inds),))
+
+    #     # Normalize if needed and remove extra dimension (we are using only one env for now)
+    #     obs_ = self._normalize_obs({key: obs[batch_inds, env_indices, :] for key, obs in self.observations.items()}, env)
+    #     next_obs_ = self._normalize_obs(
+    #         {key: obs[batch_inds, env_indices, :] for key, obs in self.next_observations.items()}, env
+    #     )
+
+    #     assert isinstance(obs_, dict)
+    #     assert isinstance(next_obs_, dict)
+    #     # Convert to torch tensor
+    #     observations = {key: self.to_torch(obs) for key, obs in obs_.items()}
+    #     next_observations = {key: self.to_torch(obs) for key, obs in next_obs_.items()}
+    #     # 提取对应的info数据
+    #     selected_infos =self.infos[batch_inds, env_indices]
+
+    #     # 返回包含info的样本对象
+    #     return InfoDictReplayBufferSamples(
+    #         observations=observations,
+    #         actions=self.to_torch(self.actions[batch_inds, env_indices]),
+    #         next_observations=next_observations,
+    #         # Only use dones that are not due to timeouts
+    #         # deactivated by default (timeouts is initialized as an array of False)
+    #         dones=self.to_torch(self.dones[batch_inds, env_indices] * (1 - self.timeouts[batch_inds, env_indices])).reshape(
+    #             -1, 1
+    #         ),
+    #         rewards=self.to_torch(self._normalize_reward(self.rewards[batch_inds, env_indices].reshape(-1, 1), env)),
+    #         infos=selected_infos
+    #     )
 
 
  

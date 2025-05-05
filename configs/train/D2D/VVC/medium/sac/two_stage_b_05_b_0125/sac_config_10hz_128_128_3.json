@@ -14,32 +14,32 @@
     },
     "rl_train": [{
         "env": {
-            "config_file": "D2D/env_config_for_sac_hard_b_2.json",
+            "config_file": "D2D/env_config_for_sac_medium_b_05.json",
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/VVC/hard_sac/two_satge_hard_sac_b_2_b05/sac_her_10hz_128_128_b_2_1e6steps_seed_3_singleRL",
-            "seed": 20,
-            "seed_in_train_env": 27,
-            "seed_in_callback_env": 26,
-            "train_steps": 1e6,
+            "experiment_name": "D2D/VVC/medium/two_stage_b_05_b_025/sac_10hz_128_128_b_05_5e5steps_seed_3_singleRL",
+            "seed": 156,
+            "seed_in_train_env": 78,
+            "seed_in_callback_env": 23,
+            "train_steps": 5e5,
             "learning_rate": 3e-4,
             "learning_starts": 10240,
             "reset_policy": false,
             "relabel_replay_buffer": false,
-            "has_trained": false
+            "has_trained": true
         }
-    }, {
+    },{
         "env": {
-            "config_file": "D2D/env_config_for_sac_hard_b_05.json",
+            "config_file": "D2D/env_config_for_sac_medium_b_0125.json",
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_her_10hz_128_128_b_2_1e6steps_b_05_1e6steps_seed_3_singleRL",
-            "seed": 6586,
-            "seed_in_train_env": 9843,
-            "seed_in_callback_env": 8623,
-            "train_steps": 1e6,
+            "experiment_name": "D2D/VVC/medium/two_stage_b_05_b_0125/sac_10hz_128_128_b_05_5e5steps_b_0125_5e5steps_seed_3_singleRL",
+            "seed": 513,
+            "seed_in_train_env": 270,
+            "seed_in_callback_env": 390,
+            "train_steps": 5e5,
             "learning_rate": 3e-4,
             "learning_starts": 0,
             "reset_policy": true,
@@ -47,5 +47,6 @@
             "relabel_replay_buffer": true,
             "has_trained": false
         }
-    }]
+    }
+]
 }
