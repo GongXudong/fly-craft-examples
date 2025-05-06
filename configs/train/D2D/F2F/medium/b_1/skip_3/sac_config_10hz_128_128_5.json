@@ -18,10 +18,10 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/F2F/medium/b_1/skip_3/sac_128_128_b_1_1e6steps_skip_3_seed_1_singleRL",
-            "seed": 3,
-            "seed_in_train_env": 7,
-            "seed_in_callback_env": 8,
+            "experiment_name": "D2D/F2F/medium/b_1/skip_3/sac_128_128_b_1_1e6steps_skip_3_seed_5_singleRL",
+            "seed": 42,
+            "seed_in_train_env": 45,
+            "seed_in_callback_env": 49,
             "train_steps": 1e6,
             "learning_rate": 3e-4,
             "learning_starts": 10240,

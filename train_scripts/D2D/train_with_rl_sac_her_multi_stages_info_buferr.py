@@ -14,7 +14,6 @@ from stable_baselines3.common.callbacks import CheckpointCallback, EveryNTimeste
 import flycraft
 from flycraft.utils.load_config import load_config
 
-
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
@@ -22,8 +21,9 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
 from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
 from train_scripts.D2D.utils.get_vec_env import get_vec_env
-from train_scripts.D2D.utils.load_data_from_csv import load_random_trajectories_from_csv_files
+from train_scripts.D2D.utils.load_data_from_csv import load_random_trajectories_from_csv_files,load_random_transitions_from_csv_files
 from train_scripts.D2D.utils.InfoDictReplayBuffer import InfoDictReplayBuffer
+from utils_my.sb3.my_wrappers import ScaledObservationWrapper, ScaledActionWrapper
 
 import warnings
 warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
@@ -48,6 +48,7 @@ def train(train_config):
     for index, train_this_iter_config in enumerate(train_config["rl_train"]):
         THIS_ITER_ENV_CONFIG_FILE = train_this_iter_config["env"]["config_file"]
         THIS_ITER_ENV_CUSTOM_CONFIG = train_this_iter_config["env"].get("custom_config", {})
+        ThIS_ITER_ENV_EVAL_CONFIG_FILE = train_this_iter_config["env"].get("evaluate_config","")
 
         THIS_ITER_SEED = train_this_iter_config["rl"].get("seed")
         THIS_ITER_SEED_IN_TRAINING_ENV = train_this_iter_config["rl"].get("seed_in_train_env")
@@ -75,12 +76,23 @@ def train(train_config):
             "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
             "custom_config": {"debug_mode": True, "flag_str": "Train"},
         }
-        env_config_in_evaluation = {
-            "num_process": RL_EVALUATE_PROCESS_NUM,
-            "seed": THIS_ITER_SEED_IN_CALLBACK_ENV,
-            "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
-            "custom_config": {"debug_mode": True, "flag_str": "Callback"}
-        }
+
+        env_config_in_evaluation = {}
+
+        if ThIS_ITER_ENV_EVAL_CONFIG_FILE =="":
+            env_config_in_evaluation = {
+                "num_process": RL_EVALUATE_PROCESS_NUM,
+                "seed": THIS_ITER_SEED_IN_CALLBACK_ENV,
+                "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE),
+                "custom_config": {"debug_mode": True, "flag_str": "Callback"}
+            }
+        else:
+            env_config_in_evaluation = {
+                "num_process": RL_EVALUATE_PROCESS_NUM,
+                "seed": THIS_ITER_SEED_IN_CALLBACK_ENV,
+                "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / ThIS_ITER_ENV_EVAL_CONFIG_FILE),
+                "custom_config": {"debug_mode": True, "flag_str": "Callback"}
+            }
         
         for wrp in THIS_ITER_WRAPPER_LIST:
             if wrp["type"] == "frame_skip":
@@ -151,7 +163,7 @@ def train(train_config):
                             indices=[0],
                             achieved_goal=sac_algo.replay_buffer.next_observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
                             desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
-                            info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
+                          #  info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
                         )[0]
                         tmp_reward = new_rewards.reshape(-1, 1)
                         sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
@@ -161,6 +173,11 @@ def train(train_config):
                         contains_frame_skip = any(wrapper.get("type") == "frame_skip" for wrapper in THIS_ITER_WRAPPER_LIST)
                         print("compute relabel reward for skip wrapper")
                         if contains_frame_skip:
+                            
+                            # helper_env: flycraft.env.FlyCraftEnv = flycraft.env.FlyCraftEnv(config_file=env_config_in_training)
+                            # scaled_obs_env = ScaledObservationWrapper(helper_env)
+                            # scaled_act_env = ScaledActionWrapper(scaled_obs_env)
+                            
                             loaded_replay_buffer_size = sac_algo.replay_buffer.size()
                             
                             new_rewards = []
@@ -168,7 +185,7 @@ def train(train_config):
                             for info in sac_algo.replay_buffer.infos:
                                 frame_skip_info = info[0].get('frame_skip_info')
                                 if frame_skip_info is not None:
-                                    reward = frame_skip_info[0].get('reward')
+                                    reward = frame_skip_info[2].get('reward')
                                     new_rewards.append(reward)
                                 else:
                                     new_rewards.append(0.0)
@@ -187,25 +204,74 @@ def train(train_config):
         else:
             # check whether to fill replay buffer with expert demonstrations
             if THIS_ITER_PRE_FILL_REPLAY_BUFFER:
-                loaded_obs, loaded_next_obs, loaded_action, loaded_reward, loaded_done, loaded_info = load_random_trajectories_from_csv_files(
+                if USE_HER:
+                    loaded_obs, loaded_next_obs, loaded_action, loaded_reward, loaded_done, loaded_info = load_random_trajectories_from_csv_files(
+                        data_dir=PROJECT_ROOT_DIR / THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["data_dir"],
+                        cache_data=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["cache_data"],
+                        cache_data_dir=PROJECT_ROOT_DIR / THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["cache_data_dir"],
+                        trajectory_save_prefix=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["trajectory_save_prefix"],
+                        env_config_file=PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE,
+                        select_transition_num=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["selected_transition_num"],
+                        random_state=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["random_state"]
+                    )
+                    # sac_algo.replay_buffer.extend(
+                    #     obs=loaded_obs,
+                    #     next_obs=loaded_next_obs,
+                    #     action=loaded_action,
+                    #     reward=loaded_reward,
+                    #     done=loaded_done,
+                    #     infos=loaded_info,
+                    # )
+                    sac_algo.replay_buffer.extend(
+                        observations=loaded_obs,
+                        next_observations=loaded_next_obs,
+                        actions=loaded_action,
+                        rewards=loaded_reward,
+                        dones=loaded_done,
+                        infos=loaded_info,
+                    )
+                else:
+                    loaded_obs, loaded_next_obs, loaded_action, loaded_reward, loaded_done, loaded_info = load_random_transitions_from_csv_files(
                     data_dir=PROJECT_ROOT_DIR / THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["data_dir"],
                     cache_data=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["cache_data"],
                     cache_data_dir=PROJECT_ROOT_DIR / THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["cache_data_dir"],
                     trajectory_save_prefix=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["trajectory_save_prefix"],
                     env_config_file=PROJECT_ROOT_DIR / "configs" / "env" / THIS_ITER_ENV_CONFIG_FILE,
                     select_transition_num=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["selected_transition_num"],
-                    random_state=THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS["random_state"]
-                )
-
-                sac_algo.replay_buffer.extend(
-                    obs=loaded_obs,
-                    next_obs=loaded_next_obs,
-                    action=loaded_action,
-                    reward=loaded_reward,
-                    done=loaded_done,
-                    infos=loaded_info,
-                )
-
+                    n_env = RL_TRAIN_PROCESS_NUM
+                    )
+                    # print(f"loaded_obs shape = {loaded_obs.shape}")
+                    # print(f"loaded_next_obs shape = {loaded_next_obs.shape}")
+                    # sac_algo.replay_buffer.extend(
+                    #     obs=loaded_obs,
+                    #     next_obs=loaded_next_obs,
+                    #     action=loaded_action,
+                    #     reward=loaded_reward,
+                    #     done=loaded_done,
+                    #     infos=loaded_info,
+                    # )
+                    # sac_algo.replay_buffer.extend(
+                    #     # observations=loaded_obs,
+                    #     # next_observations=loaded_next_obs,
+                    #     # obs=loaded_obs,         
+                    #     # next_obs=loaded_next_obs,
+                    #     # action=loaded_action,
+                    #     # reward=loaded_reward,
+                    #     # done=loaded_done,
+                    #     # infos=loaded_info,
+                    #     loaded_obs,         
+                    #     loaded_next_obs,
+                    #     loaded_action,
+                    #     loaded_reward,
+                    #     loaded_done,
+                    #     loaded_info,
+                    # )
+                    for tmp_obs, tmp_next_obs, tmp_action, tmp_reward, tmp_done, tmp_info in zip(loaded_obs, loaded_next_obs, loaded_action, loaded_reward, loaded_done, loaded_info):
+                        for key in tmp_obs:
+                            tmp_obs[key] = tmp_obs[key].reshape(RL_TRAIN_PROCESS_NUM, tmp_obs[key].shape[-1])
+                        for key in tmp_next_obs:
+                            tmp_next_obs[key] = tmp_next_obs[key].reshape(RL_TRAIN_PROCESS_NUM ,tmp_next_obs[key].shape[-1])
+                        sac_algo.replay_buffer.add(obs=tmp_obs,next_obs=tmp_next_obs,action=tmp_action,reward=tmp_reward,done=tmp_done,infos=tmp_info)
                 print(f"Iter {index}: pre-fill replay buffer.")
 
                 # relabel rewards of transitions in the loaded replay buffer
@@ -217,7 +283,7 @@ def train(train_config):
                         indices=[0],
                         achieved_goal=sac_algo.replay_buffer.next_observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
                         desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
-                        info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
+                        #info=sac_algo.replay_buffer.infos.squeeze()[:loaded_replay_buffer_size]
                     )[0]
 
                     sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
