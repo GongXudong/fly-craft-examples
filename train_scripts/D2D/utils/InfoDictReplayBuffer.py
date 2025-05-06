@@ -1,27 +1,37 @@
+from typing import NamedTuple
 import numpy as np
 import torch as th
 from stable_baselines3.common.buffers import DictReplayBuffer
-from stable_baselines3.common.type_aliases import DictReplayBufferSamples
+from stable_baselines3.common.type_aliases import DictReplayBufferSamples, TensorDict
 from typing import Any, Dict, List, Optional, Union
 from gymnasium import spaces
 from stable_baselines3.common.vec_env import VecNormalize
 
 
-class InfoDictReplayBufferSamples(DictReplayBufferSamples):
-    """
-    包含info数据的样本类，继承自DictReplayBufferSamples
-    """
-    def __init__(
-        self,
-        observations: Dict[str, th.Tensor],
-        actions: th.Tensor,
-        next_observations: Dict[str, th.Tensor],
-        dones: th.Tensor,
-        rewards: th.Tensor,
-        infos: np.ndarray,
-    ):
-        super().__init__(observations, actions, next_observations, dones, rewards)
-        self.infos = infos
+class InfoDictReplayBufferSamples(NamedTuple):
+    observations: TensorDict
+    actions: th.Tensor
+    next_observations: TensorDict
+    dones: th.Tensor
+    rewards: th.Tensor
+    infos: np.ndarray
+
+
+# class InfoDictReplayBufferSamples(DictReplayBufferSamples):
+#     """
+#     包含info数据的样本类，继承自DictReplayBufferSamples
+#     """
+#     def __init__(
+#         self,
+#         observations: Dict[str, th.Tensor],
+#         actions: th.Tensor,
+#         next_observations: Dict[str, th.Tensor],
+#         dones: th.Tensor,
+#         rewards: th.Tensor,
+#         infos: np.ndarray,
+#     ):
+#         super().__init__(observations, actions, next_observations, dones, rewards)
+#         self.infos = infos
 
 
 
@@ -105,9 +115,11 @@ class InfoDictReplayBuffer(DictReplayBuffer):
         next_observations = {key: self.to_torch(obs) for key, obs in next_obs_.items()}
 
         infos_ =self.infos[batch_inds, env_indices]
-        infos = { "obs":self._normalize_obs({key: obs[batch_inds, env_indices, :] for key, obs in infos_["obs"].items()}, env),
-                #   "reward":self.to_torch(self._normalize_reward(self.rewards[batch_inds, env_indices].reshape(-1, 1), env)),
-        }
+
+        
+        # for index,item in enumerate(infos_):
+        #     item.update({"observation": {key: value[index] for key,value in observations.items()}})
+        #     item.update({"next_observations": {key: value[index] for key,value in next_observations.items()}})
 
 
         return InfoDictReplayBufferSamples(
@@ -120,7 +132,7 @@ class InfoDictReplayBuffer(DictReplayBuffer):
                 -1, 1
             ),
             rewards=self.to_torch(self._normalize_reward(self.rewards[batch_inds, env_indices].reshape(-1, 1), env)),
-            infos = infos
+            infos = infos_
 
         )
 

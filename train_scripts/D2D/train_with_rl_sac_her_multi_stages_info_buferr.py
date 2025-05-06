@@ -23,6 +23,8 @@ from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
 from train_scripts.D2D.utils.get_vec_env import get_vec_env
 from train_scripts.D2D.utils.load_data_from_csv import load_random_trajectories_from_csv_files,load_random_transitions_from_csv_files
 from train_scripts.D2D.utils.InfoDictReplayBuffer import InfoDictReplayBuffer
+from utils_my.sb3.my_wrappers import ScaledObservationWrapper, ScaledActionWrapper
+
 import warnings
 warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
 gym.register_envs(flycraft)
@@ -171,6 +173,11 @@ def train(train_config):
                         contains_frame_skip = any(wrapper.get("type") == "frame_skip" for wrapper in THIS_ITER_WRAPPER_LIST)
                         print("compute relabel reward for skip wrapper")
                         if contains_frame_skip:
+                            
+                            # helper_env: flycraft.env.FlyCraftEnv = flycraft.env.FlyCraftEnv(config_file=env_config_in_training)
+                            # scaled_obs_env = ScaledObservationWrapper(helper_env)
+                            # scaled_act_env = ScaledActionWrapper(scaled_obs_env)
+                            
                             loaded_replay_buffer_size = sac_algo.replay_buffer.size()
                             
                             new_rewards = []
@@ -178,7 +185,7 @@ def train(train_config):
                             for info in sac_algo.replay_buffer.infos:
                                 frame_skip_info = info[0].get('frame_skip_info')
                                 if frame_skip_info is not None:
-                                    reward = frame_skip_info[0].get('reward')
+                                    reward = frame_skip_info[2].get('reward')
                                     new_rewards.append(reward)
                                 else:
                                     new_rewards.append(0.0)

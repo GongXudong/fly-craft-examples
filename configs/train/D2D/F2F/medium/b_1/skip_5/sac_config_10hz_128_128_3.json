@@ -18,16 +18,16 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/F2F/medium/b_1/skip_3/sac_128_128_b_1_1e6steps_skip_3_seed_1_singleRL",
-            "seed": 3,
-            "seed_in_train_env": 7,
-            "seed_in_callback_env": 8,
+            "experiment_name": "D2D/F2F/medium/b_1/skip_5/sac_128_128_b_1_1e6steps_skip_5_seed_3_singleRL",
+            "seed": 23,
+            "seed_in_train_env": 26,
+            "seed_in_callback_env": 24,
             "train_steps": 1e6,
             "learning_rate": 3e-4,
             "learning_starts": 10240,
             "wrappers": [{
                 "type": "frame_skip",
-                "skip": 3
+                "skip": 5
             }],
             "reset_policy": false,
             "relabel_replay_buffer": false,
