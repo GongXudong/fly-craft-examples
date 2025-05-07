@@ -185,8 +185,15 @@ def train(train_config):
                             for info in sac_algo.replay_buffer.infos:
                                 frame_skip_info = info[0].get('frame_skip_info')
                                 if frame_skip_info is not None:
-                                    reward = frame_skip_info[2].get('reward')
-                                    new_rewards.append(reward)
+                                    if len(frame_skip_info)==3:
+                                        reward = frame_skip_info[2].get('reward')
+                                        new_rewards.append(reward)
+                                    elif len(frame_skip_info)==2:
+                                        reward = frame_skip_info[1].get('reward')
+                                        new_rewards.append(reward)
+                                    else:
+                                        reward = frame_skip_info[0].get('reward')
+                                        new_rewards.append(reward)                                                                                
                                 else:
                                     new_rewards.append(0.0)
  

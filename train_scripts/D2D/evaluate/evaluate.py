@@ -260,54 +260,115 @@ if __name__ == "__main__":
     # ]
 
     sac_config_files = [
-        "configs/train/D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_config_10hz_128_128_1.json",
-        "configs/train/D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_config_10hz_128_128_2.json",
-        "configs/train/D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_config_10hz_128_128_3.json",
-        "configs/train/D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_config_10hz_128_128_4.json",
-        "configs/train/D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_config_10hz_128_128_5.json",
+        # "configs/train/D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_config_10hz_128_128_1.json",
+        # "configs/train/D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_config_10hz_128_128_2.json",
+        # "configs/train/D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_config_10hz_128_128_3.json",
+        # "configs/train/D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_config_10hz_128_128_4.json",
+        # "configs/train/D2D/hard_sac/two_satge_hard_sac_b_2_b05/sac_config_10hz_128_128_5.json",
+        
+        "configs/train/D2D/easy_sac/b_1/sac_config_10hz_128_128_1.json",
+        "configs/train/D2D/easy_sac/b_1/sac_config_10hz_128_128_2.json",
+        "configs/train/D2D/easy_sac/b_1/sac_config_10hz_128_128_3.json",
+        "configs/train/D2D/easy_sac/b_1/sac_config_10hz_128_128_4.json",
+        "configs/train/D2D/easy_sac/b_1/sac_config_10hz_128_128_5.json",
     ]
     sac_algo_strs = ["sac"] * len(sac_config_files)
     sac_save_file_names= [
-        "sac_hard_b_2_1e6_1.csv",
-        "sac_hard_b_2_1e6_2.csv",
-        "sac_hard_b_2_1e6_3.csv",
-        "sac_hard_b_2_1e6_4.csv",
-        "sac_hard_b_2_1e6_5.csv",
+        # "sac_hard_b_2_1e6_1.csv",
+        # "sac_hard_b_2_1e6_2.csv",
+        # "sac_hard_b_2_1e6_3.csv",
+        # "sac_hard_b_2_1e6_4.csv",
+        # "sac_hard_b_2_1e6_5.csv",
+        "sac_easy_b_1_1e6_eval_on_medium_1.csv",
+        "sac_easy_b_1_1e6_eval_on_medium_2.csv",
+        "sac_easy_b_1_1e6_eval_on_medium_3.csv",
+        "sac_easy_b_1_1e6_eval_on_medium_4.csv",
+        "sac_easy_b_1_1e6_eval_on_medium_5.csv",
     ]
 
-    # sac_e2e_config_files = [
-    #     "configs/train/sac/easy_her_end_to_end_mode/sac_config_10hz_128_128_1.json",
-    #     "configs/train/sac/easy_her_end_to_end_mode/sac_config_10hz_128_128_2.json",
-    #     "configs/train/sac/easy_her_end_to_end_mode/sac_config_10hz_128_128_3.json",
-    #     "configs/train/sac/easy_her_end_to_end_mode/sac_config_10hz_128_128_4.json",
-    #     "configs/train/sac/easy_her_end_to_end_mode/sac_config_10hz_128_128_5.json",
-    # ]
-    # sac_e2e_algo_strs = ["sac"] * len(sac_config_files)
-    # sac_e2e_save_file_names= [
-    #     "sac_easy_control_law_mode_1.csv",
-    #     "sac_easy_control_law_mode_2.csv",
-    #     "sac_easy_control_law_mode_3.csv",
-    #     "sac_easy_control_law_mode_4.csv",
-    #     "sac_easy_control_law_mode_5.csv",
-    # ]
+    sac_e2e_config_files = [
+        "configs/train/D2D/goal_sapce/easy_to_medium/b_1/sac_config_10hz_128_128_1.json",
+        "configs/train/D2D/goal_sapce/easy_to_medium/b_1/sac_config_10hz_128_128_2.json",
+        "configs/train/D2D/goal_sapce/easy_to_medium/b_1/sac_config_10hz_128_128_3.json",
+        "configs/train/D2D/goal_sapce/easy_to_medium/b_1/sac_config_10hz_128_128_4.json",
+        "configs/train/D2D/goal_sapce/easy_to_medium/b_1/sac_config_10hz_128_128_5.json",
+    ]
+    sac_e2e_algo_strs = ["sac"] * len(sac_e2e_config_files)
+    sac_e2e_save_file_names= [
+        "sac_easy_b_1_5e5_eval_on_medium_1.csv",
+        "sac_easy_b_1_5e5_eval_on_medium_2.csv",
+        "sac_easy_b_1_5e5_eval_on_medium_3.csv",
+        "sac_easy_b_1_5e5_eval_on_medium_4.csv",
+        "sac_easy_b_1_5e5_eval_on_medium_5.csv",
+    ]
+
+    sac_e2e_config_files_b_05_5e5 = [
+        "configs/train/D2D/goal_sapce/easy_to_medium/b_05/sac_config_10hz_128_128_1.json",
+        "configs/train/D2D/goal_sapce/easy_to_medium/b_05/sac_config_10hz_128_128_2.json",
+        "configs/train/D2D/goal_sapce/easy_to_medium/b_05/sac_config_10hz_128_128_3.json",
+        "configs/train/D2D/goal_sapce/easy_to_medium/b_05/sac_config_10hz_128_128_4.json",
+        "configs/train/D2D/goal_sapce/easy_to_medium/b_05/sac_config_10hz_128_128_5.json",
+    ]
+    sac_e2e_algo_strs_b_05_5e5 = ["sac"] * len(sac_e2e_config_files_b_05_5e5)
+    sac_e2e_save_file_names_b_05_5e5= [
+        "sac_easy_b_05_5e5_eval_on_medium_1.csv",
+        "sac_easy_b_05_5e5_eval_on_medium_2.csv",
+        "sac_easy_b_05_5e5_eval_on_medium_3.csv",
+        "sac_easy_b_05_5e5_eval_on_medium_4.csv",
+        "sac_easy_b_05_5e5_eval_on_medium_5.csv",
+    ]
+
+    
+    sac_config_files_b_05_1e6 = [
+
+        "configs/train/D2D/easy_sac/b_05/sac_config_10hz_128_128_1.json",
+        "configs/train/D2D/easy_sac/b_05/sac_config_10hz_128_128_2.json",
+        "configs/train/D2D/easy_sac/b_05/sac_config_10hz_128_128_3.json",
+        "configs/train/D2D/easy_sac/b_05/sac_config_10hz_128_128_4.json",
+        "configs/train/D2D/easy_sac/b_05/sac_config_10hz_128_128_5.json",
+    ]
+    sac_algo_strs_b_05_1e6 = ["sac"] * len(sac_config_files_b_05_1e6)
+    sac_save_file_names_b_05_1e6= [
+        # "sac_hard_b_2_1e6_1.csv",
+        # "sac_hard_b_2_1e6_2.csv",
+        # "sac_hard_b_2_1e6_3.csv",
+        # "sac_hard_b_2_1e6_4.csv",
+        # "sac_hard_b_2_1e6_5.csv",
+        "sac_easy_b_05_1e6_eval_on_medium_1.csv",
+        "sac_easy_b_05_1e6_eval_on_medium_2.csv",
+        "sac_easy_b_05_1e6_eval_on_medium_3.csv",
+        "sac_easy_b_05_1e6_eval_on_medium_4.csv",
+        "sac_easy_b_05_1e6_eval_on_medium_5.csv",
+    ]
+
+
 
     for config_file_name, algo_str, save_file_name in zip(
         [
             # *ppo_config_files, 
             # *ppo_e2e_config_files,
             *sac_config_files, 
+            *sac_e2e_config_files,
+            *sac_e2e_config_files_b_05_5e5,
+            *sac_config_files_b_05_1e6
             # *sac_e2e_configstarmap_files,
         ],
         [
             # *ppo_algo_strs, 
             # *ppo_e2e_algo_strs,
             *sac_algo_strs, 
+            *sac_e2e_algo_strs,
+            *sac_e2e_algo_strs_b_05_5e5,
+            *sac_algo_strs_b_05_1e6
             # *sac_e2e_algo_strs,
         ],
         [
             # *ppo_save_file_names, 
             # *ppo_e2e_save_file_names,
             *sac_save_file_names, 
+            *sac_e2e_save_file_names,
+            *sac_e2e_save_file_names_b_05_5e5,
+            *sac_save_file_names_b_05_1e6
             # *sac_e2e_save_file_names,
         ]
     ):
@@ -317,8 +378,8 @@ if __name__ == "__main__":
         with Pool(processes=args.process_num) as pool:
 
             train_config = load_config(PROJECT_ROOT_DIR / config_file_name)
-            env_config = load_config(PROJECT_ROOT_DIR / "configs" / "env" / train_config["rl_train"][0]["env"].get("config_file", "env_config_for_sac.json"))
-
+            #env_config = load_config(PROJECT_ROOT_DIR / "configs" / "env" / train_config["rl_train"][0]["env"].get("config_file", "env_config_for_sac.json"))
+            env_config = load_config(PROJECT_ROOT_DIR / "configs" / "env" /"D2D/env_config_for_sac_medium_b_1.json")
             v_min, v_max = env_config["goal"]["v_min"], env_config["goal"]["v_max"]
             mu_min, mu_max = env_config["goal"]["mu_min"], env_config["goal"]["mu_max"]
             chi_min, chi_max = env_config["goal"]["chi_min"], env_config["goal"]["chi_max"]
@@ -342,7 +403,8 @@ if __name__ == "__main__":
                 [[
                     str(PROJECT_ROOT_DIR / "checkpoints" / train_config["rl_train"][0]["rl"].get("experiment_name")),
                     algo_str,
-                    str(PROJECT_ROOT_DIR / "configs" / "env" / train_config["rl_train"][0]["env"].get("config_file", "env_config_for_sac.json") ),
+                    #str(PROJECT_ROOT_DIR / "configs" / "env" / train_config["rl_train"][0]["env"].get("config_file", "env_config_for_sac.json") ),
+                    str(PROJECT_ROOT_DIR / "configs" / "env" / "D2D/env_config_for_sac_medium_b_1.json"),
                     list(target.v),
                     list(target.mu),
                     list(target.chi),
