@@ -354,3 +354,11 @@ python  train_scripts/D2D/train_with_rl_sac_her_multi_stages_info_buferr.py --co
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/b_1/skip_5/sac_config_10hz_128_128_3.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/b_1/skip_5/sac_config_10hz_128_128_4.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/b_1/skip_5/sac_config_10hz_128_128_5.json
+
+
+## gamma 0.95 to 0.995 140
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/baseline/two_stage_b_1_b_1/gamma/sac_config_10hz_128_128_1.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/baseline/two_stage_b_1_b_1/gamma/sac_config_10hz_128_128_2.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/baseline/two_stage_b_1_b_1/gamma/sac_config_10hz_128_128_3.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/baseline/two_stage_b_1_b_1/gamma/sac_config_10hz_128_128_4.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/baseline/two_stage_b_1_b_1/gamma/sac_config_10hz_128_128_5.json

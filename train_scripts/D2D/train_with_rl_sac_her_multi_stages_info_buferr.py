@@ -65,7 +65,7 @@ def train(train_config):
         THIS_ITER_STORE_INFO =  train_this_iter_config["rl"].get("store_info", False)
         THIS_ITER_PRE_FILL_REPLAY_BUFFER = train_this_iter_config["rl"].get("pre_fill_replay_buffer", False)
         THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS = train_this_iter_config["rl"].get("pre_fill_replay_buffer_kwargs", {})
-
+        GAMMA = train_this_iter_config["rl"].get("gamma", 0.995)
         if THIS_ITER_HAS_TRAINED:
             continue
         
