@@ -139,6 +139,7 @@ def train(train_config):
                 ),
             )
             print(f"Iter {index}: reset policy!!!!!")
+            print(f"buffer_size={int(BUFFER_SIZE)}")
         else:
             sac_algo = SAC.load(
                 path=policy_save_dir / train_config["rl_train"][index-1]["rl"]["experiment_name"] / policy_save_name,
