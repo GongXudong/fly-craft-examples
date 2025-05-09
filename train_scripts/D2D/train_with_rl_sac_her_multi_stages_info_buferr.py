@@ -65,7 +65,8 @@ def train(train_config):
         THIS_ITER_STORE_INFO =  train_this_iter_config["rl"].get("store_info", False)
         THIS_ITER_PRE_FILL_REPLAY_BUFFER = train_this_iter_config["rl"].get("pre_fill_replay_buffer", False)
         THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS = train_this_iter_config["rl"].get("pre_fill_replay_buffer_kwargs", {})
-
+        GAMMA = train_this_iter_config["rl"].get("gamma", 0.995)
+        THIS_ITER_WARMUP_EPOCHS=train_this_iter_config["rl"].get("warmup_epochs", 0)
         if THIS_ITER_HAS_TRAINED:
             continue
         
@@ -139,6 +140,8 @@ def train(train_config):
                 ),
             )
             print(f"Iter {index}: reset policy!!!!!")
+            print(f"buffer_size={int(BUFFER_SIZE)}")
+            print(f"sac_algo.replay_buffer.buffer_size = {sac_algo.replay_buffer.buffer_size}")
         else:
             sac_algo = SAC.load(
                 path=policy_save_dir / train_config["rl_train"][index-1]["rl"]["experiment_name"] / policy_save_name,
@@ -152,7 +155,7 @@ def train(train_config):
             if not THIS_ITER_RESET_REPLAY_BUFFER:
                 sac_algo.load_replay_buffer(policy_save_dir / train_config["rl_train"][index-1]["rl"]["experiment_name"] / replay_buffer_save_name)
                 print(f"Iter {index}: load replay buffer from {policy_save_dir / train_config['rl_train'][index-1]['rl']['experiment_name'] / replay_buffer_save_name}.")
-
+                print(f"sac_algo.replay_buffer.buffer_size = {sac_algo.replay_buffer.buffer_size}")
                 # relabel rewards of transitions in the loaded replay buffer
                 if THIS_ITER_RELABEL_REPLAY_BUFFER:
                     # sac_algo.replay_buffer.observations
@@ -185,8 +188,8 @@ def train(train_config):
                             for info in sac_algo.replay_buffer.infos:
                                 frame_skip_info = info[0].get('frame_skip_info')
                                 if frame_skip_info is not None:
-                                    reward = frame_skip_info[2].get('reward')
-                                    new_rewards.append(reward)
+                                    reward = frame_skip_info[-1].get('reward')
+                                    new_rewards.append(reward)                                                                             
                                 else:
                                     new_rewards.append(0.0)
  
@@ -307,6 +310,8 @@ def train(train_config):
 
         checkpoint_on_event = CheckpointCallback(save_freq=1, save_path=str((PROJECT_ROOT_DIR / "checkpoints" / THIS_ITER_RL_EXPERIMENT_NAME).absolute()))
         event_callback = EveryNTimesteps(n_steps=50000, callback=checkpoint_on_event)
+
+        sac_algo.train(gradient_steps=int(THIS_ITER_WARMUP_EPOCHS * sac_algo.replay_buffer.size() / BATCH_SIZE ), batch_size=BATCH_SIZE)
 
         sac_algo.learn(
             total_timesteps=int(THIS_ITER_RL_TRAIN_STEPS),

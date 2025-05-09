@@ -63,7 +63,6 @@ class InfoDictReplayBuffer(DictReplayBuffer):
         infos: List[Dict[str, Any]],
     ) -> None:
         # Copy to avoid modification by reference
-
         for key in self.observations.keys():
             # Reshape needed when using multiple envs with discrete observations
             # as numpy cannot broadcast (n_discrete,) to (n_discrete, 1)
@@ -128,10 +127,8 @@ class InfoDictReplayBuffer(DictReplayBuffer):
             next_observations=next_observations,
             # Only use dones that are not due to timeouts
             # deactivated by default (timeouts is initialized as an array of False)
-            dones=self.to_torch(self.dones[batch_inds, env_indices] * (1 - self.timeouts[batch_inds, env_indices])).reshape(
-                -1, 1
-            ),
-            rewards=self.to_torch(self._normalize_reward(self.rewards[batch_inds, env_indices].reshape(-1, 1), env)),
+            dones=self.to_torch(self.dones[batch_inds, env_indices] * (1 - self.timeouts[batch_inds, env_indices])).reshape((-1, 1)),
+            rewards=self.to_torch(self._normalize_reward(self.rewards[batch_inds, env_indices].reshape((-1, 1)), env)),
             infos = infos_
 
         )

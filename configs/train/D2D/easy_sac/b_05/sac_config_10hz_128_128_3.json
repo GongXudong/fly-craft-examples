@@ -18,7 +18,7 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/easy_sac/b_05/sac_10hz_128_128_b_05_1e6steps_seed_3_singleRL",
+            "experiment_name": "D2D/VVC/easy_sac/b_05/sac_10hz_128_128_b_05_1e6steps_seed_3_singleRL",
             "seed": 154,
             "seed_in_train_env": 71,
             "seed_in_callback_env": 518,

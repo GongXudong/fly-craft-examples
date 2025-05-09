@@ -18,7 +18,7 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/goal_sapce/easy_to_medium/b_1/sac_10hz_128_128_b_1_easy_5e5steps_seed_4_singleRL",
+            "experiment_name": "D2D/goal_sapce/easy_to_medium/sac_10hz_128_128_b_1_easy_5e5steps_seed_4_singleRL",
             "seed": 188,
             "seed_in_train_env": 98,
             "seed_in_callback_env": 27,
