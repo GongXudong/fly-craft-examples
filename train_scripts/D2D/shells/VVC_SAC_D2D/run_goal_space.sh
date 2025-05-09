@@ -398,9 +398,33 @@ python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-n
 
 
 ##  skip 3 to skip 1 buffersize = 5e5 242
-
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages_info_buferrs_change_size.py --config-file-name=configs/train/D2D/F2F/medium/b_1/two_stage_skip_3_skip_1/2e6/buffer_size_5e5/sac_config_10hz_128_128_1.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages_info_buferrs_change_size.py --config-file-name=configs/train/D2D/F2F/medium/b_1/two_stage_skip_3_skip_1/2e6/buffer_size_5e5/sac_config_10hz_128_128_2.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages_info_buferrs_change_size.py --config-file-name=configs/train/D2D/F2F/medium/b_1/two_stage_skip_3_skip_1/2e6/buffer_size_5e5/sac_config_10hz_128_128_3.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages_info_buferrs_change_size.py --config-file-name=configs/train/D2D/F2F/medium/b_1/two_stage_skip_3_skip_1/2e6/buffer_size_5e5/sac_config_10hz_128_128_4.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages_info_buferrs_change_size.py --config-file-name=configs/train/D2D/F2F/medium/b_1/two_stage_skip_3_skip_1/2e6/buffer_size_5e5/sac_config_10hz_128_128_5.json
+
+
+## easy  1e6  buffersize 1e6 eval on medium  10
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/easy_sac/b_05/buffer_size1e6/sac_config_10hz_128_128_1.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/easy_sac/b_05/buffer_size1e6/sac_config_10hz_128_128_2.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/easy_sac/b_05/buffer_size1e6/sac_config_10hz_128_128_3.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/easy_sac/b_05/buffer_size1e6/sac_config_10hz_128_128_4.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/easy_sac/b_05/buffer_size1e6/sac_config_10hz_128_128_5.json
+
+
+## easy2medium  2e6  b = 0.5  120
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/sac_config_10hz_128_128_1.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/sac_config_10hz_128_128_2.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/sac_config_10hz_128_128_3.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/sac_config_10hz_128_128_4.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/sac_config_10hz_128_128_5.json
+
+
+
+## easy2medium  2e6  b = 0.5 warmup_epoch=100    166
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/warmup_epochs_100/sac_config_10hz_128_128_1.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/warmup_epochs_100/sac_config_10hz_128_128_2.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/warmup_epochs_100/sac_config_10hz_128_128_3.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/warmup_epochs_100/sac_config_10hz_128_128_4.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/warmup_epochs_100/sac_config_10hz_128_128_5.json

@@ -66,6 +66,7 @@ def train(train_config):
         THIS_ITER_PRE_FILL_REPLAY_BUFFER = train_this_iter_config["rl"].get("pre_fill_replay_buffer", False)
         THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS = train_this_iter_config["rl"].get("pre_fill_replay_buffer_kwargs", {})
         GAMMA = train_this_iter_config["rl"].get("gamma", 0.995)
+        THIS_ITER_WARMUP_EPOCHS=train_this_iter_config["rl"].get("warmup_epochs", 0)
         if THIS_ITER_HAS_TRAINED:
             continue
         
@@ -309,6 +310,8 @@ def train(train_config):
 
         checkpoint_on_event = CheckpointCallback(save_freq=1, save_path=str((PROJECT_ROOT_DIR / "checkpoints" / THIS_ITER_RL_EXPERIMENT_NAME).absolute()))
         event_callback = EveryNTimesteps(n_steps=50000, callback=checkpoint_on_event)
+
+        sac_algo.train(gradient_steps=int(THIS_ITER_WARMUP_EPOCHS * sac_algo.replay_buffer.size() / BATCH_SIZE ), batch_size=BATCH_SIZE)
 
         sac_algo.learn(
             total_timesteps=int(THIS_ITER_RL_TRAIN_STEPS),
