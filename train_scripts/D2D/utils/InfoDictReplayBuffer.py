@@ -63,7 +63,6 @@ class InfoDictReplayBuffer(DictReplayBuffer):
         infos: List[Dict[str, Any]],
     ) -> None:
         # Copy to avoid modification by reference
-
         for key in self.observations.keys():
             # Reshape needed when using multiple envs with discrete observations
             # as numpy cannot broadcast (n_discrete,) to (n_discrete, 1)
