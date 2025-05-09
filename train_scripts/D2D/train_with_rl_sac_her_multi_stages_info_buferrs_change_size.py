@@ -161,8 +161,11 @@ def train(train_config):
                     file.close()
                 
                 tmp_size = tmp_buffer.buffer_size
-                #tmp_sample = tmp_buffer._get_samples(np.arange(0,tmp_size))
-                tmp_sample = tmp_buffer.sample(tmp_size)
+
+                # obs: [batch_size, obs_shape], action: [batch_size, action_shape], reward: [batch_size, 1], done: [batch_size, 1], info: [batch_size]
+                tmp_sample = tmp_buffer._get_samples(np.arange(0,tmp_size))
+                
+                # tmp_sample = tmp_buffer.sample(tmp_size)
                 
                 for i in range(tmp_size):
                     
@@ -181,7 +184,19 @@ def train(train_config):
                     tmp_infos = [tmp_sample.infos[i]]
                      
 
+                    # [env_inds, obs_shape]
+
+                    for key in tmp_obs.keys():
+                        tmp_obs[key] = tmp_obs[key].reshape((RL_TRAIN_PROCESS_NUM , tmp_obs[key].shape[-1]))
                     
+                    for key in tmp_next_obs.keys():
+                        tmp_next_obs[key] = tmp_next_obs[key].reshape((RL_TRAIN_PROCESS_NUM , tmp_next_obs[key].shape[-1]))
+                    
+                    tmp_action = tmp_action.reshape((RL_TRAIN_PROCESS_NUM, tmp_action.shape[-1]))
+                    # tmp_obs = np.array(tmp_obs).reshape((RL_TRAIN_PROCESS_NUM,-1))
+
+                    # tmp_next_obs = np.array(tmp_next_obs).reshape((RL_TRAIN_PROCESS_NUM,-1))
+                    # tmp_action = np.array(tmp_action).reshape((RL_TRAIN_PROCESS_NUM,-1))
                     sac_algo.replay_buffer.add(obs=tmp_obs,next_obs=tmp_next_obs,action=tmp_action,reward=tmp_reward,done=tmp_done,infos=tmp_infos)
 
                     # for tmp_obs, tmp_next_obs, tmp_action, tmp_reward, tmp_done, tmp_info in zip(loaded_obs, loaded_next_obs, loaded_action, loaded_reward, loaded_done, loaded_info):
