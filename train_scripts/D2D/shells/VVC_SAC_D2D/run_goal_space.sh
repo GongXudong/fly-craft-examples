@@ -428,3 +428,27 @@ python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-n
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/warmup_epochs_100/sac_config_10hz_128_128_3.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/warmup_epochs_100/sac_config_10hz_128_128_4.json
 python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/warmup_epochs_100/sac_config_10hz_128_128_5.json
+
+
+## skip 3 to skip 1 2e6 warmup 100 epoch     242 
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/b_1/two_stage_skip_3_skip_1/2e6/warmup_epochs_100/sac_config_10hz_128_128_1.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/b_1/two_stage_skip_3_skip_1/2e6/warmup_epochs_100/sac_config_10hz_128_128_2.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/b_1/two_stage_skip_3_skip_1/2e6/warmup_epochs_100/sac_config_10hz_128_128_3.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/b_1/two_stage_skip_3_skip_1/2e6/warmup_epochs_100/sac_config_10hz_128_128_4.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/b_1/two_stage_skip_3_skip_1/2e6/warmup_epochs_100/sac_config_10hz_128_128_5.json
+
+
+## easy 2 medium 2e6 buffer_size = 1e6  10
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6/sac_config_10hz_128_128_1.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6/sac_config_10hz_128_128_2.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6/sac_config_10hz_128_128_3.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6/sac_config_10hz_128_128_4.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6/sac_config_10hz_128_128_5.json
+
+
+## easy 2 medium 2e6 buffer_size = 2e6  166
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_2e6/sac_config_10hz_128_128_1.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_2e6/sac_config_10hz_128_128_2.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_2e6/sac_config_10hz_128_128_3.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_2e6/sac_config_10hz_128_128_4.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py  --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_2e6/sac_config_10hz_128_128_5.json
