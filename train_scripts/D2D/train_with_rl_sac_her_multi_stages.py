@@ -14,6 +14,8 @@ from stable_baselines3.common.callbacks import CheckpointCallback, EveryNTimeste
 import flycraft
 from flycraft.utils.load_config import load_config
 
+
+
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
@@ -22,7 +24,7 @@ from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
 from train_scripts.D2D.utils.get_vec_env import get_vec_env
 from train_scripts.D2D.utils.load_data_from_csv import load_random_trajectories_from_csv_files,load_random_transitions_from_csv_files
-
+from utils_my.sb3.my_replay_buffer_utils import fill_replay_buffer
 import warnings
 warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
 gym.register_envs(flycraft)
@@ -307,12 +309,13 @@ def train(train_config):
                     #     loaded_done,
                     #     loaded_info,
                     # )
-                    for tmp_obs, tmp_next_obs, tmp_action, tmp_reward, tmp_done, tmp_info in zip(loaded_obs, loaded_next_obs, loaded_action, loaded_reward, loaded_done, loaded_info):
-                        for key in tmp_obs:
-                            tmp_obs[key] = tmp_obs[key].reshape(RL_TRAIN_PROCESS_NUM, tmp_obs[key].shape[-1])
-                        for key in tmp_next_obs:
-                            tmp_next_obs[key] = tmp_next_obs[key].reshape(RL_TRAIN_PROCESS_NUM ,tmp_next_obs[key].shape[-1])
-                        sac_algo.replay_buffer.add(obs=tmp_obs,next_obs=tmp_next_obs,action=tmp_action,reward=tmp_reward,done=tmp_done,infos=tmp_info)
+                    fill_replay_buffer(replay_buffer=sac_algo.replay_buffer, observations=loaded_obs, actions=loaded_action, next_observations=loaded_next_obs, rewards=loaded_reward, dones=loaded_done, infos=loaded_info, n_envs=RL_TRAIN_PROCESS_NUM)
+                    # for tmp_obs, tmp_next_obs, tmp_action, tmp_reward, tmp_done, tmp_info in zip(loaded_obs, loaded_next_obs, loaded_action, loaded_reward, loaded_done, loaded_info):
+                    #     for key in tmp_obs:
+                    #         tmp_obs[key] = tmp_obs[key].reshape(RL_TRAIN_PROCESS_NUM, tmp_obs[key].shape[-1])
+                    #     for key in tmp_next_obs:
+                    #         tmp_next_obs[key] = tmp_next_obs[key].reshape(RL_TRAIN_PROCESS_NUM ,tmp_next_obs[key].shape[-1])
+                    #     sac_algo.replay_buffer.add(obs=tmp_obs,next_obs=tmp_next_obs,action=tmp_action,reward=tmp_reward,done=tmp_done,infos=tmp_info)
                 print(f"Iter {index}: pre-fill replay buffer.")
 
                 # relabel rewards of transitions in the loaded replay buffer
