@@ -3,7 +3,7 @@
         "net_arch": [128, 128],
         "gamma": 0.995,
         "batch_size": 1024,
-        "buffer_size": 2e5,
+        "buffer_size": 2e6,
         "rollout_process_num": 1,
         "evaluate_process_num": 32,
         "callback_process_num": 32,
@@ -14,32 +14,33 @@
     },
     "rl_train": [{
         "env": {
-            "config_file": "D2D/env_config_for_sac_medium_b_1_angle_only.json",
+            "config_file": "D2D/env_config_for_sac_easy_b_05.json",
+            "evaluate_config":"D2D/env_config_for_sac_medium_b_05.json",
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/reward_devide/medium/baseline/b_1/sac_10hz_128_128_b_1_angle_only_medium_5e5steps_seed_5_singleRL",
-            "seed": 65,
-            "seed_in_train_env": 53,
-            "seed_in_callback_env": 34,
-            "train_steps": 5e5,
+            "experiment_name": "D2D/VVC/easy_sac/b_05/buffer_size1e6/sac_10hz_128_128_b_05_1e6steps_seed_3_singleRL",
+            "seed": 404,
+            "seed_in_train_env": 825,
+            "seed_in_callback_env": 16,
+            "train_steps": 1e6,
             "learning_rate": 3e-4,
             "learning_starts": 10240,
             "reset_policy": false,
             "relabel_replay_buffer": false,
-            "has_trained": false
+            "has_trained": true
         }
     },{
         "env": {
-            "config_file": "D2D/env_config_for_sac_medium_b_1_angle_only.json",
+            "config_file": "D2D/env_config_for_sac_medium_b_05.json",
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/reward_devide/medium/baseline/b_1/sac_10hz_128_128_b_1_angle_only_to_b_1_only_5e5steps_seed_5_singleRL",
-            "seed": 23,
-            "seed_in_train_env": 52,
-            "seed_in_callback_env": 8745,
-            "train_steps": 5e5,
+            "experiment_name": "D2D/goal_sapce/evaluate_medium/easy_to_medium/b_05/2e6/easy2medium_buffer_size_2e6/sac_10hz_128_128_b_05_easy_to_medium_1e6steps_seed_3_singleRL",
+            "seed": 9,
+            "seed_in_train_env": 21,
+            "seed_in_callback_env": 875,
+            "train_steps": 1e6,
             "learning_rate": 3e-4,
             "learning_starts": 0,
             "reset_policy": true,

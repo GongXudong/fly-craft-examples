@@ -261,7 +261,7 @@ def load_random_transitions_from_csv_files(
     # next_ag_array = Dict_next_obs.get("achieved_goal")
     # next_dg_array = Dict_next_obs.get("desired_goal")
 
-    # Dict_next_obs = {
+    # Dict_next_obs = {configs/train/D2D/VVC/medium/sac/E2D_medium_b_05_aug4/warmup_epoch300/sac_config_10hz_128_128_1.json
     #     "observation": next_obs_array.reshape(select_transition_num, n_env, -1),
     #     "achieved_goal": next_ag_array.reshape(select_transition_num, n_env, -1),
     #     "desired_goal": next_dg_array.reshape(select_transition_num, n_env, -1)

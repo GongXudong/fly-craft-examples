@@ -1,0 +1,61 @@
+{
+    "rl_common": {
+        "net_arch": [128, 128],
+        "gamma": 0.995,
+        "batch_size": 1024,
+        "buffer_size": 2e5,
+        "rollout_process_num": 1,
+        "evaluate_process_num": 32,
+        "callback_process_num": 32,
+        "gradient_steps": 1,
+        "eval_freq": 1e4,
+        "n_eval_episodes": 96,
+        "use_her": false
+    },
+    "rl_train": [{
+        "env": {
+            "config_file": "D2D/env_config_for_sac_medium_b_1.json",
+            "custom_config": {}
+        },
+        "rl": {
+            "experiment_name": "D2D/F2F/medium/b_1/skip_3/sac_128_128_b_1_1e6steps_skip_3_seed_2_singleRL",
+            "seed": 15,
+            "seed_in_train_env": 78,
+            "seed_in_callback_env": 73,
+            "train_steps": 1e6,
+            "learning_rate": 3e-4,
+            "learning_starts": 10240,
+            "wrappers": [{
+                "type": "frame_skip",
+                "skip": 3
+            }],
+            "store_info": true,
+            "reset_policy": false,
+            "relabel_replay_buffer": false,
+            "has_trained": true
+        }
+    }, {
+        "env": {
+            "config_file": "D2D/env_config_for_sac_medium_b_1.json",
+            "custom_config": {}
+        },
+        "rl": {
+            "experiment_name": "D2D/F2F/medium/b_1/skip_3_2_skip_1/2e6/warmup_epochs_100/sac_128_128_b_1_1e6steps_skip_3_to_skip_1_seed_2_singleRL",
+            "seed": 19,
+            "seed_in_train_env": 24,
+            "seed_in_callback_env": 36,
+            "train_steps": 1e6,
+            "learning_rate": 3e-4,
+            "learning_starts": 0,
+            "wrappers": [{
+                "type": "frame_skip",
+                "skip": 1
+            }],
+            "warmup_epochs":100,
+            "reset_policy": true,
+            "reset_replay_buffer": false,
+            "relabel_replay_buffer": true,
+            "has_trained": false
+        }
+    }]
+}
