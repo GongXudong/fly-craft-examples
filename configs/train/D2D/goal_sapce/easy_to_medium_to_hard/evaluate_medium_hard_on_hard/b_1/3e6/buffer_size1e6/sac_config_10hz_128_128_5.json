@@ -51,7 +51,7 @@
     },
     {
         "env": {
-            "config_file": "env_config_for_sac_hard_b_1.json",
+            "config_file": "D2D/env_config_for_sac_hard_b_1.json",
             "custom_config": {}
         },
         "rl": {
