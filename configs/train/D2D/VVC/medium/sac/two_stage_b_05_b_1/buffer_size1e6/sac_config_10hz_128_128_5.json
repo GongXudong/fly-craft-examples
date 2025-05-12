@@ -14,21 +14,20 @@
     },
     "rl_train": [{
         "env": {
-            "config_file": "D2D/env_config_for_sac_medium_b_1.json",
+            "config_file": "D2D/env_config_for_sac_medium_b_05.json",
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/VVC/medium/baseline/two_stage_b_1_b_1/gamma095to0995/2e6/buffer_szie1e6/sac_10hz_128_128_b_1_1e6steps_seed_1_singleRL",
-            "seed": 15,
-            "seed_in_train_env": 17,
-            "seed_in_callback_env": 20,
+            "experiment_name": "D2D/VVC/medium/two_stage_b_05_b_1/buffer_size1e6/sac_10hz_128_128_b_05_1e6steps_seed_5_singleRL",
+            "seed": 519,
+            "seed_in_train_env": 54,
+            "seed_in_callback_env": 224,
             "train_steps": 1e6,
             "learning_rate": 3e-4,
             "learning_starts": 10240,
             "reset_policy": false,
             "relabel_replay_buffer": false,
-            "has_trained": true,
-            "gamma":0.95
+            "has_trained": true
         }
     },{
         "env": {
@@ -36,18 +35,17 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/VVC/medium/baseline/two_stage_b_1_b_1/gamma095to0995/2e6/buffer_szie1e6/sac_10hz_128_128_b_1_1e6steps_b_1_1e6steps_seed_1_singleRL",
-            "seed": 45,
-            "seed_in_train_env": 53,
-            "seed_in_callback_env": 26,
+            "experiment_name": "D2D/VVC/medium/two_stage_b_05_b_1/buffer_size1e6/sac_10hz_128_128_b_05_1e6steps_b_1_1e6steps_seed_5_singleRL",
+            "seed": 52,
+            "seed_in_train_env": 620,
+            "seed_in_callback_env": 189,
             "train_steps": 1e6,
             "learning_rate": 3e-4,
             "learning_starts": 0,
             "reset_policy": true,
             "reset_replay_buffer": false,
             "relabel_replay_buffer": true,
-            "has_trained": false,
-            "gamma":0.995
+            "has_trained": false
         }
     }
 ]

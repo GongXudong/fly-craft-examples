@@ -51,8 +51,23 @@ python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-na
 
 
 ## E2D buffer_size 1e6   aug4  transition 2e5  110
-python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_05_aug4/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_1.json
-python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_05_aug4/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_2.json
-python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_05_aug4/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_3.json
-python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_05_aug4/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_4.json
-python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_05_aug4/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_5.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_1_aug4/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_1.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_1_aug4/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_2.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_1_aug4/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_3.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_1_aug4/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_4.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_1_aug4/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_5.json
+
+
+## E2D buffer_size 1e6   aug4  transition 1e6  251
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_1_aug4/buffer_size1e6/num_transition1e6/sac_config_10hz_128_128_1.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_1_aug4/buffer_size1e6/num_transition1e6/sac_config_10hz_128_128_2.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_1_aug4/buffer_size1e6/num_transition1e6/sac_config_10hz_128_128_3.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_1_aug4/buffer_size1e6/num_transition1e6/sac_config_10hz_128_128_4.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_1_aug4/buffer_size1e6/num_transition1e6/sac_config_10hz_128_128_5.json
+
+## D2D b=0.5 to b = 1  2e6   buffer_size 1e6   first on 251 second on 110
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_1/buffer_size1e6/sac_config_10hz_128_128_1.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_1/buffer_size1e6/sac_config_10hz_128_128_2.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_1/buffer_size1e6/sac_config_10hz_128_128_3.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_1/buffer_size1e6/sac_config_10hz_128_128_4.json
+python  train_scripts/D2D/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_1/buffer_size1e6/sac_config_10hz_128_128_5.json
