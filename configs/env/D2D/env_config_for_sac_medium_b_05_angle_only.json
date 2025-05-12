@@ -26,15 +26,9 @@
         "sample_goal_noise_std": [5, 0.5, 0.5]
     },
     "rewards": {
-        "dense": {
-            "use": false,
-            "b": 0.5,
-            "angle_weight": 0.5,
-            "angle_scale": 180,
-            "velocity_scale": 100
-        },
         "dense_angle_only":{
             "use": true,
+            "b": 0.5,
             "angle_scale":180
         }
     },
