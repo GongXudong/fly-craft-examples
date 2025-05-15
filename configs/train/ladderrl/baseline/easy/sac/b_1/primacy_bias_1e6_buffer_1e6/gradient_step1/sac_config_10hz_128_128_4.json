@@ -36,9 +36,9 @@
         },
         "rl": {
             "experiment_name": "ladderrl/baseline/easy/sac/b_1/primacy_bias_1e6_buffer_1e6/gradient_step1/sac_10hz_128_128_b_1_4e5steps_seed_4_singleRL",
-            "seed": 14,
-            "seed_in_train_env": 16,
-            "seed_in_callback_env": 13,
+            "seed": 324,
+            "seed_in_train_env": 108,
+            "seed_in_callback_env": 19,
             "train_steps": 2e5,
             "learning_rate": 3e-4,
             "learning_starts": 0,
