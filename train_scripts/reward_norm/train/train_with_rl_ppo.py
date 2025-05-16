@@ -10,7 +10,7 @@ import sys
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.logger import configure, Logger
-from stable_baselines3.common.callbacks import CheckpointCallback, EvalCallback
+from stable_baselines3.common.callbacks import CheckpointCallback, EveryNTimesteps, EvalCallback
 from stable_baselines3.ppo import MultiInputPolicy
 from stable_baselines3.common.vec_env import SubprocVecEnv, VecCheckNan
 
@@ -18,14 +18,16 @@ import flycraft
 from flycraft.utils.load_config import load_config
 from flycraft.utils.dict_utils import update_nested_dict
 
-PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
+PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
+from train_scripts.reward_norm.algorithms.normalizers.vec_normalize_goal_conditioned_reward_scaling import VecNormalizeGoalConditionedRewardScaling
 from utils_my.sb3.vec_env_helper import get_vec_env
 from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
 from utils_my.sb3.my_schedule import linear_schedule
+from utils_my.sb3.my_vec_normalize_save_callback import MyVecNormalizeSaveCallback
 
 np.seterr(all="raise")  # 检查nan
 
@@ -59,7 +61,7 @@ def train():
     env_config_dict_in_training = {
         "num_process": ROLLOUT_PROCESS_NUM, 
         "seed": SEED,
-        "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / train_config["env"].get("config_file", "env_config_for_sac.json")),
+        "config_file": str(PROJECT_ROOT_DIR / "configs" / "env" / ENV_CONFIG),
         "custom_config": {"debug_mode": True, "flag_str": "Train"}
     }
 
@@ -80,6 +82,19 @@ def train():
     vec_env = VecCheckNan(get_vec_env(
         **env_config_dict_in_training
     ))
+
+    if ENV_NORMALIZE_REWARD == "reward_scaling_cluster":
+        vec_env = VecNormalizeGoalConditionedRewardScaling(
+            vec_env,
+            training=True,
+            norm_obs=False,
+            norm_reward=True,
+            gamma=GAMMA,
+        )
+        # TODO: other reward scaling methods
+    else:
+        pass
+
     # evaluate_policy使用的测试环境
     eval_env = VecCheckNan(get_vec_env(
         **env_config_dict_in_eval
@@ -106,7 +121,30 @@ def train():
         render=False,
     )
 
-    algo_ppo.learn(total_timesteps=RL_TRAIN_STEPS, callback=eval_callback)
+    checkpoint_on_event = CheckpointCallback(
+        save_freq=1, 
+        save_path=str((PROJECT_ROOT_DIR / "checkpoints" / RL_EXPERIMENT_NAME).absolute()),
+        save_vecnormalize=True,
+    )
+    event_callback = EveryNTimesteps(
+        n_steps=SAVE_CKPT_EVERY_N_TIMESTEPS, 
+        callback=checkpoint_on_event
+    )
+
+    save_vec_normalize_callback = EveryNTimesteps(
+        n_steps=SAVE_CKPT_EVERY_N_TIMESTEPS,
+        callback=MyVecNormalizeSaveCallback(
+            save_freq=1,
+            save_path=str((PROJECT_ROOT_DIR / "checkpoints" / RL_EXPERIMENT_NAME).absolute()),
+            name_prefix="my",
+            verbose=2,
+        )
+    )
+
+    algo_ppo.learn(
+        total_timesteps=RL_TRAIN_STEPS, 
+        callback=[eval_callback, event_callback, save_vec_normalize_callback],
+    )
 
     # evaluate
     reward, _, success_rate = evaluate_policy_with_success_rate(algo_ppo.policy, eval_env, EVALUATE_NUMS_IN_EVALUATION*env_num_used_in_eval)
@@ -122,6 +160,9 @@ if __name__ == "__main__":
 
     train_config = load_config(Path(os.getcwd()) / args.config_file_name)
 
+    ENV_CONFIG = train_config["env"].get("config_file", "env_config_for_sac.json")
+    ENV_NORMALIZE_REWARD = train_config["env"].get("normarlize_reward", "none")
+
     RL_EXPERIMENT_NAME = train_config["rl"]["experiment_name"]
     SEED = train_config["rl"]["seed"]
     GAMMA = train_config["rl"]["gamma"]
@@ -136,5 +177,7 @@ if __name__ == "__main__":
     EVALUATE_NUMS_IN_EVALUATION = train_config["rl"].get("evaluate_nums_in_evaluation", 30)
     EVALUATE_NUMS_IN_CALLBACK = train_config["rl"].get("evaluate_nums_in_callback", 3)
     LEARNING_RATE = train_config["rl"].get("learning_rate", 3e-4)
+
+    SAVE_CKPT_EVERY_N_TIMESTEPS = train_config["rl"].get("save_checkpoint_every_n_timesteps", 4000000)
 
     train()

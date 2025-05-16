@@ -1,0 +1,29 @@
+{
+    "env": {
+        "config_file": "reward_norm/env_config_guidance_MR_medium_b_05.json",
+        "custom_config": {},
+        "normarlize_reward": "reward_scaling_cluster"
+    },
+    "rl": {
+        "experiment_name": "reward_norm/medium_guidance/her/reward_scaling_cluster/128_128_1e6steps_seed_2",
+        "seed": 12,
+        "seed_in_train_env": 14,
+        "seed_in_callback_env": 19,
+        "net_arch": [128, 128],
+        "gamma": 0.995,
+        "train_steps": 1e6,
+        "batch_size": 1024,
+        "buffer_size": 2e5,
+        "learning_starts": 10240,
+        "rollout_process_num": 1,
+        "evaluate_process_num": 8,
+        "callback_process_num": 8,
+        "gradient_steps": 1,
+        "learning_rate": 3e-4,
+        "eval_freq": 1e4,
+        "n_eval_episodes": 96,
+        "save_checkpoint_every_n_timesteps": 50000,
+        "use_her": true,
+        "device": "cuda"
+    }
+}
