@@ -1,6 +1,6 @@
 import numpy as np
-# data = np.load('/home/sen/pythonprojects/fly-craft-examples/checkpoints/D2D/panda_reach_dense/distance_threshold_0_01/her/two_stage_relative_hard_b_2_b_05/sac_her_10hz_128_128_b_2_5e4steps_seed_1_singleRL/replay_buffer.pkl', allow_pickle=True)
-# print(data)
+data = np.load('/home/sen/pythonprojects/fly-craft-examples/checkpoints/ladderrl/baseline/easy/sac/b_1/primacy_bias_1e6_buffer_1e6/gradient_step4/sac_10hz_128_128_b_1_4e5steps_seed_1_singleRL/replay_buffer.pkl', allow_pickle=True)
+print(data)
 from stable_baselines3 import HerReplayBuffer, SAC
 
 from stable_baselines3.common.env_util import make_vec_env

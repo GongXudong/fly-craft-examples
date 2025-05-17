@@ -53,7 +53,16 @@ python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-fil
 
 # medium buffersizze 1e6 primacy bias  reset 2e5 gradient 1  242
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/gradient_step1/sac_config_10hz_128_128_1.json
-python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/gradient_step1/sac_config_10hz_128_128_1.json
-python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/gradient_step1/sac_config_10hz_128_128_1.json
-python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/gradient_step1/sac_config_10hz_128_128_1.json
-python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/gradient_step1/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/gradient_step1/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/gradient_step1/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/gradient_step1/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/gradient_step1/sac_config_10hz_128_128_5.json
+
+
+
+# medium buffersizze 2e6 primacy bias  reset 4e5 gradient 1  242
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/buffersize_2e6_reset4e5/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/buffersize_2e6_reset4e5/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/buffersize_2e6_reset4e5/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/buffersize_2e6_reset4e5/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/buffersize_2e6_reset4e5/sac_config_10hz_128_128_5.json
