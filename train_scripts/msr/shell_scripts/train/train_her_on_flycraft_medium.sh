@@ -1,6 +1,7 @@
 #!/bin/bash
 
 
+#----------------------------------------------- baseline HER -------------------------------------------------------------
 python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/medium_her/sac_config_10hz_128_128_1.json
 python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/medium_her/sac_config_10hz_128_128_2.json
 python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/medium_her/sac_config_10hz_128_128_3.json
@@ -8,7 +9,7 @@ python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/s
 python train_scripts/train_with_rl_sac_her.py --config-file-name configs/train/sac/medium_her/sac_config_10hz_128_128_5.json
 
 
-#---------------------------------------- epsilon = [1.0, 0.3, 0.3] -------------------------------------------------------------
+#---------------------------------------- MSR-HER epsilon = [1.0, 0.3, 0.3] -------------------------------------------------------------
 
 # epsilon = [1.0, 0.3, 0.3]  regularization_strength = 0.0001  noise_num = 16
 python train_scripts/msr/train/train_sac.py --config-file-name configs/train/msr/her/medium/beta_0/epsilon_0_1_reg_0_0001_N_16/128_128_seed_1.json
