@@ -1,0 +1,110 @@
+{
+    "rl_common": {
+        "net_arch": [128, 128],
+        "gamma": 0.995,
+        "batch_size": 1024,
+        "buffer_size": 1e6,
+        "rollout_process_num": 1,
+        "evaluate_process_num": 8,
+        "callback_process_num": 8,
+        "gradient_steps": 1,
+        "eval_freq": 4e3,
+        "n_eval_episodes": 96,
+        "use_her": false
+    },
+    "rl_train": [{
+        "env": {
+            "config_file": "ladderrl/env_config_for_sac_medium_b_1.json",
+            "custom_config": {}
+        },
+        "rl": {
+            "experiment_name": "ladderrl/baseline/medium/sac/b_1/primacy_bias_1e6_buffer_1e6/gradient_step1/warmup300/sac_10hz_128_128_b_1_2e5steps_seed_2_singleRL",
+            "seed": 10,
+            "seed_in_train_env": 13,
+            "seed_in_callback_env": 21,
+            "train_steps": 2e5,
+            "learning_rate": 3e-4,
+            "learning_starts": 10240,
+            "reset_policy": false,
+            "relabel_replay_buffer": false,
+            "has_trained": false
+        }
+    },{
+        "env": {
+            "config_file": "ladderrl/env_config_for_sac_medium_b_1.json",
+            "custom_config": {}
+        },
+        "rl": {
+            "experiment_name": "ladderrl/baseline/medium/sac/b_1/primacy_bias_1e6_buffer_1e6/gradient_step1/warmup300/sac_10hz_128_128_b_1_4e5steps_seed_2_singleRL",
+            "seed": 452,
+            "seed_in_train_env": 58,
+            "seed_in_callback_env": 23,
+            "train_steps": 2e5,
+            "learning_rate": 3e-4,
+            "learning_starts": 0,
+            "warmup_epochs":300,
+            "reset_policy": true,
+            "reset_replay_buffer": false,
+            "relabel_replay_buffer": true,
+            "has_trained": false
+        }
+    },{
+        "env": {
+            "config_file": "ladderrl/env_config_for_sac_medium_b_1.json",
+            "custom_config": {}
+        },
+        "rl": {
+            "experiment_name": "ladderrl/baseline/medium/sac/b_1/primacy_bias_1e6_buffer_1e6/gradient_step1/warmup300/sac_10hz_128_128_b_1_6e5steps_seed_2_singleRL",
+            "seed": 17,
+            "seed_in_train_env": 21,
+            "seed_in_callback_env": 16,
+            "train_steps": 2e5,
+            "learning_rate": 3e-4,
+            "learning_starts": 0,
+            "warmup_epochs":300,
+            "reset_policy": true,
+            "reset_replay_buffer": false,
+            "relabel_replay_buffer": true,
+            "has_trained": false
+        }
+    },{
+        "env": {
+            "config_file": "ladderrl/env_config_for_sac_medium_b_1.json",
+            "custom_config": {}
+        },
+        "rl": {
+            "experiment_name": "ladderrl/baseline/medium/sac/b_1/primacy_bias_1e6_buffer_1e6/gradient_step1/warmup300/sac_10hz_128_128_b_1_8e5steps_seed_2_singleRL",
+            "seed": 9,
+            "seed_in_train_env": 5,
+            "seed_in_callback_env": 2,
+            "train_steps": 2e5,
+            "learning_rate": 3e-4,
+            "learning_starts": 0,
+            "warmup_epochs":300,
+            "reset_policy": true,
+            "reset_replay_buffer": false,
+            "relabel_replay_buffer": true,
+            "has_trained": false
+        }
+    },{
+        "env": {
+            "config_file": "ladderrl/env_config_for_sac_medium_b_1.json",
+            "custom_config": {}
+        },
+        "rl": {
+            "experiment_name": "ladderrl/baseline/medium/sac/b_1/primacy_bias_1e6_buffer_1e6/gradient_step1/warmup300/sac_10hz_128_128_b_1_1e6steps_seed_2_singleRL",
+            "seed": 47,
+            "seed_in_train_env": 14,
+            "seed_in_callback_env": 6,
+            "train_steps": 2e5,
+            "learning_rate": 3e-4,
+            "learning_starts": 0,
+            "warmup_epochs":300,
+            "reset_policy": true,
+            "reset_replay_buffer": false,
+            "relabel_replay_buffer": true,
+            "has_trained": false
+        }
+    }
+]
+}
