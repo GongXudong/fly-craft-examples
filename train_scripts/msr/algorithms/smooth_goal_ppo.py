@@ -24,11 +24,24 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
 from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapper
-from train_scripts.disc.utils.reset_env_utils import get_lower_bound_of_desired_goal, get_upper_bound_of_desired_goal
+from train_scripts.msr.utils.reset_env_utils import get_lower_bound_of_desired_goal, get_upper_bound_of_desired_goal
 
 
 class SmoothGoalPPO(PPO):
+    """Add auxiliary loss for goal regularization to PPO.
 
+    Loss = policy_loss + ent_coef * entropy_loss + vf_coef * value_loss + goal_regularization_strength * noised_goal_loss
+
+    noised_goal_loss = max{KL(policy_action_dist, noised_goal_action_dist) - goal_regularization_loss_threshold, 0}.mean()
+
+    对于原来的一个obs，生成noise_num_for_each_goal个noised_goal_obs，每个noised_goal_obs都添加了一个随机噪声，
+    然后计算每个noised_goal_obs对应的动作分布，最后计算这些动作分布和原来的动作分布之间的KL散度或JS散度。
+
+    注意：使用noise_num_for_each_goal个KL的**平均值**作为noised_goal_loss。
+
+    Args:
+        PPO (_type_): _description_
+    """
     def __init__(
         self,
         policy: Union[str, Type[ActorCriticPolicy]],
@@ -159,7 +172,7 @@ class SmoothGoalPPO(PPO):
                     actions = rollout_data.actions.long().flatten()
 
                 # values, log_prob, entropy = self.policy.evaluate_actions(rollout_data.observations, actions)
-                # -----------------为了得到distribution，coyp了evaluation_actions的源码----------------------
+                # -----------------begin: 为了得到distribution，coyp了evaluation_actions的源码----------------------
                 features = self.policy.extract_features(rollout_data.observations)
                 if self.policy.share_features_extractor:
                     latent_pi, latent_vf = self.policy.mlp_extractor(features)
@@ -172,12 +185,14 @@ class SmoothGoalPPO(PPO):
                 values = self.policy.value_net(latent_vf)
                 entropy = distribution.entropy()
 
+                # 由于每个(state, goal)对应了noise_num_for_each_goal个noised_goal_obs，所以action_dist需要重复noise_num_for_each_goal次
+                # action_dist仅用于计算noised_goal_loss
                 action_dist = th.distributions.Normal(
                     loc=distribution.distribution.loc.repeat((self.noise_num_for_each_goal, 1)),
                     scale=distribution.distribution.scale.repeat((self.noise_num_for_each_goal, 1))
                 )
 
-                # -----------------为了得到distribution，coyp了evaluation_actions的源码----------------------
+                # -----------------end: 为了得到distribution，coyp了evaluation_actions的源码----------------------
 
                 values = values.flatten()
                 # Normalize advantage

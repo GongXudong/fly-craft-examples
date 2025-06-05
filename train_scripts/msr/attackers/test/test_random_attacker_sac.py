@@ -15,8 +15,8 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
 from utils_my.sb3.my_wrappers import ScaledObservationWrapper, ScaledActionWrapper
-from train_scripts.disc.attackers.sac.random_attackers_sac import RandomAttacker
-from train_scripts.disc.utils.evaluation import my_evaluate_with_customized_dg
+from train_scripts.msr.attackers.sac.random_attackers_sac import RandomAttacker
+from train_scripts.msr.utils.evaluation import my_evaluate_with_customized_dg
 
 gym.register_envs(flycraft)
 
@@ -29,7 +29,7 @@ class RandomAttackerTest(unittest.TestCase):
         env_id = "FlyCraft-v0"
         env = gym.make(
             env_id,
-            config_file=PROJECT_ROOT_DIR / "configs" / "env" / "env_config_for_sac.json"
+            config_file=PROJECT_ROOT_DIR / "configs" / "env" / "VVCGym" / "env_config_for_sac.json"
         )
         env = ScaledActionWrapper(ScaledObservationWrapper(env))
 

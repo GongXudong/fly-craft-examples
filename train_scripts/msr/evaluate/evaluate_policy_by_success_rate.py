@@ -14,8 +14,8 @@ PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
-from train_scripts.disc.algorithms.smooth_goal_ppo import SmoothGoalPPO
-from train_scripts.disc.algorithms.smooth_goal_sac import SmoothGoalSAC
+from train_scripts.msr.algorithms.smooth_goal_ppo import SmoothGoalPPO
+from train_scripts.msr.algorithms.smooth_goal_sac import SmoothGoalSAC
 from utils_my.sb3.vec_env_helper import get_vec_env
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
 

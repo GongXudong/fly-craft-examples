@@ -15,9 +15,9 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
 from utils_my.sb3.my_wrappers import ScaledObservationWrapper, ScaledActionWrapper
-from train_scripts.disc.attackers.sac.gradient_ascent_attackers_sac import GradientAscentAttacker
-from train_scripts.disc.utils.evaluation import my_evaluate_with_customized_dg
-from train_scripts.disc.utils.reset_env_utils import (
+from train_scripts.msr.attackers.sac.gradient_ascent_attackers_sac import GradientAscentAttacker
+from train_scripts.msr.utils.evaluation import my_evaluate_with_customized_dg
+from train_scripts.msr.utils.reset_env_utils import (
     get_lower_bound_of_desired_goal,
     get_upper_bound_of_desired_goal,
 )
@@ -33,7 +33,7 @@ class GradientAscentAttackerTest(unittest.TestCase):
         env_id = "FlyCraft-v0"
         self.original_env = gym.make(
             env_id,
-            config_file=PROJECT_ROOT_DIR / "configs" / "env" / "env_config_for_sac.json"
+            config_file=PROJECT_ROOT_DIR / "configs" / "env" / "VVCGym" / "env_config_for_sac.json"
         )
         self.scaled_obs_env = ScaledObservationWrapper(self.original_env)
         self.scaled_act_obs_env = ScaledActionWrapper(self.scaled_obs_env)

@@ -15,9 +15,9 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
 from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapper
-from train_scripts.disc.algorithms.smooth_goal_ppo import SmoothGoalPPO
-from train_scripts.disc.attackers.ppo.random_attackers_ppo import RandomAttacker
-from train_scripts.disc.utils.evaluation import my_evaluate_with_customized_dg
+from train_scripts.msr.algorithms.smooth_goal_ppo import SmoothGoalPPO
+from train_scripts.msr.attackers.ppo.random_attackers_ppo import RandomAttacker
+from train_scripts.msr.utils.evaluation import my_evaluate_with_customized_dg
 
 
 def evaluate(args):
