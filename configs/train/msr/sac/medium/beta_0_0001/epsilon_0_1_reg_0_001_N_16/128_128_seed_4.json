@@ -1,0 +1,33 @@
+{
+    "env": {
+        "config_file": "D2D/env_config_for_ppo_medium_b_05.json",
+        "custom_config": {}
+    },
+    "rl": {
+        "experiment_name": "medium/sac/beta_0_0001/epsilon_0_1_reg_0_001_N_16/128_128_1e6steps_seed_4",
+        "seed": 35,
+        "seed_in_train_env": 37,
+        "seed_in_callback_env": 39,
+        "net_arch": [128, 128],
+        "gamma": 0.995,
+        "train_steps": 1e6,
+        "batch_size": 1024,
+        "buffer_size": 2e5,
+        "learning_starts": 10240,
+        "rollout_process_num": 1,
+        "evaluate_process_num": 8,
+        "callback_process_num": 8,
+        "gradient_steps": 1,
+        "learning_rate": 3e-4,
+        "eval_freq": 1e4,
+        "n_eval_episodes": 96,
+        "save_checkpoint_every_n_timesteps": 50000,
+        "use_her": false,
+        "goal_noise_epsilon": [1.0, 0.3, 0.3],
+        "goal_regularization_strength": 1e-3,
+        "goal_regularization_loss_threshold": 0.0001,
+        "noise_num_for_each_goal": 16,
+        "policy_distance_measure_func": "KL",
+        "device": "cuda"
+    }
+}
