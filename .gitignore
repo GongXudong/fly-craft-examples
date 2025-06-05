@@ -19,6 +19,7 @@ evaluate*.txt
 tmp*.txt
 cache/
 plots/
+issues/
 
 train_scripts/D2D/trys/
 train_scripts/disc/evaluate/easy/
