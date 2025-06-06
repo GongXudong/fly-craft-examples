@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 from stable_baselines3.common.utils import set_random_seed
-
+from gymnasium import Wrapper, ObservationWrapper, ActionWrapper, Env, spaces
 from flycraft.env import FlyCraftEnv
 
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
