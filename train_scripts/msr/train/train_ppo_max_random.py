@@ -22,7 +22,7 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
 from train_scripts.msr.algorithms.smooth_goal_ppo_max_random import SmoothGoalPPOMaxRandom
-from utils_my.sb3.vec_env_helper import get_vec_env
+from train_scripts.msr.utils.vec_env_helper import get_vec_env
 from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
 from utils_my.sb3.my_schedule import linear_schedule
@@ -158,6 +158,7 @@ if __name__ == "__main__":
 
     ENV_CONFIG_FILE = train_config["env"]["config_file"]
     ENV_CUSTOM_CONFIG = train_config["env"].get("custom_config", {})
+    ENV_FRAME_SKIP = train_config["env"].get("frame_skip", 1)
 
     SEED = train_config["rl"]["seed"]
     SEED_IN_TRAINING_ENV = train_config["rl"].get("seed_in_train_env")
