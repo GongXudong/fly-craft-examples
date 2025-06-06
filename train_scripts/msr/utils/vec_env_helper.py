@@ -5,12 +5,20 @@ from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 from stable_baselines3.common.utils import set_random_seed
 from gymnasium import Wrapper, ObservationWrapper, ActionWrapper, Env, spaces
 from flycraft.env import FlyCraftEnv
-
+from typing import TypeVar, Dict, Union, List, SupportsFloat, Any
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
+
+
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
 from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapper
+
+# from gymnasium core.py
+ObsType = TypeVar("ObsType")
+WrapperObsType = TypeVar("WrapperObsType")
+ActType = TypeVar("ActType")
+WrapperActType = TypeVar("WrapperActType")
 
 def make_env(rank: int, seed: int = 0, **kwargs):
     """
