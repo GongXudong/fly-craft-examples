@@ -1,13 +1,13 @@
 {
     "env": {
-        "config_file": "D2D/env_config_for_ppo_medium_b_05.json",
+        "config_file": "D2D/env_config_for_ppo_10hz_medium_b_05.json",
         "custom_config": {}
     },
     "rl": {
-        "experiment_name": "medium/smooth_goal_ppo_max_random/beta_0_1/epsilon_0_1_reg_0_001_N_16/128_128_2e8steps_seed_2",
-        "seed": 11,
-        "seed_in_train_env": 13,
-        "seed_in_callback_env": 16,
+        "experiment_name": "medium_10hz/smooth_goal_ppo_max_random/beta_0_1/epsilon_0_1_reg_0_001_N_16/128_128_2e8steps_seed_4",
+        "seed": 36,
+        "seed_in_train_env": 38,
+        "seed_in_callback_env": 39,
         "train_steps": 2e8,
         "net_arch": [128, 128],
         "batch_size": 4096,
