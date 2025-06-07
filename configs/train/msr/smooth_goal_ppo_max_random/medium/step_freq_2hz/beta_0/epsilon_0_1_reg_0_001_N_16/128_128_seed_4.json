@@ -1,6 +1,6 @@
 {
     "env": {
-        "config_file": "D2D/env_config_for_ppo_2hz_medium_b_05.json",
+        "config_file": "MSR/env_config_for_ppo_2hz_medium_b_05.json",
         "custom_config": {}
     },
     "rl": {
