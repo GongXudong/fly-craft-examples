@@ -33,8 +33,12 @@ def make_env(rank: int, seed: int = 0, **kwargs):
             custom_config=kwargs.get("custom_config", {})
         )
         env = ScaledActionWrapper(ScaledObservationWrapper(env))
-        if kwargs.get("frame_skip", 1) > 1:
-            env = FrameSkipWrapper(env,skip=kwargs.get("frame_skip", 1))
+
+        frame_skip = kwargs.get("frame_skip", 1)
+        if frame_skip > 1:
+            print(f"frame_skip: {frame_skip}")
+            env = FrameSkipWrapper(env, skip=frame_skip)
+
         env.reset(seed=seed + rank)
         print(seed+rank, env.unwrapped.task.np_random, env.unwrapped.task.goal_sampler.np_random)
         return env
