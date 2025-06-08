@@ -6,9 +6,9 @@ from stable_baselines3.common.utils import set_random_seed
 from gymnasium import Wrapper, ObservationWrapper, ActionWrapper, Env, spaces
 from flycraft.env import FlyCraftEnv
 from typing import TypeVar, Dict, Union, List, SupportsFloat, Any
+from copy import deepcopy
+
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
-
-
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
@@ -24,6 +24,8 @@ def make_env(rank: int, seed: int = 0, **kwargs):
     """
     Utility function for multiprocessed env.
 
+    注意套wrapper的顺序，先套FrameSkipWrapper，再套ScaledActionWrapper和ScaledObservationWrapper
+
     :param seed: the inital seed for RNG
     :param rank: index of the subprocess
     """
@@ -32,9 +34,14 @@ def make_env(rank: int, seed: int = 0, **kwargs):
             config_file=kwargs["config_file"],
             custom_config=kwargs.get("custom_config", {})
         )
+        
+        frame_skip = kwargs.get("frame_skip", 1)
+        if frame_skip > 1:
+            print(f"frame_skip: {frame_skip}")
+            env = FrameSkipWrapper(env, skip=frame_skip)
+
         env = ScaledActionWrapper(ScaledObservationWrapper(env))
-        if kwargs.get("frame_skip", 1) > 1:
-            env = FrameSkipWrapper(env,skip=kwargs.get("frame_skip", 1))
+
         env.reset(seed=seed + rank)
         print(seed+rank, env.unwrapped.task.np_random, env.unwrapped.task.goal_sampler.np_random)
         return env
@@ -70,8 +77,8 @@ class FrameSkipWrapper(Wrapper):
         for i in range(self._skip):
             obs, reward, terminated, truncated, info = self.env.step(action)
             info_for_skip.append({
-            "obs": deepcopy(obs),
-            "reward": reward
+                "obs": deepcopy(obs),
+                "reward": reward
             })
             done = terminated or truncated
             total_reward += float(reward)

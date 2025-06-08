@@ -34,9 +34,9 @@ python train_scripts/msr/train/train_ppo_max_random.py --config-file-name config
 python train_scripts/msr/train/train_ppo_max_random.py --config-file-name configs/train/msr/smooth_goal_ppo_max_random/medium/beta_0/epsilon_0_1_reg_0_001_N_64/128_128_seed_1.json
 # 166
 python train_scripts/msr/train/train_ppo_max_random.py --config-file-name configs/train/msr/smooth_goal_ppo_max_random/medium/beta_0/epsilon_0_1_reg_0_001_N_64/128_128_seed_2.json
-
+# 110
 python train_scripts/msr/train/train_ppo_max_random.py --config-file-name configs/train/msr/smooth_goal_ppo_max_random/medium/beta_0/epsilon_0_1_reg_0_001_N_64/128_128_seed_3.json
-
+# 100
 python train_scripts/msr/train/train_ppo_max_random.py --config-file-name configs/train/msr/smooth_goal_ppo_max_random/medium/beta_0/epsilon_0_1_reg_0_001_N_64/128_128_seed_4.json
 
 python train_scripts/msr/train/train_ppo_max_random.py --config-file-name configs/train/msr/smooth_goal_ppo_max_random/medium/beta_0/epsilon_0_1_reg_0_001_N_64/128_128_seed_5.json

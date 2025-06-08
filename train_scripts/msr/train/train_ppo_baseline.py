@@ -8,10 +8,11 @@ from copy import deepcopy
 import os
 import sys
 
+from stable_baselines3 import PPO
 from stable_baselines3.common.logger import configure, Logger
 from stable_baselines3.common.callbacks import CheckpointCallback, EvalCallback, EveryNTimesteps
 from stable_baselines3.ppo import MultiInputPolicy
-from stable_baselines3.common.vec_env import VecCheckNan
+from stable_baselines3.common.vec_env import SubprocVecEnv, VecCheckNan
 
 import flycraft
 from flycraft.utils.load_config import load_config
@@ -21,12 +22,10 @@ PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
-from train_scripts.msr.algorithms.smooth_goal_ppo_max_random import SmoothGoalPPOMaxRandom
 from train_scripts.msr.utils.vec_env_helper import get_vec_env
 from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
 from utils_my.sb3.my_schedule import linear_schedule
-from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapper
 
 np.seterr(all="raise")  # 检查nan
 
@@ -38,7 +37,7 @@ def get_ppo_algo(env):
         )
     )
 
-    return SmoothGoalPPOMaxRandom(
+    return PPO(
         policy=MultiInputPolicy, 
         env=env, 
         seed=SEED,
@@ -52,11 +51,6 @@ def get_ppo_algo(env):
         normalize_advantage=True,
         learning_rate=linear_schedule(3e-4),
         device=DEVICE,
-        goal_noise_epsilon=np.array(GOAL_NOISE_EPSILON),
-        goal_regularization_strength=GOAL_REGULARIZATION_STRENGTH,
-        goal_regularization_loss_threshold=GOAL_REGULARIZATION_LOSS_THRESHOLD,
-        noise_num_for_each_goal=NOISE_NUM_FOR_EACH_GOAL,
-        policy_distance_measure_func=POLICY_DISTANCE_MEASURE_FUNC,
     )
 
 def train():
@@ -109,23 +103,11 @@ def train():
         frame_skip=ENV_FRAME_SKIP
     ))
 
-    helper_env = ScaledActionWrapper(
-        ScaledObservationWrapper(
-            gym.make(
-                "FlyCraft-v0", 
-                config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / ENV_CONFIG_FILE)
-            )
-        )
-    )
-
     algo_ppo = get_ppo_algo(vec_env)
-    algo_ppo.init_desired_goal_params(helper_env)
     sb3_logger.info(str(algo_ppo.policy))
 
     # set sb3 logger
     algo_ppo.set_logger(sb3_logger)
-
-    sb3_logger.log(f"Check algo configs, epsilon: {algo_ppo.goal_noise_epsilon}, reg: {algo_ppo.goal_regularization_strength}, noise num: {algo_ppo.noise_num_for_each_goal}.")
 
     # sb3自带的EvalCallback根据最高平均reward保存最优策略；改成MyEvalCallback，根据最高胜率保存最优策略
     eval_callback = EvalCallback(
@@ -181,12 +163,6 @@ if __name__ == "__main__":
     EVALUATE_NUMS_IN_EVALUATION = train_config["rl"].get("evaluate_nums_in_evaluation", 30)
     EVALUATE_NUMS_IN_CALLBACK = train_config["rl"].get("evaluate_nums_in_callback", 3)
     SAVE_CHECKPOINT_EVERY_N_TIMESTEPS = train_config["rl"].get("save_checkpoint_every_n_timesteps", 4_000_000)
-
-    GOAL_NOISE_EPSILON = train_config["rl"].get("goal_noise_epsilon", [10., 3., 3.])
-    GOAL_REGULARIZATION_STRENGTH = train_config["rl"].get("goal_regularization_strength", 1e-3)
-    GOAL_REGULARIZATION_LOSS_THRESHOLD = train_config["rl"].get("goal_regularization_loss_threshold", 0.0)
-    NOISE_NUM_FOR_EACH_GOAL = train_config["rl"].get("noise_num_for_each_goal", 1)
-    POLICY_DISTANCE_MEASURE_FUNC = train_config["rl"].get("policy_distance_measure_func", "KL")
 
     DEVICE = train_config["rl"].get("device", "cpu")
 
