@@ -6,9 +6,9 @@ from stable_baselines3.common.utils import set_random_seed
 from gymnasium import Wrapper, ObservationWrapper, ActionWrapper, Env, spaces
 from flycraft.env import FlyCraftEnv
 from typing import TypeVar, Dict, Union, List, SupportsFloat, Any
+from copy import deepcopy
+
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
-
-
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
