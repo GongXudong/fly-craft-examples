@@ -24,6 +24,8 @@ def make_env(rank: int, seed: int = 0, **kwargs):
     """
     Utility function for multiprocessed env.
 
+    注意套wrapper的顺序，先套FrameSkipWrapper，再套ScaledActionWrapper和ScaledObservationWrapper
+
     :param seed: the inital seed for RNG
     :param rank: index of the subprocess
     """
@@ -32,12 +34,13 @@ def make_env(rank: int, seed: int = 0, **kwargs):
             config_file=kwargs["config_file"],
             custom_config=kwargs.get("custom_config", {})
         )
-        env = ScaledActionWrapper(ScaledObservationWrapper(env))
-
+        
         frame_skip = kwargs.get("frame_skip", 1)
         if frame_skip > 1:
             print(f"frame_skip: {frame_skip}")
             env = FrameSkipWrapper(env, skip=frame_skip)
+
+        env = ScaledActionWrapper(ScaledObservationWrapper(env))
 
         env.reset(seed=seed + rank)
         print(seed+rank, env.unwrapped.task.np_random, env.unwrapped.task.goal_sampler.np_random)
@@ -74,8 +77,8 @@ class FrameSkipWrapper(Wrapper):
         for i in range(self._skip):
             obs, reward, terminated, truncated, info = self.env.step(action)
             info_for_skip.append({
-            "obs": deepcopy(obs),
-            "reward": reward
+                "obs": deepcopy(obs),
+                "reward": reward
             })
             done = terminated or truncated
             total_reward += float(reward)
