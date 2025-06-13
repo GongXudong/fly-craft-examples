@@ -1,0 +1,31 @@
+{
+    "env": {
+        "config_file": "goal_adversary/env_config_for_ppo_10hz_medium_b_05.json",
+        "custom_config": {},
+        "referenced_algo_type": "ppo",
+        "referenced_algo_path": "train_scripts/goal_adversary/adversary_wrappers/test/iter_1_bc_checkpoint",
+        "goal_noise_base": [0.0100, 0.0167, 0.0083],
+        "goal_noise_multiplier": 1.0
+    },
+    "rl": {
+        "experiment_name": "goal_adversary/medium_10hz/iter_1_bc/goal_adversary_128_128_2e6steps_seed_1",
+        "seed": 2,
+        "seed_in_train_env": 7,
+        "seed_in_callback_env": 8,
+        "train_steps": 2e6,
+        "net_arch": [128, 128],
+        "batch_size": 4096,
+        "gamma": 0.995,
+        "rollout_process_num": 4,
+        "evaluate_process_num": 1,
+        "callback_process_num": 1,
+        "evaluate_frequence": 2048,
+        "__evaluate_frequence": "多少次env.step()评估一次，如果设置为1000，且VecEnv有72个并行环境，所以实际相当于72*1000次step，评估一次",
+        "evaluate_nums_in_evaluation": 30,
+        "__evaluate_nums_in_evaluation": "使用evaluate_nums_in_evaluation * evaluate_process_num个episodes评估策略",
+        "evaluate_nums_in_callback": 3,
+        "__evaluate_nums_in_callback": "使用evaluate_nums_in_callback * evaluate_process_num个episodes评估策略",
+        "save_checkpoint_every_n_timesteps": 4000000,
+        "device": "cpu"
+    }
+}
