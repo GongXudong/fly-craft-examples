@@ -15,9 +15,9 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
 from utils_my.sb3.my_wrappers import ScaledObservationWrapper, ScaledActionWrapper
-from train_scripts.disc.attackers.ppo.gradient_ascent_attackers_ppo import GradientAscentAttacker
-from train_scripts.disc.utils.evaluation import my_evaluate_with_customized_dg
-from train_scripts.disc.utils.reset_env_utils import (
+from train_scripts.msr.attackers.ppo.gradient_ascent_attackers_ppo import GradientAscentAttacker
+from train_scripts.msr.utils.evaluation import my_evaluate_with_customized_dg
+from train_scripts.msr.utils.reset_env_utils import (
     get_lower_bound_of_desired_goal,
     get_upper_bound_of_desired_goal,
 )
@@ -33,7 +33,7 @@ class GradientAscentAttackerTest(unittest.TestCase):
         env_id = "FlyCraft-v0"
         self.original_env = gym.make(
             env_id,
-            config_file=PROJECT_ROOT_DIR / "configs" / "env" / "env_config_for_ppo_easy.json"
+            config_file=PROJECT_ROOT_DIR / "configs" / "env" / "VVCGym" / "env_config_for_ppo_easy.json"
         )
         self.scaled_obs_env = ScaledObservationWrapper(self.original_env)
         self.scaled_act_obs_env = ScaledActionWrapper(self.scaled_obs_env)
@@ -69,27 +69,32 @@ class GradientAscentAttackerTest(unittest.TestCase):
         self.GAAttacker._calc_noise_min_max(desired_goal=dg_1)
         # print("env max: ", get_upper_bound_of_desired_goal(self.GAAttacker.env))
         print(f"noise max: {self.GAAttacker.noise_min, self.GAAttacker.noise_max}")
+        
+        
+        tmp_noise_max = th.tensor(
+            self.scaled_obs_env.goal_scalar.transform(np.array([8, 1, 3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]), 
+            device=self.GAAttacker.device, 
+            requires_grad=False
+        )
+        print(f"tmp noise max: {tmp_noise_max}")
         self.assertTrue(
             th.equal(
                 self.GAAttacker.noise_max, 
-                th.tensor(
-                    self.scaled_obs_env.goal_scalar.transform(np.array([8, 1, 3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]), 
-                    device=self.GAAttacker.device, 
-                    requires_grad=False
-                )
+                tmp_noise_max,
             )
         )
 
         tmp_noise_min = th.tensor(
-            self.scaled_obs_env.goal_scalar.transform(np.array([-10, -3, -3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]),
+            self.scaled_obs_env.goal_scalar.transform(np.array([10, -3, -3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]),
             device=self.GAAttacker.device, 
             requires_grad=False
         )
         tmp_noise_min[0] = -tmp_noise_min[0]
+        print(f"tmp noise min: {tmp_noise_min}")
         self.assertTrue(
             th.equal(
                 self.GAAttacker.noise_min, 
-                tmp_noise_min
+                tmp_noise_min,
             )
         )
 
@@ -116,15 +121,16 @@ class GradientAscentAttackerTest(unittest.TestCase):
         # print(self.scaled_obs_env.goal_scalar.transform(np.array([-10, -3, -3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]))
         # print(self.GAAttacker.noise_min)
         tmp_noise_min = th.tensor(
-            self.scaled_obs_env.goal_scalar.transform(np.array([-10, -3, -3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]),
+            self.scaled_obs_env.goal_scalar.transform(np.array([10, -3, -3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]),
             device=self.GAAttacker.device, 
             requires_grad=False
         )
         tmp_noise_min[0] = -tmp_noise_min[0]
+
         self.assertTrue(
             th.equal(
                 self.GAAttacker.noise_min, 
-                tmp_noise_min
+                tmp_noise_min,
             )
         )
 
@@ -144,11 +150,12 @@ class GradientAscentAttackerTest(unittest.TestCase):
         )
 
         tmp_noise_min = th.tensor(
-            self.scaled_obs_env.goal_scalar.transform(np.array([-1, -1, -3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]),
+            self.scaled_obs_env.goal_scalar.transform(np.array([1, -1, -3]).reshape((1,-1))).reshape((-1)) - np.array([0., 0.5, 0.5]),
             device=self.GAAttacker.device, 
             requires_grad=False
         )
         tmp_noise_min[0] = -tmp_noise_min[0]
+
         self.assertTrue(
             th.equal(
                 self.GAAttacker.noise_min, 

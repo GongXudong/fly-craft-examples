@@ -16,7 +16,7 @@ PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
-from train_scripts.disc.attackers.ppo.base_attackers_ppo import AttackerBase
+from train_scripts.msr.attackers.ppo.base_attackers_ppo import AttackerBase
 from utils_my.sb3.my_wrappers import ScaledObservationWrapper
 
 # 注：Stable Baselines3中PPO与SAC不共享MultiInputPolicy！！！！！

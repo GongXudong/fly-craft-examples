@@ -1,6 +1,7 @@
 #!/bin/bash
 
 
+#---------------------------------------------------- Baseline GC-PPO -------------------------------------------------------------
 python train_scripts/IRPO/train_with_rl_ppo.py --config-file-name configs/train/ppo/medium/ppo_config_10hz_128_128_1.json
 python train_scripts/IRPO/train_with_rl_ppo.py --config-file-name configs/train/ppo/medium/ppo_config_10hz_128_128_2.json
 python train_scripts/IRPO/train_with_rl_ppo.py --config-file-name configs/train/ppo/medium/ppo_config_10hz_128_128_3.json
@@ -8,7 +9,7 @@ python train_scripts/IRPO/train_with_rl_ppo.py --config-file-name configs/train/
 python train_scripts/IRPO/train_with_rl_ppo.py --config-file-name configs/train/ppo/medium/ppo_config_10hz_128_128_5.json
 
 
-# #---------------------------------------- epsilon = [0.1, 0.03, 0.03] -------------------------------------------------------------
+# #---------------------------------------- MSR-GC-PPO epsilon = [0.1, 0.03, 0.03] -------------------------------------------------------------
 # # epsilon = [0.1, 0.03, 0.03]  regularization_strength = 0.0001  N=16
 # python train_scripts/msr/train/train_ppo.py --config-file-name configs/train/msr/ppo/medium/epsilon_0_01_reg_0_0001_N_16/128_128_seed_1.json
 # python train_scripts/msr/train/train_ppo.py --config-file-name configs/train/msr/ppo/medium/epsilon_0_01_reg_0_0001_N_16/128_128_seed_2.json

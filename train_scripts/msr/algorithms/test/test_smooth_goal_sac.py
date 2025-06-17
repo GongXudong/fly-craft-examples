@@ -16,13 +16,13 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
 from utils_my.sb3.my_wrappers import ScaledObservationWrapper, ScaledActionWrapper
-from train_scripts.disc.attackers.sac.gradient_ascent_attackers_sac import GradientAscentAttacker
-from train_scripts.disc.utils.evaluation import my_evaluate_with_customized_dg
-from train_scripts.disc.utils.reset_env_utils import (
+from train_scripts.msr.attackers.sac.gradient_ascent_attackers_sac import GradientAscentAttacker
+from train_scripts.msr.utils.evaluation import my_evaluate_with_customized_dg
+from train_scripts.msr.utils.reset_env_utils import (
     get_lower_bound_of_desired_goal,
     get_upper_bound_of_desired_goal,
 )
-from train_scripts.disc.algorithms.smooth_goal_sac import SmoothGoalSAC
+from train_scripts.msr.algorithms.smooth_goal_sac import SmoothGoalSAC
 
 gym.register_envs(flycraft)
 

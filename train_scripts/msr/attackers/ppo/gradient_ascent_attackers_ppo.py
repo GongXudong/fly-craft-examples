@@ -19,11 +19,11 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
 from utils_my.sb3.my_wrappers import ScaledObservationWrapper, ScaledActionWrapper
-from train_scripts.disc.utils.reset_env_utils import (
+from train_scripts.msr.utils.reset_env_utils import (
     get_lower_bound_of_desired_goal,
     get_upper_bound_of_desired_goal,
 )
-from train_scripts.disc.attackers.ppo.base_attackers_ppo import AttackerBase
+from train_scripts.msr.attackers.ppo.base_attackers_ppo import AttackerBase
 
 
 class GradientAscentAttacker(AttackerBase):

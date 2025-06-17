@@ -24,7 +24,7 @@ PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
-from train_scripts.disc.attackers.sac.gradient_ascent_attackers_sac import GradientAscentAttacker
+from train_scripts.msr.attackers.sac.gradient_ascent_attackers_sac import GradientAscentAttacker
 
 
 class SmoothGoalSAC(SAC):
