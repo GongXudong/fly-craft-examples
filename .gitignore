@@ -19,6 +19,7 @@ evaluate*.txt
 tmp*.txt
 cache/
 plots/
+issues/
 
 train_scripts/D2D/trys/
 train_scripts/disc/evaluate/easy/
@@ -27,3 +28,5 @@ train_scripts/disc/evaluate/hard/
 train_scripts/disc/evaluate/results/
 train_scripts/disc/plots/
 train_scripts/disc/TODOs.md
+
+train_scripts/reward_norm/results/

@@ -259,14 +259,17 @@ def evaluate_policy_with_stat(
                         episode_rewards.append(current_rewards[i])
                         episode_lengths.append(current_lengths[i])
                         episode_counts[i] += 1
+                    
+                    # 记录该成功的轨迹
+                    stat_dict_arr.append({
+                        "last_info": deepcopy(infos[i]),
+                        "cumulative_reward": current_rewards[i],
+                        "episode_length": current_lengths[i]
+                    })
+
                     current_rewards[i] = 0
                     current_lengths[i] = 0
                     success_episode_cnt = success_episode_cnt + 1 if infos[i]["is_success"] else success_episode_cnt
-                    # 记录该成功的轨迹
-                    stat_dict_arr.append({
-                        "last_obs": deepcopy(new_observations[i]),
-                        "last_info": deepcopy(infos[i])
-                    })
 
         observations = new_observations
 
