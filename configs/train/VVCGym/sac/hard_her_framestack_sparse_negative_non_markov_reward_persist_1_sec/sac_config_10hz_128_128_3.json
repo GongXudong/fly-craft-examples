@@ -1,0 +1,26 @@
+{
+    "env": {
+        "config_file": "VVCGym/env_hard_config_for_sac_sparse_negative_non_markov_reward_persist_1_sec.json",
+        "custom_config": {}
+    },
+    "rl": {
+        "experiment_name": "her_single/hard_framestack_10hz_128_128_1e6steps_loss_3",
+        "seed": 22,
+        "seed_in_train_env": 25,
+        "seed_in_callback_env": 29,
+        "net_arch": [128, 128],
+        "gamma": 0.995,
+        "train_steps": 1e6,
+        "batch_size": 1024,
+        "buffer_size": 2e5,
+        "learning_starts": 10240,
+        "rollout_process_num": 1,
+        "evaluate_process_num": 32,
+        "callback_process_num": 32,
+        "gradient_steps": 1,
+        "learning_rate": 3e-4,
+        "eval_freq": 1e4,
+        "n_eval_episodes": 320,
+        "use_her": true
+    }
+}

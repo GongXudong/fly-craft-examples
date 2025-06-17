@@ -35,17 +35,17 @@ def work(train_config: dict, algo: str, seed: int=111, n_envs: int=8, n_eval_epi
 
     if algo == 'bc':
         print("测试bc")
-        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "bc" / BC_EXPERIMENT_NAME
+        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "bc" / train_config["bc"]["experiment_name"]
         model_save_name="bc_checkpoint"
         policy_class = PPOWithBCLoss
     elif algo == 'rl':
         print("测试只用rl训练")
-        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "rl_single" / RL_SINGLE_EXPERIMENT_NAME
+        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "rl_single" / train_config["rl"]["experiment_name"]
         model_save_name="best_model"
         policy_class = PPO
     elif algo == 'rl_bc':
         print("测试bc后继续rl优化")
-        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "rl" / RL_EXPERIMENT_NAME
+        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "rl" / train_config["rl_bc"]["experiment_name"]
         model_save_name="best_model"
         policy_class = PPOWithBCLoss
     else:
@@ -80,12 +80,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     custom_config = load_config(args.config_file_name)
-
-    RL_EXPERIMENT_NAME = custom_config["rl_bc"]["experiment_name"]
-    BC_EXPERIMENT_NAME = custom_config["bc"]["experiment_name"]
-    RL_SINGLE_EXPERIMENT_NAME = custom_config["rl"]["experiment_name"]
-    SEED = custom_config["rl_bc"]["seed"]
-    ROLLOUT_PROCESS_NUM = custom_config["rl_bc"]["rollout_process_num"]
 
     work(
         train_config=custom_config, 

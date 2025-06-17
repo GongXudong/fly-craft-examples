@@ -1,0 +1,26 @@
+{
+    "env": {
+        "config_file": "VVCGym/env_config_for_sac_no_terminations_b_1.json",
+        "custom_config": {}
+    },
+    "rl": {
+        "experiment_name": "her_single/no_terminations_b_1_10hz_128_128_1e6steps_loss_5",
+        "seed": 42,
+        "seed_in_train_env": 46,
+        "seed_in_callback_env": 48,
+        "net_arch": [128, 128],
+        "gamma": 0.995,
+        "train_steps": 1e6,
+        "batch_size": 1024,
+        "buffer_size": 2e5,
+        "learning_starts": 10240,
+        "rollout_process_num": 1,
+        "evaluate_process_num": 32,
+        "callback_process_num": 32,
+        "gradient_steps": 1,
+        "learning_rate": 3e-4,
+        "eval_freq": 1e4,
+        "n_eval_episodes": 320,
+        "use_her": true
+    }
+}
