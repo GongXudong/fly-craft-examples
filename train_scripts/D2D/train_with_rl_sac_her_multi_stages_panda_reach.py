@@ -55,9 +55,10 @@ def train(train_config):
         # change env 
         This_ITER_ENV_ID = train_this_iter_config["env"]["id"]
         This_ITER_ENV_BETA = train_this_iter_config["env"]["b"]
-        This_ITER_ENV_REWARD_TYPE = train_this_iter_config["env"]["reward_type"],
+        This_ITER_ENV_REWARD_TYPE = train_this_iter_config["env"]["reward_type"]
         This_ITER_ENV_CONTROL_TYPE = train_this_iter_config["env"]["control_type"]
-
+        This_ITER_ENV_DISTANCE = train_this_iter_config["env"]["distance_threshold"]
+        
 
         THIS_ITER_SEED = train_this_iter_config["rl"].get("seed")
         THIS_ITER_SEED_IN_TRAINING_ENV = train_this_iter_config["rl"].get("seed_in_train_env")
@@ -85,10 +86,11 @@ def train(train_config):
             seed=THIS_ITER_SEED_IN_TRAINING_ENV,
             vec_env_cls=SubprocVecEnv, 
             wrapper_class=PowerRewardWrapper, 
-            wrapper_kwargs={"b": This_ITER_ENV_BETA},
+            wrapper_kwargs={"b": This_ITER_ENV_BETA,"reward_type":This_ITER_ENV_REWARD_TYPE,"distance_threshold":This_ITER_ENV_DISTANCE},
             env_kwargs={
                 "reward_type": This_ITER_ENV_REWARD_TYPE,
                 "control_type": This_ITER_ENV_CONTROL_TYPE,
+                "distance_threshold":This_ITER_ENV_DISTANCE
             }
         )
 
@@ -97,11 +99,12 @@ def train(train_config):
             n_envs= CALLBACK_PROCESS_NUM,
             seed=THIS_ITER_SEED_IN_CALLBACK_ENV,
             wrapper_class=PowerRewardWrapper, 
-            wrapper_kwargs={"b": This_ITER_ENV_BETA},
+            wrapper_kwargs={"b": This_ITER_ENV_BETA,"reward_type":This_ITER_ENV_REWARD_TYPE,"distance_threshold":This_ITER_ENV_DISTANCE},
             vec_env_cls=SubprocVecEnv, 
             env_kwargs={
                 "reward_type": This_ITER_ENV_REWARD_TYPE,
                 "control_type": This_ITER_ENV_CONTROL_TYPE,
+                "distance_threshold":This_ITER_ENV_DISTANCE
             }
         )
 
@@ -163,7 +166,7 @@ def train(train_config):
                 print(f"Iter {index}: load replay buffer from {policy_save_dir / train_config['rl_train'][index-1]['rl']['experiment_name'] / replay_buffer_save_name}.")
 
                 # relabel rewards of transitions in the loaded replay buffer
-                if THIS_ITER_RELABEL_REPLAY_BUFFER:
+                if THIS_ITER_RELABEL_REPLAY_BUFFER and USE_HER:
                     # sac_algo.replay_buffer.observations
                     loaded_replay_buffer_size = sac_algo.replay_buffer.size()
                     new_rewards = vec_env.env_method(
@@ -175,8 +178,21 @@ def train(train_config):
                     )[0]
 
                     sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
-
                     print(f"Iter {index}: reset rewards in replay buffer.")
+                elif THIS_ITER_RELABEL_REPLAY_BUFFER and not USE_HER:
+                    # sac_algo.replay_buffer.observations
+                    loaded_replay_buffer_size = sac_algo.replay_buffer.size()
+                    new_rewards = vec_env.env_method(
+                        method_name="compute_reward",
+                        indices=[0],
+                        achieved_goal=sac_algo.replay_buffer.next_observations["achieved_goal"].squeeze()[:loaded_replay_buffer_size], 
+                        desired_goal=sac_algo.replay_buffer.observations["desired_goal"].squeeze()[:loaded_replay_buffer_size],
+                        
+                    )[0]
+
+                    sac_algo.replay_buffer.rewards[:loaded_replay_buffer_size] = new_rewards.reshape(-1, 1)
+                    print(f"Iter {index}: reset rewards in replay buffer.")
+                
             else:
                 print(f"Iter {index}: reset replay buffer.")
         else:
