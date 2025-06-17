@@ -5,6 +5,7 @@ PROJECT_ROOT_DIR: Path = Path(__file__).parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
+
 def work(data_dir: Path, old_prefix: str, new_prefix: str):
     """rename the name of files in 'data_dir', 
     change its prefix from 'old_prefix' to 'new_prefix'
