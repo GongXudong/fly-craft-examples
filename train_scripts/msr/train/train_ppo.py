@@ -57,6 +57,9 @@ def get_ppo_algo(env):
         goal_regularization_loss_threshold=GOAL_REGULARIZATION_LOSS_THRESHOLD,
         noise_num_for_each_goal=NOISE_NUM_FOR_EACH_GOAL,
         policy_distance_measure_func=POLICY_DISTANCE_MEASURE_FUNC,
+        regularize_state_value=REGULARIZE_STATE_VALUE,
+        state_value_regularization_strength=STATE_VALUE_REGULARIZATION_STRENGTH,
+        state_value_regularization_loss_threshold=STATE_VALUE_REGULARIZATION_LOSS_THRESHOLD,
     )
 
 def train():
@@ -182,6 +185,9 @@ if __name__ == "__main__":
     GOAL_REGULARIZATION_LOSS_THRESHOLD = train_config["rl"].get("goal_regularization_loss_threshold", 0.0)
     NOISE_NUM_FOR_EACH_GOAL = train_config["rl"].get("noise_num_for_each_goal", 1)
     POLICY_DISTANCE_MEASURE_FUNC = train_config["rl"].get("policy_distance_measure_func", "KL")
+    REGULARIZE_STATE_VALUE = train_config["rl"].get("regularize_state_value", False)
+    STATE_VALUE_REGULARIZATION_STRENGTH = train_config["rl"].get("state_value_regularization_strength", 1e-3)
+    STATE_VALUE_REGULARIZATION_LOSS_THRESHOLD = train_config["rl"].get("state_value_regularization_loss_threshold", 1.0)
 
     DEVICE = train_config["rl"].get("device", "cpu")
 
