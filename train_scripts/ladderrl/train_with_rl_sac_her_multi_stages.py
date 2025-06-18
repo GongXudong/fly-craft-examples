@@ -12,7 +12,7 @@ from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.logger import configure, Logger
 from stable_baselines3.common.callbacks import CheckpointCallback, EveryNTimesteps
 import flycraft
-from flycraft.utils.load_config import load_config
+from flycraft.utils_common.load_config import load_config
 
 
 

@@ -11,6 +11,7 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
 
 from demonstrations.utils.smoothness import fourier
 
+
 def smoothness_measure_by_delta(traj: pd.DataFrame, measure_columns: List[str]):
     for c in measure_columns:
         assert c in traj.columns, f"{c}不是轨迹中的字段!!!"

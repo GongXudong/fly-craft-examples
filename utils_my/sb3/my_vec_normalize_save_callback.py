@@ -40,8 +40,6 @@ class MyVecNormalizeSaveCallback(BaseCallback):
         save_freq: int,
         save_path: str,
         name_prefix: str = "rl_model",
-        save_replay_buffer: bool = False,
-        save_vecnormalize: bool = False,
         verbose: int = 0,
     ):
         super().__init__(verbose)
