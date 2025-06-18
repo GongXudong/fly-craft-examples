@@ -1,0 +1,54 @@
+{
+    "rl_common": {
+        "net_arch": [128, 128],
+        "gamma": 0.995,
+        "batch_size": 1024,
+        "buffer_size": 1e6,
+        "rollout_process_num": 1,
+        "evaluate_process_num": 32,
+        "callback_process_num": 32,
+        "gradient_steps": 1,
+        "eval_freq": 1e4,
+        "n_eval_episodes": 96,
+        "use_her": false
+    },
+    "rl_train": [{
+        "env": {
+            "config_file": "D2D/env_config_for_sac_easy_b_1.json",
+            "evaluate_config":"D2D/env_config_for_sac_medium_b_1.json",
+            "custom_config": {}
+        },
+        "rl": {
+            "experiment_name": "D2D/VVC/easy_sac/b_1/buffer_size1e6/sac_10hz_128_128_b_1_1e6steps_seed_1_singleRL",
+            "seed": 246,
+            "seed_in_train_env": 9218,
+            "seed_in_callback_env": 36,
+            "train_steps": 1e6,
+            "learning_rate": 3e-4,
+            "learning_starts": 10240,
+            "reset_policy": false,
+            "relabel_replay_buffer": false,
+            "has_trained": true
+        }
+    },{
+        "env": {
+            "config_file": "D2D/env_config_for_sac_medium_b_1.json",
+            "custom_config": {}
+        },
+        "rl": {
+            "experiment_name": "D2D/goal_sapce/evaluate_medium/easy_to_medium/b_1/2e6/easy2medium_buffer_size_1e6_warmup300/sac_10hz_128_128_b_1_easy_to_medium_1e6steps_seed_1_singleRL",
+            "seed": 31,
+            "seed_in_train_env": 76,
+            "seed_in_callback_env": 98,
+            "train_steps": 1e6,
+            "learning_rate": 3e-4,
+            "learning_starts": 0,
+            "warmup_epochs":300,
+            "reset_policy": true,
+            "reset_replay_buffer": false,
+            "relabel_replay_buffer": false,
+            "has_trained": false
+        }
+    }
+]
+}

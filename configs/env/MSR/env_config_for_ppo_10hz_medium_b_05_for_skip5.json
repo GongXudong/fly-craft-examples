@@ -8,7 +8,7 @@
         "v0": 200,
         "step_frequence": 10,
         "max_simulate_time": 40,
-        "gamma": 0.98
+        "gamma": 0.995
     },
     "goal": {
         "use_fixed_goal": false,

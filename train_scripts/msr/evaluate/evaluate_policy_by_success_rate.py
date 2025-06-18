@@ -8,7 +8,7 @@ from stable_baselines3.sac import SAC
 from stable_baselines3.common.vec_env import VecCheckNan
 
 import flycraft
-from flycraft.utils.load_config import load_config
+from flycraft.utils_common.load_config import load_config
 
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
@@ -30,7 +30,7 @@ def work(train_config: dict, env_config: Path, algo: str, seed: int=111, n_envs:
         "num_process": n_envs,
         "seed": seed,
         "config_file": str(env_config),
-        "custom_config": {"debug_mode": False, "flag_str": "Train"}
+        "custom_config": {"debug_mode": True, "flag_str": "Train"}
     }
 
     vec_env = VecCheckNan(get_vec_env(
@@ -55,6 +55,11 @@ def work(train_config: dict, env_config: Path, algo: str, seed: int=111, n_envs:
     elif algo == "ppo_only":
         print("测试PPO")
         policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "rl_single" / RL_EXPERIMENT_NAME
+        model_save_name = "best_model"
+        policy_class = PPO
+    elif algo == "ppo_rl_bc":
+        print("测试PPO after bc")
+        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "IRPO" / "rl" / RL_EXPERIMENT_NAME
         model_save_name = "best_model"
         policy_class = PPO
     elif algo == 'bc':
@@ -103,7 +108,12 @@ if __name__ == "__main__":
 
     custom_config = load_config(PROJECT_ROOT_DIR / args.algo_config_file)
 
-    RL_EXPERIMENT_NAME = custom_config["rl"]["experiment_name"] if (args.algo != "bc" or args.algo !="bc_only") else custom_config["bc"]["experiment_name"]
+    if args.algo in ["bc", "bc_only"]:
+        RL_EXPERIMENT_NAME = custom_config["bc"]["experiment_name"]
+    elif args.algo == "ppo_rl_bc":
+        RL_EXPERIMENT_NAME = custom_config["rl_bc"]["experiment_name"]
+    else:
+        RL_EXPERIMENT_NAME = custom_config["rl"]["experiment_name"]
     
     print(f"evaluate {RL_EXPERIMENT_NAME} on {args.env_config_file}................")
 

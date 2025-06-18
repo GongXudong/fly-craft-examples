@@ -9,7 +9,7 @@ import flycraft
 from flycraft.planes.f16_plane import F16Plane
 from flycraft.planes.utils.f16Classes import Guide, ControlLaw, PlaneModel
 from flycraft.env import FlyCraftEnv
-from flycraft.utils.my_log import get_logger
+from flycraft.utils_common.my_log import get_logger
 
 PROJECT_ROOT_DIR: Path = Path(__file__).parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:

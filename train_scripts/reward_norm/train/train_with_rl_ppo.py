@@ -15,19 +15,21 @@ from stable_baselines3.ppo import MultiInputPolicy
 from stable_baselines3.common.vec_env import SubprocVecEnv, VecCheckNan
 
 import flycraft
-from flycraft.utils.load_config import load_config
-from flycraft.utils.dict_utils import update_nested_dict
+from flycraft.utils_common.load_config import load_config
+from flycraft.utils_common.dict_utils import update_nested_dict
 
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
 from train_scripts.reward_norm.algorithms.normalizers.vec_normalize_goal_conditioned_reward_scaling import VecNormalizeGoalConditionedRewardScaling
+from train_scripts.reward_norm.algorithms.normalizers.vec_reward_minmax_normalizer import VecRewardMinMaxNormalize
 from utils_my.sb3.vec_env_helper import get_vec_env
 from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
 from utils_my.sb3.my_schedule import linear_schedule
 from utils_my.sb3.my_vec_normalize_save_callback import MyVecNormalizeSaveCallback
+from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapper
 
 np.seterr(all="raise")  # 检查nan
 
@@ -83,17 +85,49 @@ def train():
         **env_config_dict_in_training
     ))
 
-    if ENV_NORMALIZE_REWARD == "reward_scaling_cluster":
-        vec_env = VecNormalizeGoalConditionedRewardScaling(
-            vec_env,
-            training=True,
-            norm_obs=False,
-            norm_reward=True,
-            gamma=GAMMA,
+    helper_env = ScaledActionWrapper(
+        ScaledObservationWrapper(
+            gym.make(
+                "FlyCraft-v0", 
+                config_file=str(PROJECT_ROOT_DIR / "configs" / "env" / ENV_CONFIG)
+            )
         )
-        # TODO: other reward scaling methods
+    )
+
+    if USE_ENV_NORMARLIZER:
+        normarlizer_type = ENV_NORMARLIZER.get("type", None)
+        if normarlizer_type == "reward_scaling_cluster":
+            vec_env = VecNormalizeGoalConditionedRewardScaling(
+                venv=vec_env,
+                training=True,
+                norm_obs=False,
+                norm_reward=True,
+                gamma=GAMMA,
+            )
+            sb3_logger.log("Using VecNormalizeGoalConditionedRewardScaling.")
+        elif normarlizer_type == "reward_scaling_minmax":
+            vec_env = VecRewardMinMaxNormalize(
+                venv=vec_env,
+                helper_env=helper_env,
+                radius=ENV_NORMARLIZER.get("dg_search_radius", 3.0),
+                default_max_return=ENV_NORMARLIZER.get("default_max_return", -100.0),
+            )
+            sb3_logger.log("Using VecRewardMinMaxNormalize.")
+
+            reference_file_list = ENV_NORMARLIZER.get("reference_file_list", [])
+            
+            if len(reference_file_list) > 0:
+                for rf in reference_file_list:
+                    tmp_file_dir = PROJECT_ROOT_DIR / rf
+                    sb3_logger.log(f"load referenced evaluation results from {tmp_file_dir}")
+                    vec_env.update_data_from_csv_file(tmp_file_dir)
+                
+                vec_env.fit_data()
+        else:
+            # TODO: other reward scaling methods
+            pass
     else:
-        pass
+        sb3_logger.log("Not using RewardNormalizer.")
 
     # evaluate_policy使用的测试环境
     eval_env = VecCheckNan(get_vec_env(
@@ -161,6 +195,12 @@ if __name__ == "__main__":
     train_config = load_config(Path(os.getcwd()) / args.config_file_name)
 
     ENV_CONFIG = train_config["env"].get("config_file", "env_config_for_sac.json")
+    ENV_NORMARLIZER = train_config["env"].get("normarlizer", None)
+    if ENV_NORMARLIZER is None:
+        USE_ENV_NORMARLIZER = False
+    else:
+        USE_ENV_NORMARLIZER = ENV_NORMARLIZER.get("use", False)
+
     ENV_NORMALIZE_REWARD = train_config["env"].get("normarlize_reward", "none")
 
     RL_EXPERIMENT_NAME = train_config["rl"]["experiment_name"]

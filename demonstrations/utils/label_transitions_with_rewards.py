@@ -6,7 +6,7 @@ from tqdm import tqdm
 import numpy as np
 import pandas as pd
 import argparse
-from flycraft.utils.geometry_utils import angle_of_2_3d_vectors
+from flycraft.utils_common.geometry_utils import angle_of_2_3d_vectors
 
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:

@@ -7,7 +7,7 @@ import logging
 import sys
 import flycraft
 
-from flycraft.utils.geometry_utils import angle_of_2_3d_vectors
+from flycraft.utils_common.geometry_utils import angle_of_2_3d_vectors
 
 
 def get_reward(next_state,desired_goal) -> float:

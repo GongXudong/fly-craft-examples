@@ -24,7 +24,7 @@ from imitation.data import rollout
 
 import flycraft
 from flycraft.env import FlyCraftEnv
-from flycraft.utils.load_config import load_config
+from flycraft.utils_common.load_config import load_config
 
 PROJECT_ROOT_DIR = Path(__file__).parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:

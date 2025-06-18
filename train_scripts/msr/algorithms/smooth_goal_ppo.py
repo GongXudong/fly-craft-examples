@@ -75,6 +75,9 @@ class SmoothGoalPPO(PPO):
         goal_regularization_loss_threshold: float = 0.0,
         noise_num_for_each_goal: int = 1,
         policy_distance_measure_func: str = "KL",
+        regularize_state_value: bool = False,
+        state_value_regularization_strength: float = 1e-3,
+        state_value_regularization_loss_threshold: float = 0.0,
     ):
         super().__init__(
             policy=policy,
@@ -110,7 +113,10 @@ class SmoothGoalPPO(PPO):
         self.goal_regularization_loss_threshold = goal_regularization_loss_threshold
         self.noise_num_for_each_goal = noise_num_for_each_goal
         self.policy_distance_measure_func = policy_distance_measure_func
-        
+        self.regularize_state_value = regularize_state_value
+        self.state_value_regularization_strength = state_value_regularization_strength
+        self.state_value_regularization_loss_threshold = state_value_regularization_loss_threshold
+
     def init_desired_goal_params(self, helper_env: gym.Env=None):
         """_summary_
 
@@ -158,6 +164,7 @@ class SmoothGoalPPO(PPO):
         entropy_losses = []
         pg_losses, value_losses = [], []
         noised_goal_kls, noised_goal_losses = [], []
+        noised_goal_value_dists, noised_goal_value_losses = [], []
         clip_fractions = []
 
         continue_training = True
@@ -246,7 +253,7 @@ class SmoothGoalPPO(PPO):
                 # 2.get action dist
                 noised_goal_action_dist = self.policy.get_distribution(noised_goal_obs)
 
-                # 3. calc KL or JS loss
+                # 3.calc KL or JS loss
                 if self.policy_distance_measure_func == "KL":
                     noised_goal_kl = th.distributions.kl_divergence(action_dist, noised_goal_action_dist.distribution).sum(axis=-1)
                 elif self.policy_distance_measure_func == "JS":
@@ -254,17 +261,45 @@ class SmoothGoalPPO(PPO):
                 else:
                     raise ValueError("policy_distance_measure_func must be either KL or JS!")
 
-                # 4. clip goal regularization loss
+                # 4.clip goal regularization loss
                 if self.goal_regularization_loss_threshold > 0.0:
                     noised_goal_loss = th.maximum(noised_goal_kl - th.ones_like(noised_goal_kl) * self.goal_regularization_loss_threshold, th.zeros_like(noised_goal_kl)).mean()
                 else:
                     noised_goal_loss = noised_goal_kl.mean()
 
+                # 5.log
                 noised_goal_kls.append(noised_goal_kl.mean().item())
                 noised_goal_losses.append(noised_goal_loss.item())
+                
+                # 6.regularize state value
+                # 6.1 get state values
+                original_values = values_pred.unsqueeze(dim=1).repeat((self.noise_num_for_each_goal, 1))
+                noised_goal_values = self.policy.predict_values(noised_goal_obs)
+                
+                # 6.2 calc loss
+                noised_goal_value_dist = F.mse_loss(
+                    input=original_values,
+                    target=noised_goal_values,
+                    reduction="none"
+                )  # shape = (batch_size, 1)
+                
+                noised_goal_value_dists.append(noised_goal_value_dist.mean().item())
+
+                if self.regularize_state_value:
+                    # 6.3 clip state value regularization loss
+                    if self.state_value_regularization_loss_threshold > 0.0:
+                        noised_goal_value_loss = th.maximum(noised_goal_value_dist - th.ones_like(noised_goal_value_dist) * self.state_value_regularization_loss_threshold, th.zeros_like(noised_goal_value_dist)).mean()
+                    else:
+                        noised_goal_value_loss = noised_goal_value_dist.mean()
+                    
+                    # 6.4 log
+                    noised_goal_value_losses.append(noised_goal_value_loss.item())
+                
                 # ---------------------------------end: goal regularization loss---------------------------------
 
                 loss = policy_loss + self.ent_coef * entropy_loss + self.vf_coef * value_loss + self.goal_regularization_strength * noised_goal_loss
+                if self.regularize_state_value:
+                    loss += self.state_value_regularization_strength * noised_goal_value_loss
 
                 # Calculate approximate form of reverse KL Divergence for early stopping
                 # see issue #417: https://github.com/DLR-RM/stable-baselines3/issues/417
@@ -300,6 +335,9 @@ class SmoothGoalPPO(PPO):
         self.logger.record("train/value_loss", np.mean(value_losses))
         self.logger.record("train/noised_goal_kl", np.mean(noised_goal_kls))
         self.logger.record("train/noised_goal_loss", np.mean(noised_goal_losses))
+        self.logger.record("train/noised_goal_value_dist", np.mean(noised_goal_value_dists))
+        if self.regularize_state_value:
+            self.logger.record("train/noised_goal_value_loss", np.mean(noised_goal_value_losses))
         self.logger.record("train/approx_kl", np.mean(approx_kl_divs))
         self.logger.record("train/clip_fraction", np.mean(clip_fractions))
         self.logger.record("train/loss", loss.item())

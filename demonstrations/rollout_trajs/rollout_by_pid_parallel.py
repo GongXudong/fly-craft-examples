@@ -8,7 +8,7 @@ from ray.util.multiprocessing import Pool
 import sys
 import argparse
 
-from flycraft.utils.my_log import get_logger
+from flycraft.utils_common.my_log import get_logger
 
 PROJECT_ROOT_DIR: Path = Path(__file__).parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
