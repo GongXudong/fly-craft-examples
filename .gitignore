@@ -32,3 +32,5 @@ train_scripts/disc/plots/
 train_scripts/disc/TODOs.md
 
 train_scripts/reward_norm/results/
+
+train_scripts/msr/shell_scripts/experiments_log.md

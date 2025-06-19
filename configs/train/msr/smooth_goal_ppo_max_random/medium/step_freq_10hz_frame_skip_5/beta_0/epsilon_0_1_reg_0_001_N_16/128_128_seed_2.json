@@ -2,13 +2,13 @@
     "env": {
         "config_file": "MSR/env_config_for_ppo_10hz_medium_b_05_for_skip5.json",
         "custom_config": {},
-        "frame_skip": 1
+        "frame_skip": 5
     },
     "rl": {
-        "experiment_name": "medium_10hz/smooth_goal_ppo_max_random/beta_0/epsilon_0_1_reg_0_001_N_64/128_128_2e8steps_seed_3",
-        "seed": 25,
-        "seed_in_train_env": 27,
-        "seed_in_callback_env": 29,
+        "experiment_name": "medium_10hz_skip_5/smooth_goal_ppo_max_random/beta_0/epsilon_0_1_reg_0_001_N_16/128_128_2e8steps_seed_2",
+        "seed": 11,
+        "seed_in_train_env": 13,
+        "seed_in_callback_env": 16,
         "train_steps": 2e8,
         "net_arch": [128, 128],
         "batch_size": 4096,
@@ -26,7 +26,7 @@
         "goal_noise_epsilon": [1.0, 0.3, 0.3],
         "goal_regularization_strength": 0.001,
         "goal_regularization_loss_threshold": 0.0,
-        "noise_num_for_each_goal": 64,
+        "noise_num_for_each_goal": 16,
         "policy_distance_measure_func": "KL",
         "device": "cpu"
     }
