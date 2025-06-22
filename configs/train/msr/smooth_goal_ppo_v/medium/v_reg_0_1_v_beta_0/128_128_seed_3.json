@@ -4,10 +4,10 @@
         "custom_config": {}
     },
     "rl": {
-        "experiment_name": "medium/smooth_goal_ppo_pi_and_v/epsilon_0_1_reg_0_001_beta_0_N_16_v_reg_0_001_v_beta_0/128_128_2e8steps_seed_4",
-        "seed": 33,
-        "seed_in_train_env": 34,
-        "seed_in_callback_env": 39,
+        "experiment_name": "medium/smooth_goal_ppo_v/epsilon_0_1_reg_0_001_beta_0_N_16_v_reg_0_1_v_beta_0/128_128_2e8steps_seed_3",
+        "seed": 23,
+        "seed_in_train_env": 25,
+        "seed_in_callback_env": 26,
         "train_steps": 2e8,
         "net_arch": [128, 128],
         "batch_size": 4096,
@@ -22,13 +22,13 @@
         "evaluate_nums_in_callback": 3,
         "__evaluate_nums_in_callback": "使用evaluate_nums_in_callback * evaluate_process_num个episodes评估策略",
         "save_checkpoint_every_n_timesteps": 4000000,
-        "regularize_policy": true,
+        "regularize_policy": false,
         "goal_noise_epsilon": [1.0, 0.3, 0.3],
         "goal_regularization_strength": 0.001,
         "noise_num_for_each_goal": 16,
         "policy_distance_measure_func": "KL",
         "regularize_state_value": true,
-        "state_value_regularization_strength": 1e-3,
+        "state_value_regularization_strength": 0.1,
         "state_value_regularization_loss_threshold": 0.0,
         "device": "cpu"
     }
