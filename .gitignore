@@ -21,6 +21,8 @@ cache/
 plots/
 issues/
 
+configs/train/D2D/
+
 train_scripts/D2D/trys/
 train_scripts/disc/evaluate/easy/
 train_scripts/disc/evaluate/medium2/
