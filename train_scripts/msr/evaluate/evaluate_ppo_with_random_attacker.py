@@ -9,6 +9,7 @@ import pandas as pd
 import argparse
 
 from stable_baselines3.ppo import PPO
+import flycraft
 
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:

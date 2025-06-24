@@ -13,6 +13,7 @@ import torch as th
 from stable_baselines3.sac import SAC
 from stable_baselines3.sac.policies import MultiInputPolicy as SACMultiInputPolicy
 from stable_baselines3.common.distributions import Distribution, kl_divergence
+import flycraft
 
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:

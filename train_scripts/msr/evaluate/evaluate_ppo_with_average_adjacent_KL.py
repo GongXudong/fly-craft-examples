@@ -13,6 +13,7 @@ import torch as th
 from stable_baselines3.ppo import PPO
 from stable_baselines3.ppo.policies import MultiInputPolicy as PPOMultiInputPolicy
 from stable_baselines3.common.distributions import Distribution, kl_divergence
+import flycraft
 
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
@@ -36,7 +37,7 @@ def calc_KL(policy: PPOMultiInputPolicy, new_desired_goal: th.Tensor, obs_list: 
 
         distance = th.distributions.kl_divergence(reference_action_distribution, tmp_action_dist.distribution).sum(axis=-1)
         KL_list.append(distance)
-    
+
     return th.mean(th.concat(KL_list))
 
 
@@ -170,6 +171,9 @@ def evaluate(args):
 
 # evaluate SmoothGoalPPO
 # python train_scripts/disc/evaluate/evaluate_ppo_with_agerage_adjacent_KL.py --env-config configs/env/D2D/env_config_for_ppo_medium_b_05.json --env-flag-str Medium-05 --algo-class SmoothGoalPPO --algo-ckpt-dir checkpoints/disc/medium/ppo/epsilon_0_1_reg_0_001_N_16/128_128_2e8steps_seed_{0} --algo-seeds 1 2 3 4 5 --algo-flag-str SmoothGoalPPO --algo-epsilon 0.1 --algo-reg 0.001 --evaluate-dg-num 100 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 0.1 --evaluate-adjacent-num 5 --res-file-save-name train_scripts/disc/plots/ppo/results/ppo_epsilon_0_1_reg_0_001_N_16_noise_0_1.csv
+    
+# evaluate bc
+# python train_scripts/msr/evaluate/evaluate_ppo_with_average_adjacent_KL.py --env-config configs/env/VVCGym/env_hard_config_for_sac.json --env-flag-str Hard-05 --algo-class PPO --algo-ckpt-dir checkpoints/IRPO/bc/guidance_law_mode/iter_1/128_128_300epochs_{0} --algo-ckpt-model-name bc_checkpoint --algo-seeds 1 2 3 4 5 --algo-flag-str PPO --algo-epsilon 0.0 --algo-reg 0.0 --evaluate-dg-num 100 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 1.0 --evaluate-adjacent-num 5 --res-file-save-name train_scripts/disc/plots/bc/results/bc_iter_1_epsilon_0_reg_0_noise_1.csv
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="pass configurations")
     # environment
