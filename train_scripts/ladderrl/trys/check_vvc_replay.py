@@ -1,5 +1,5 @@
 import numpy as np
-data = np.load('/home/sen/pythonprojects/fly-craft-examples/checkpoints/ladderrl/baseline/easy/sac/b_1/primacy_bias_1e6_buffer_1e6/gradient_step4/sac_10hz_128_128_b_1_4e5steps_seed_1_singleRL/replay_buffer.pkl', allow_pickle=True)
+data = np.load('/home/sen/pythonprojects/fly-craft-examples/checkpoints/D2D/goal_sapce/evaluate_medium/easy_to_medium/b_05/2e6/easy2medium_buffer_size_2e6/sac_10hz_128_128_b_05_easy_to_medium_1e6steps_seed_1_singleRL/replay_buffer.pkl', allow_pickle=True)
 print(data)
 from stable_baselines3 import HerReplayBuffer, SAC
 

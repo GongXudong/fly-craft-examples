@@ -15,7 +15,7 @@
     "rl_train": [{
         "env": {
             "config_file": "D2D/env_config_for_sac_easy_b_05.json",
-            "evaluate_config":"D2D/env_config_for_sac_medium_b_05.json",
+
             "custom_config": {}
         },
         "rl": {
