@@ -4,10 +4,10 @@
         "custom_config": {}
     },
     "rl": {
-        "experiment_name": "medium/smooth_goal_ppo_pi/epsilon_0_1_reg_0_001_N_16/128_128_2e8steps_seed_4",
-        "seed": 36,
-        "seed_in_train_env": 38,
-        "seed_in_callback_env": 39,
+        "experiment_name": "medium/smooth_goal_ppo_pi_and_v/epsilon_0_1_reg_0_001_beta_0_N_16_v_reg_100_v_beta_0/128_128_2e8steps_seed_1",
+        "seed": 2,
+        "seed_in_train_env": 7,
+        "seed_in_callback_env": 8,
         "train_steps": 2e8,
         "net_arch": [128, 128],
         "batch_size": 4096,
@@ -27,8 +27,8 @@
         "goal_regularization_strength": 0.001,
         "noise_num_for_each_goal": 16,
         "policy_distance_measure_func": "KL",
-        "regularize_state_value": false,
-        "state_value_regularization_strength": 0.1,
+        "regularize_state_value": true,
+        "state_value_regularization_strength": 100.0,
         "state_value_regularization_loss_threshold": 0.0,
         "device": "cpu"
     }
