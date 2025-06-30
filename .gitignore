@@ -22,8 +22,8 @@ plots/
 issues/
 
 configs/train/D2D/
-
 train_scripts/D2D/trys/
+
 train_scripts/disc/evaluate/easy/
 train_scripts/disc/evaluate/medium2/
 train_scripts/disc/evaluate/hard/
@@ -34,3 +34,4 @@ train_scripts/disc/TODOs.md
 train_scripts/reward_norm/results/
 
 train_scripts/msr/shell_scripts/experiments_log.md
+train_scripts/msr/plots/

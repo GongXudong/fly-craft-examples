@@ -4,11 +4,11 @@
         "custom_config": {}
     },
     "bc": {
-        "experiment_name": "hard/bc/epsilon_0_1_reg_0_0001_N_16/128_128_300epochs_seed_1",
+        "experiment_name": "hard/bc/iter_1_aug/epsilon_0_1_reg_0_0001_N_16/128_128_300epochs_seed_5",
         "policy_file_save_name": "bc_checkpoint",
         "policy_after_value_head_trained_file_save_name": "bc_checkpoint_after_value_head_trained",
         "data_cache_dir": "cache/10hz_10_5_5_iter_1_aug",
-        "seed": 1,
+        "seed": 42,
         "train_epochs": 300,
         "batch_size": 4096,
         "policy_distance_measure_func": "KL",
@@ -18,7 +18,7 @@
         "loss_threshold": -8.0
     },
     "rl": {
-        "seed": 2,
+        "seed": 49,
         "net_arch": [128, 128],
         "batch_size": 4096,
         "gamma": 0.995,
