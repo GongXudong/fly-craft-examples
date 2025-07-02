@@ -18,7 +18,7 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/reward_devide/medium/baseline/b_05/sac_10hz_128_128_b_05_angle_only_medium_5e5steps_seed_5_singleRL",
+            "experiment_name": "D2D/reward_devide/baseline/b_05/sac_10hz_128_128_b_05_angle_only_medium_5e5steps_seed_5_singleRL",
             "seed": 741,
             "seed_in_train_env": 251,
             "seed_in_callback_env": 24,
@@ -35,7 +35,7 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/reward_devide/medium/baseline/b_05/sac_10hz_128_128_b_05_angle_only_to_b_05_only_5e5steps_seed_5_singleRL",
+            "experiment_name": "D2D/reward_devide/baseline/b_05/sac_10hz_128_128_b_05_angle_only_to_b_05_only_5e5steps_seed_5_singleRL",
             "seed": 16,
             "seed_in_train_env": 104,
             "seed_in_callback_env": 86,

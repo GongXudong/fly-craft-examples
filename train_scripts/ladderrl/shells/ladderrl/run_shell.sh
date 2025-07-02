@@ -91,3 +91,20 @@ python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-fil
 # python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/buffersize_2e6_reset4e5/warmp300/sac_config_10hz_128_128_4.json
 # python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/ladderrl/baseline/medium/sac/b_1/buffersize_2e6_reset4e5/warmp300/sac_config_10hz_128_128_5.json
 
+
+
+
+# b = 0.5  medium 1e6  buffersize 2e5 weight change  251
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_05/weight_change/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_05/weight_change/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_05/weight_change/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_05/weight_change/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_05/weight_change/sac_config_10hz_128_128_5.json
+
+
+# b = 0.5 to 0.5 medium 5e5 to 5e5  buffersize 2e5  251
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/baseline/two_stage_b_05_b_05/weight_change/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/baseline/two_stage_b_05_b_05/weight_change/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/baseline/two_stage_b_05_b_05/weight_change/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/baseline/two_stage_b_05_b_05/weight_change/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/baseline/two_stage_b_05_b_05/weight_change/sac_config_10hz_128_128_5.json
