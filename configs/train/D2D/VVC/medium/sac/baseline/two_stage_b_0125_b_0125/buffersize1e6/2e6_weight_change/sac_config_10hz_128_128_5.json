@@ -35,7 +35,7 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/VVC/medium/baseline/two_stage_b_0125_b_0125/buffersize1e6/2e6_weight_change/sac_10hz_128_128_b_0125_1e6teps_b_0125_1e6steps_seed_5_singleRL",
+            "experiment_name": "D2D/VVC/medium/baseline/two_stage_b_0125_b_0125/buffersize1e6/2e6_weight_change/sac_10hz_128_128_b_0125_1e6steps_b_0125_1e6steps_seed_5_singleRL",
             "seed": 78,
             "seed_in_train_env": 213,
             "seed_in_callback_env": 1548,
