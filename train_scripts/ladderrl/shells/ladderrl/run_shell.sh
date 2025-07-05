@@ -352,7 +352,7 @@ python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/angle_to_both/sac_config_10hz_128_128_4.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/angle_to_both/sac_config_10hz_128_128_5.json
 
-# b = 0.5 buffersize 2e5 end to end  both_5e5_to_both_5e5
+# b = 0.5 buffersize 2e5 end to end  both_5e5_to_both_5e5 166
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_5e5_to_both_5e5/sac_config_10hz_128_128_1.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_5e5_to_both_5e5/sac_config_10hz_128_128_2.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_5e5_to_both_5e5/sac_config_10hz_128_128_3.json
@@ -360,7 +360,7 @@ python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_5e5_to_both_5e5/sac_config_10hz_128_128_5.json
 
 
-# b = 0.5 buffersize 2e5 end to end  both_one_stage_1e6
+# b = 0.5 buffersize 2e5 end to end  both_one_stage_1e6 166
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_one_stage_1e6/sac_config_10hz_128_128_1.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_one_stage_1e6/sac_config_10hz_128_128_2.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_one_stage_1e6/sac_config_10hz_128_128_3.json
