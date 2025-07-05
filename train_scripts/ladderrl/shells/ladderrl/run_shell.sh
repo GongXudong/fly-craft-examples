@@ -315,3 +315,100 @@ python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_1/buffersize1e6_1e6to1e6_weight_change/sac_config_10hz_128_128_3.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_1/buffersize1e6_1e6to1e6_weight_change/sac_config_10hz_128_128_4.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_1/buffersize1e6_1e6to1e6_weight_change/sac_config_10hz_128_128_5.json
+
+
+# end to end reward devide
+# end to end reward devide
+# end to end reward devide
+
+# b = 1 buffersize 2e5 end to end  angle 2 both  10
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/angle_to_both/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/angle_to_both/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/angle_to_both/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/angle_to_both/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/angle_to_both/sac_config_10hz_128_128_5.json
+
+
+# b = 1 buffersize 2e5 end to end  both_5e5_to_both_5e5  110
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_5e5_to_both_5e5/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_5e5_to_both_5e5/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_5e5_to_both_5e5/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_5e5_to_both_5e5/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_5e5_to_both_5e5/sac_config_10hz_128_128_5.json
+
+
+# b = 1 buffersize 2e5 end to end  both_one_stage_1e6 10
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_one_stage_1e6/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_one_stage_1e6/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_one_stage_1e6/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_one_stage_1e6/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_one_stage_1e6/sac_config_10hz_128_128_5.json
+
+
+# b = 0.5 buffersize 2e5 end to end  angle 2 both  110
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/angle_to_both/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/angle_to_both/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/angle_to_both/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/angle_to_both/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/angle_to_both/sac_config_10hz_128_128_5.json
+
+# b = 0.5 buffersize 2e5 end to end  both_5e5_to_both_5e5
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_5e5_to_both_5e5/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_5e5_to_both_5e5/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_5e5_to_both_5e5/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_5e5_to_both_5e5/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_5e5_to_both_5e5/sac_config_10hz_128_128_5.json
+
+
+# b = 0.5 buffersize 2e5 end to end  both_one_stage_1e6
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_one_stage_1e6/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_one_stage_1e6/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_one_stage_1e6/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_one_stage_1e6/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_one_stage_1e6/sac_config_10hz_128_128_5.json
+
+
+
+# b = 1 buffersize 1e6 end to end  angle 2 both  251
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/angle_to_both_buffersize_1e6/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/angle_to_both_buffersize_1e6/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/angle_to_both_buffersize_1e6/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/angle_to_both_buffersize_1e6/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/angle_to_both_buffersize_1e6/sac_config_10hz_128_128_5.json
+
+# b = 1 buffersize 1e6 end to end  both_1e6_to_both_1e6 140
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_1e6_to_both_1e6_buffersize_1e6/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_1e6_to_both_1e6_buffersize_1e6/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_1e6_to_both_1e6_buffersize_1e6/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_1e6_to_both_1e6_buffersize_1e6/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_1e6_to_both_1e6_buffersize_1e6/sac_config_10hz_128_128_5.json
+
+# b = 1 buffersize 1e6 end to end  both_one_stage_2e6  251
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_one_stage_2e6_buffersize1e6/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_one_stage_2e6_buffersize1e6/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_one_stage_2e6_buffersize1e6/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_one_stage_2e6_buffersize1e6/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_1/both_one_stage_2e6_buffersize1e6/sac_config_10hz_128_128_5.json
+
+
+# b = 0.5 buffersize 1e6 end to end  angle 2 both  140
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/angle_to_both_buffersize_1e6/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/angle_to_both_buffersize_1e6/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/angle_to_both_buffersize_1e6/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/angle_to_both_buffersize_1e6/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/angle_to_both_buffersize_1e6/sac_config_10hz_128_128_5.json
+
+# b = 0.5 buffersize 1e6 end to end  both_1e6_to_both_1e6 120
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_1e6_to_both_1e6_buffersize_1e6/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_1e6_to_both_1e6_buffersize_1e6/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_1e6_to_both_1e6_buffersize_1e6/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_1e6_to_both_1e6_buffersize_1e6/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_1e6_to_both_1e6_buffersize_1e6/sac_config_10hz_128_128_5.json
+
+
+# b = 0.5 buffersize 1e6 end to end  both_one_stage_2e6  120
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_one_stage_2e6_buffersize1e6/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_one_stage_2e6_buffersize1e6/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_one_stage_2e6_buffersize1e6/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_one_stage_2e6_buffersize1e6/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/medium/end_to_end/b_05/both_one_stage_2e6_buffersize1e6/sac_config_10hz_128_128_5.json
