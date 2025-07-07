@@ -98,7 +98,7 @@ def train(train_config):
         for wrp in THIS_ITER_WRAPPER_LIST:
             if wrp["type"] == "frame_skip":
                 env_config_in_training.update(frame_skip=True, skip=wrp.get("skip", 1))
-                env_config_in_evaluation.update(frame_skip=True, skip=wrp.get("skip", 1))
+                env_config_in_evaluation.update(frame_skip=True, skip=wrp.get("eval_skip", 1))
             else:
                 raise ValueError(f"Cann't process this type of wrapper: {wrp['type']}!")
 
