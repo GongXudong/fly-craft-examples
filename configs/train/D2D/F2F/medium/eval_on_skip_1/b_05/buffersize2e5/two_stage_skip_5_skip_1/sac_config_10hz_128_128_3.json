@@ -34,7 +34,7 @@
             "store_info": true,
             "reset_policy": false,
             "relabel_replay_buffer": false,
-            "has_trained": true
+            "has_trained": false
         }
     }, {
         "env": {
