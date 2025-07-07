@@ -23,7 +23,7 @@ def work(data_dir: Path, old_prefix: str, new_prefix: str):
 
 if __name__ == "__main__":
     work(
-        PROJECT_ROOT_DIR / "demonstrations" / "data" / "10hz_10_5_5_iter_3_aug",
+        PROJECT_ROOT_DIR / "demonstrations" / "data" / "10hz_10_5_5_iter_4_aug",
         old_prefix="my_f16trace",
         new_prefix="traj"
     )
