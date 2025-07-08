@@ -14,11 +14,11 @@
     },
     "rl_train": [{
         "env": {
-            "config_file": "D2D/env_config_for_sac_medium_b_1.json",
+            "config_file": "D2D/env_config_for_sac_medium_b_05.json",
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/F2F/medium/b_1/eval_on_skip_1/b_1/buffer_size_1e6/two_stage_skip_5_skip_1/sac_128_128_b_1_1e6steps_skip_5_seed_1_singleRL",
+            "experiment_name": "D2D/F2F/medium/b_05/eval_on_skip_1/b_05/buffer_size_1e6/two_stage_skip_5_skip_1/sac_128_128_b_05_1e6steps_skip_5_seed_1_singleRL",
             "seed": 9,
             "seed_in_train_env": 308,
             "seed_in_callback_env": 54,
@@ -37,11 +37,11 @@
         }
     }, {
         "env": {
-            "config_file": "D2D/env_config_for_sac_medium_b_1.json",
+            "config_file": "D2D/env_config_for_sac_medium_b_05.json",
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/F2F/medium/b_1/eval_on_skip_1/b_1/buffer_size_1e6/two_stage_skip_5_skip_1/sac_128_128_b_1_1e6steps_skip_5_to_1e6steps_skip_1_seed_1_singleRL",
+            "experiment_name": "D2D/F2F/medium/b_05/eval_on_skip_1/b_05/buffer_size_1e6/two_stage_skip_5_skip_1/sac_128_128_b_05_1e6steps_skip_5_to_1e6steps_skip_1_seed_1_singleRL",
             "seed": 7,
             "seed_in_train_env": 15,
             "seed_in_callback_env": 23,
