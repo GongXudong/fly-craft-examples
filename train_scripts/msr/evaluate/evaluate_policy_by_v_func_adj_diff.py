@@ -84,7 +84,7 @@ def evaluate(args):
         # print(f"noised obs: {noised_obss_th['desired_goal']}")
 
         noised_obs_values = get_v(trained_algo.policy, noised_obss_th)
-        
+
         noised_value_list.extend(noised_obs_values.squeeze().cpu().detach().numpy())
         # print(f"noised obs values: {noised_obs_values}")
 
@@ -97,7 +97,7 @@ def evaluate(args):
 
     print(res_df)
     print(np.average(np.power(res_df["original_obs_value"] - res_df["noised_obs_value"], 2)))
-    
+
 
 # python train_scripts/msr/evaluate/evaluate_policy_by_v_func_adj_diff.py --ckpt-dir checkpoints/IRPO/bc/guidance_law_mode/iter_1/128_128_300epochs_1/bc_checkpoint --env-config-file configs/env/MSR/env_config_for_ppo_10hz_medium_b_05.json --algo ppo --n-envs 8 --n-eval-episodes 8 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 1 --seed 1
 if __name__ == "__main__":

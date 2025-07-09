@@ -70,6 +70,18 @@ python demonstrations/utils/load_dataset.py --demo-dir demonstrations/data/10hz_
 python train_scripts/IRPO/train_with_bc_ppo.py --config-file-name configs/train/IRPO/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json
 ```
 
+***Note***: This repo depends on imitation (Version 1.0.0). There is a bug in the behavioral cloning (BC) algorithm of this version. Before running BC-related algorithms, it is necessary to modify line 494 of algorithms/bc.py in the imitation library from:
+
+```python
+acts = util.safe_to_tensor(batch["acts"], device=self.policy.device)
+```
+
+to:
+
+```python
+acts = util.safe_to_tensor(batch["acts"]).to(device=self.policy.device)
+```
+
 ### 2.Proximal Policy Optimization (PPO)
 
 ```bash
@@ -127,6 +139,7 @@ The script _train_scripts/IRPO/evaluate/evaluate_policy_by_success_rate.py_ can 
 ```bash
 python train_scripts/IRPO/evaluate/evaluate_policy_by_success_rate.py --config-file-name configs/train/IRPO/ppo/easy/ppo_bc_config_10hz_128_128_easy_1.json --algo rl_bc --seed 11 --n-envs 8 --n-eval-episode 100
 ```
+
 
 ## Citation
 
