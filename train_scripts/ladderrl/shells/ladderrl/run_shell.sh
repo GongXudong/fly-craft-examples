@@ -311,7 +311,7 @@ python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --
 
 # b = 0.5 to b = 1 medium 2e6 buffersize 1e6 weight change 110
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_1/buffersize1e6_1e6to1e6_weight_change/sac_config_10hz_128_128_1.json
-pythconda activate new_gymnasiumon train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_1/buffersize1e6_1e6to1e6_weight_change/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_1/buffersize1e6_1e6to1e6_weight_change/sac_config_10hz_128_128_2.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_1/buffersize1e6_1e6to1e6_weight_change/sac_config_10hz_128_128_3.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_1/buffersize1e6_1e6to1e6_weight_change/sac_config_10hz_128_128_4.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_05_b_1/buffersize1e6_1e6to1e6_weight_change/sac_config_10hz_128_128_5.json
@@ -422,7 +422,7 @@ python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/easy/end_to_end/b_1/angle_to_both/sac_config_10hz_128_128_3.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/easy/end_to_end/b_1/angle_to_both/sac_config_10hz_128_128_4.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/easy/end_to_end/b_1/angle_to_both/sac_config_10hz_128_128_5.json
-conda activate new_gymnasium
+
 
 # b = 1 buffersize 2e5 end to end  both one stage  10 easy
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/reward_devide/easy/end_to_end/b_1/both_one_stage_1e6/sac_config_10hz_128_128_1.json
@@ -499,7 +499,7 @@ python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py
 
 
 # buffersize 1e6  
-#b = 1 skip 3 to skip 1  251
+#b = 1 skip 3 to skip 1  251  一阶段在251 二阶段在166上训
 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_skip_1/sac_config_10hz_128_128_1.json
 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_skip_1/sac_config_10hz_128_128_2.json
 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_skip_1/sac_config_10hz_128_128_3.json
@@ -519,7 +519,7 @@ python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py
 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1/sac_config_10hz_128_128_3.json
 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1/sac_config_10hz_128_128_4.json
 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1/sac_config_10hz_128_128_5.json
-conda activate new_gymnasium
+
 #b = 0.5 skip 5 to skip 1   166
 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_5_skip_1/sac_config_10hz_128_128_1.json
 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_5_skip_1/sac_config_10hz_128_128_2.json
