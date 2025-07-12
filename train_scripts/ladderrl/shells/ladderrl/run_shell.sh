@@ -659,7 +659,7 @@ python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py
 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize2e5/two_stage_skip_3_skip_1_without_reset_policy/sac_config_10hz_128_128_4.json
 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize2e5/two_stage_skip_3_skip_1_without_reset_policy/sac_config_10hz_128_128_5.json
 
-## D2D ablation  without reset policy 251
+## D2D ablation  without reset policy 10
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_0125/buffersize1e6_1e6to1e6_without_reset_policy/sac_config_10hz_128_128_1.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_0125/buffersize1e6_1e6to1e6_without_reset_policy/sac_config_10hz_128_128_2.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_0125/buffersize1e6_1e6to1e6_without_reset_policy/sac_config_10hz_128_128_3.json
