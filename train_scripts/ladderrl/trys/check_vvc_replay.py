@@ -1,6 +1,6 @@
 import numpy as np
-data = np.load('/home/sen/pythonprojects/fly-craft-examples/checkpoints/D2D/goal_sapce/evaluate_medium/easy_to_medium/b_05/2e6/easy2medium_buffer_size_2e6/sac_10hz_128_128_b_05_easy_to_medium_1e6steps_seed_1_singleRL/replay_buffer.pkl', allow_pickle=True)
-print(data)
+#data = np.load('/home/sen/pythonprojects/fly-craft-examples/checkpoints/D2D/F2F/medium/b_05/eval_on_skip_1/b_05/buffer_size_1e6/two_stage_skip_3_skip_1/sac_128_128_b_05_1e6steps_skip_3_to_1e6steps_skip_1_seed_1_singleRL/replay_buffer_collect_on_target_mdp.pkl', allow_pickle=True)
+# print(data)
 from stable_baselines3 import HerReplayBuffer, SAC
 
 from stable_baselines3.common.env_util import make_vec_env
@@ -8,13 +8,22 @@ from stable_baselines3.common.vec_env import SubprocVecEnv
 from stable_baselines3.common.buffers import DictReplayBuffer
 import sys
 from pathlib import Path
-PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent
+import os
+current_dir = os.getcwd()
+print(current_dir)
+PROJECT_ROOT_DIR = Path(current_dir)#.parent.parent.parent
+print(PROJECT_ROOT_DIR)
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
-from utils_my.sb3.my_reach_reward_wrapper import PowerRewardWrapper
+#from utils_my.sb3.my_reach_reward_wrapper import PowerRewardWrapper
 import gymnasium as gym
 import flycraft
 import warnings
+from train_scripts.ladderrl.utils.InfoDictReplayBuffer import InfoDictReplayBuffer
+model = SAC.load("/home/sen/pythonprojects/fly-craft-examples/checkpoints/D2D/F2F/medium/b_05/eval_on_skip_1/b_05/buffer_size_1e6/two_stage_skip_3_skip_1/sac_128_128_b_05_1e6steps_skip_3_to_1e6steps_skip_1_seed_1_singleRL/best_model.zip")
+model.load_replay_buffer(path="/home/sen/pythonprojects/fly-craft-examples/checkpoints/D2D/F2F/medium/b_05/eval_on_skip_1/b_05/buffer_size_1e6/two_stage_skip_3_skip_1/sac_128_128_b_05_1e6steps_skip_3_seed_1_singleRL/replay_buffer_collect_on_original_mdp.pkl")
+
+
 from train_scripts.ladderrl.utils.get_vec_env import get_vec_env
 warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
 gym.register_envs(flycraft)
