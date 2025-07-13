@@ -67,6 +67,7 @@ def train(train_config):
         THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS = train_this_iter_config["rl"].get("pre_fill_replay_buffer_kwargs", {})
         GAMMA = train_this_iter_config["rl"].get("gamma", 0.995)
         THIS_ITER_WARMUP_EPOCHS=train_this_iter_config["rl"].get("warmup_epochs", 0)
+        THIST_ITER_BUFFER_SAVE_NAME = train_this_iter_config["rl"].get("replay_buffer_save_name","replay_buffer")
         if THIS_ITER_HAS_TRAINED:
             continue
         
@@ -112,8 +113,8 @@ def train(train_config):
         policy_save_dir = PROJECT_ROOT_DIR / "checkpoints"
         policy_save_name = "best_model"
         # policy_save_name = "final_model"
-        replay_buffer_save_name = "replay_buffer"
-
+        #replay_buffer_save_name = "replay_buffer"
+        replay_buffer_save_name = THIST_ITER_BUFFER_SAVE_NAME
         # prepare policy
         if (index == 0) or (index > 0 and THIS_ITER_RESET_POLICY):
             print(f'index= {index}',f'copy_info_dict= {THIS_ITER_STORE_INFO}')
@@ -266,7 +267,7 @@ def train(train_config):
                     #     loaded_next_obs,
                     #     loaded_action,
                     #     loaded_reward,
-                    #     loaded_done,
+                    #     loaded_done,        replay_buffer_save_name = "replay_buffer"
                     #     loaded_info,
                     # )
                     for tmp_obs, tmp_next_obs, tmp_action, tmp_reward, tmp_done, tmp_info in zip(loaded_obs, loaded_next_obs, loaded_action, loaded_reward, loaded_done, loaded_info):
@@ -319,6 +320,7 @@ def train(train_config):
         )
 
         sac_algo.save(str(PROJECT_ROOT_DIR / "checkpoints" / THIS_ITER_RL_EXPERIMENT_NAME / "final_model"))
+        replay_buffer_save_name = "replay_buffer"
         sac_algo.save_replay_buffer(str(PROJECT_ROOT_DIR / "checkpoints" / THIS_ITER_RL_EXPERIMENT_NAME / replay_buffer_save_name))
 
         eval_reward, _, eval_success_rate = evaluate_policy_with_success_rate(sac_algo.policy, eval_env_in_callback, 1000)

@@ -76,7 +76,7 @@ def main(config_file_list,buffersize):
             obs = next_obs
             if done:
                 obs = env.reset()
-        sac.save_replay_buffer(str(PROJECT_ROOT_DIR / "checkpoints" / THIS_ITER_RL_EXPERIMENT_NAME / "replay_buffer_collect_on_target_mdp"))
+        sac.save_replay_buffer(str(PROJECT_ROOT_DIR / "checkpoints" / first_policy_location / "replay_buffer_collect_on_target_mdp"))
         print(f"seed {index} has finished")
 
 
