@@ -683,3 +683,37 @@ python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py
 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_collect_data_on_target_MDP/sac_config_10hz_128_128_3.json
 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_collect_data_on_target_MDP/sac_config_10hz_128_128_4.json
 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_collect_data_on_target_MDP/sac_config_10hz_128_128_5.json
+
+
+# hard skip 3 1e7 b = 1  buffersize 1e6  10 
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_1.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_2.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_3.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_4.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_5.json
+
+# meidum skip 3 2e6 b = 1  buffersize 1e6  10 
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_2e6steps/sac_config_10hz_128_128_1.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_2e6steps/sac_config_10hz_128_128_2.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_2e6steps/sac_config_10hz_128_128_3.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_2e6steps/sac_config_10hz_128_128_4.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_2e6steps/sac_config_10hz_128_128_5.json
+
+
+
+
+# medium skip3 to skip 3 b = 1  bufferssize 1e6 b = 1  100
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_skip_3/sac_config_10hz_128_128_1.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_skip_3/sac_config_10hz_128_128_2.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_skip_3/sac_config_10hz_128_128_3.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_skip_3/sac_config_10hz_128_128_4.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_skip_3/sac_config_10hz_128_128_5.json
+
+
+
+# medium skip3 to skip 3 b = 0.5  bufferssize 1e6 b = 0.5  100
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_3/sac_config_10hz_128_128_1.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_3/sac_config_10hz_128_128_2.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_3/sac_config_10hz_128_128_3.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_3/sac_config_10hz_128_128_4.json
+python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_3/sac_config_10hz_128_128_5.json

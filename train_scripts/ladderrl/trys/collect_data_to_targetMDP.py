@@ -68,7 +68,7 @@ def main(config_file_list,buffersize):
             device = torch.device("cuda")
         )
         while sac.replay_buffer.size() < buffersize:
-            action, _ = sac.predict(obs,deterministic=True)
+            action, _ = sac.predict(obs,deterministic=False)
             next_obs, reward,done,info = env.step(action)
             sac.replay_buffer.add(
                 obs=obs,next_obs=next_obs,action=action,reward=reward,done=done,infos=info
@@ -76,7 +76,8 @@ def main(config_file_list,buffersize):
             obs = next_obs
             if done:
                 obs = env.reset()
-        sac.save_replay_buffer(str(PROJECT_ROOT_DIR / "checkpoints" / first_policy_location / "replay_buffer_collect_on_target_mdp"))
+        #sac.save_replay_buffer(str(PROJECT_ROOT_DIR / "checkpoints" / first_policy_location / "replay_buffer_collect_on_target_mdp"))
+        sac.save_replay_buffer(str(PROJECT_ROOT_DIR / "checkpoints" / first_policy_location / "replay_buffer_collect_on_target_mdp_random"))
         print(f"seed {index} has finished")
 
 
@@ -84,9 +85,9 @@ if __name__ == '__main__':
     # from multiprocessing import freeze_support
     # freeze_support()
     config_file_list = [
-                    # "configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1/sac_config_10hz_128_128_1.json",
-                    # "configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1/sac_config_10hz_128_128_2.json",
-                    # "configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1/sac_config_10hz_128_128_3.json",
+                    "configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1/sac_config_10hz_128_128_1.json",
+                    "configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1/sac_config_10hz_128_128_2.json",
+                    "configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1/sac_config_10hz_128_128_3.json",
                     "configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1/sac_config_10hz_128_128_4.json",
                     "configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1/sac_config_10hz_128_128_5.json",
                     ]
