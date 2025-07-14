@@ -18,10 +18,10 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/F2F/medium/b_05/eval_on_skip_1/b_05/buffer_size_1e6/two_stage_skip_3_skip_1/sac_128_128_b_05_1e6steps_skip_3_seed_1_singleRL",
-            "seed": 89,
-            "seed_in_train_env": 38,
-            "seed_in_callback_env": 524,
+            "experiment_name": "D2D/F2F/medium/b_05/eval_on_skip_1/b_05/buffer_size_1e6/two_stage_skip_3_skip_1/sac_128_128_b_05_1e6steps_skip_3_seed_3_singleRL",
+            "seed": 24,
+            "seed_in_train_env": 42,
+            "seed_in_callback_env": 45,
             "train_steps": 1e6,
             "learning_rate": 3e-4,
             "learning_starts": 10240,
@@ -41,10 +41,10 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/F2F/medium/b_05/eval_on_skip_1/b_05/buffer_size_1e6/two_stage_skip_3_skip_1_collect_data_on_target_MDP/sac_128_128_b_05_1e6steps_skip_3_to_1e6steps_skip_1_seed_1_singleRL",
-            "seed": 87,
-            "seed_in_train_env": 75,
-            "seed_in_callback_env": 24,
+            "experiment_name": "D2D/F2F/medium/b_05/eval_on_skip_1/b_05/buffer_size_1e6/two_stage_skip_3_skip_1_collect_data_on_target_MDP_random/sac_128_128_b_05_1e6steps_skip_3_to_1e6steps_skip_1_seed_3_singleRL",
+            "seed": 25,
+            "seed_in_train_env": 156,
+            "seed_in_callback_env": 14,
             "train_steps": 1e6,
             "learning_rate": 3e-4,
             "learning_starts": 0,
@@ -55,9 +55,9 @@
             "store_info": false,
             "reset_policy": true,
             "reset_replay_buffer": false,
-            "relabel_replay_buffer": true,
+            "relabel_replay_buffer": false,
             "has_trained": false,
-            "replay_buffer_save_name":"replay_buffer_collect_on_target_mdp"
+            "replay_buffer_save_name":"replay_buffer_collect_on_target_mdp_random"
         }
     }]
 }
