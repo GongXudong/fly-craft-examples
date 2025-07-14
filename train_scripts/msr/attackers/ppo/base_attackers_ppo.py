@@ -17,6 +17,7 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
 from utils_my.sb3.my_wrappers import ScaledObservationWrapper
+from train_scripts.msr.utils.evaluation import get_discounted_cumulative_rewards
 
 
 # 注：Stable Baselines3中PPO与SAC不共享MultiInputPolicy！！！！！
@@ -40,7 +41,7 @@ class AttackerBase(ABC):
         self.max_random_limit_when_get_achievable_goal = max_random_limit_when_get_achievable_goal
         self.device = device
 
-    def get_an_achievable_desired_goal(self) -> Tuple[bool, np.ndarray, float, List, List]:
+    def get_an_achievable_desired_goal(self, return_discounted_cumulative_reward: bool=False, discount_factor: float=0.99) -> Tuple[bool, np.ndarray, float, List, List]:
         """获得一个能够到达的goal。
 
         Returns:
@@ -55,7 +56,7 @@ class AttackerBase(ABC):
 
                 obs, info = self.env.reset()
                 desired_goal = obs["desired_goal"]
-                cumulative_reward, is_success,  = 0.0, False
+                reward_list, is_success,  = [], False
                 obs_history, action_distribution_list = [], []
 
                 # 计算完成desired_goal过程中的观测序列obs_history，动作分布序列action_distribution_of_desired_goal
@@ -75,13 +76,13 @@ class AttackerBase(ABC):
 
                     new_obs, reward, terminated, truncated, info = self.env.step(tmp_action)
 
-                    cumulative_reward += reward
+                    reward_list.append(reward)
                     is_success = info["is_success"] if "is_success" in info else False
 
                     if terminated or truncated:
                         if is_success:
                             print(f"find an achievable goal with trying num: {cnt}.")
-                            return True, desired_goal, cumulative_reward, obs_history, action_distribution_list
+                            return True, desired_goal, get_discounted_cumulative_rewards(reward_list=reward_list, discount_factor=(discount_factor if return_discounted_cumulative_reward else 1.0)), obs_history, action_distribution_list
                         else:
                             break
 
