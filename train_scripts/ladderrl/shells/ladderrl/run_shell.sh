@@ -791,3 +791,81 @@ CUDA_VISIBLE_DEVICES=2 python  train_scripts/ladderrl/train_with_rl_sac_her_mult
 CUDA_VISIBLE_DEVICES=3 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_025/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_3.json
 CUDA_VISIBLE_DEVICES=3 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_025/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_4.json
 CUDA_VISIBLE_DEVICES=3 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_025/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_5.json
+
+
+
+
+
+# F2F buffersize 1e6 b = 0.5  skip 3 to skip 1 without relabel   166
+CUDA_VISIBLE_DEVICES=0 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_without_relabel/sac_config_10hz_128_128_1.json
+CUDA_VISIBLE_DEVICES=0 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_without_relabel/sac_config_10hz_128_128_2.json
+CUDA_VISIBLE_DEVICES=0 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_without_relabel/sac_config_10hz_128_128_3.json
+CUDA_VISIBLE_DEVICES=0 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_without_relabel/sac_config_10hz_128_128_4.json
+CUDA_VISIBLE_DEVICES=0 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_without_relabel/sac_config_10hz_128_128_5.json
+
+
+# F2F buffersize 2e5 b = 0.5  skip 3 to skip 1 without relabel  166
+CUDA_VISIBLE_DEVICES=1 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize2e5/two_stage_skip_3_skip_1_without_relabel/sac_config_10hz_128_128_1.json
+CUDA_VISIBLE_DEVICES=1 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize2e5/two_stage_skip_3_skip_1_without_relabel/sac_config_10hz_128_128_2.json
+CUDA_VISIBLE_DEVICES=1 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize2e5/two_stage_skip_3_skip_1_without_relabel/sac_config_10hz_128_128_3.json
+CUDA_VISIBLE_DEVICES=1 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize2e5/two_stage_skip_3_skip_1_without_relabel/sac_config_10hz_128_128_4.json
+CUDA_VISIBLE_DEVICES=1 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize2e5/two_stage_skip_3_skip_1_without_relabel/sac_config_10hz_128_128_5.json
+
+
+# D2D buffersize 1e6 b = 1 to b = 0.25 without relabel 120
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6_without_relabel/sac_config_10hz_128_128_1.json
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6_without_relabel/sac_config_10hz_128_128_2.json
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6_without_relabel/sac_config_10hz_128_128_3.json
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6_without_relabel/sac_config_10hz_128_128_4.json
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6_without_relabel/sac_config_10hz_128_128_5.json
+
+
+# D2D buffersize 2e5 b = 1 to b = 0.25 without relabel 120
+CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize2e5_5e5to5e5_without_relabel/sac_config_10hz_128_128_1.json
+CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize2e5_5e5to5e5_without_relabel/sac_config_10hz_128_128_2.json
+CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize2e5_5e5to5e5_without_relabel/sac_config_10hz_128_128_3.json
+CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize2e5_5e5to5e5_without_relabel/sac_config_10hz_128_128_4.json
+CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize2e5_5e5to5e5_without_relabel/sac_config_10hz_128_128_5.json
+
+
+# D2D buffersize 2e5 b = 1 to b = 0.25 without reset policy 251
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize2e5_5e5to5e5_without_reset_policy/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize2e5_5e5to5e5_without_reset_policy/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize2e5_5e5to5e5_without_reset_policy/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize2e5_5e5to5e5_without_reset_policy/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize2e5_5e5to5e5_without_reset_policy/sac_config_10hz_128_128_5.json
+
+
+# Easy2Medium  buffersize 1e6  b = 1  without reset policy 110
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6_without_reset_policy/sac_config_10hz_128_128_1.json
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6_without_reset_policy/sac_config_10hz_128_128_2.json
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6_without_reset_policy/sac_config_10hz_128_128_3.json
+CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6_without_reset_policy/sac_config_10hz_128_128_4.json
+CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6_without_reset_policy/sac_config_10hz_128_128_5.json
+
+
+
+# Easy2Medium  buffersize 2e5  b = 1  without reset policy 110
+CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/easy2medium_buffer_size_2e5_without_reset_policy/sac_config_10hz_128_128_1.json
+CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/easy2medium_buffer_size_2e5_without_reset_policy/sac_config_10hz_128_128_2.json
+CUDA_VISIBLE_DEVICES=2 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/easy2medium_buffer_size_2e5_without_reset_policy/sac_config_10hz_128_128_3.json
+CUDA_VISIBLE_DEVICES=2 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/easy2medium_buffer_size_2e5_without_reset_policy/sac_config_10hz_128_128_4.json
+CUDA_VISIBLE_DEVICES=2 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/easy2medium_buffer_size_2e5_without_reset_policy/sac_config_10hz_128_128_5.json
+
+
+
+# D2D buffersize 1e6 b = 1 to b = 0.25 without reset policy  110
+CUDA_VISIBLE_DEVICES=2 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6_without_reset_policy/sac_config_10hz_128_128_1.json
+CUDA_VISIBLE_DEVICES=2 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6_without_reset_policy/sac_config_10hz_128_128_2.json
+CUDA_VISIBLE_DEVICES=3 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6_without_reset_policy/sac_config_10hz_128_128_3.json
+CUDA_VISIBLE_DEVICES=3 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6_without_reset_policy/sac_config_10hz_128_128_4.json
+CUDA_VISIBLE_DEVICES=3 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6_without_reset_policy/sac_config_10hz_128_128_5.json
+
+
+
+# medium skip3 to hard skip3 buffersize 2e6 to 5e6  10 
+CUDA_VISIBLE_DEVICES=1 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/goal_sapce/medium_to_hard/buffersize1e6/2e6_medium_skip_3_to_5e6_hard_skip_3/b_1/sac_config_10hz_128_128_1.json
+CUDA_VISIBLE_DEVICES=1 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/goal_sapce/medium_to_hard/buffersize1e6/2e6_medium_skip_3_to_5e6_hard_skip_3/b_1/sac_config_10hz_128_128_2.json
+CUDA_VISIBLE_DEVICES=1 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/goal_sapce/medium_to_hard/buffersize1e6/2e6_medium_skip_3_to_5e6_hard_skip_3/b_1/sac_config_10hz_128_128_3.json
+CUDA_VISIBLE_DEVICES=1 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/goal_sapce/medium_to_hard/buffersize1e6/2e6_medium_skip_3_to_5e6_hard_skip_3/b_1/sac_config_10hz_128_128_4.json
+CUDA_VISIBLE_DEVICES=1 python  train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_info_buferr.py --config-file-name=configs/train/D2D/goal_sapce/medium_to_hard/buffersize1e6/2e6_medium_skip_3_to_5e6_hard_skip_3/b_1/sac_config_10hz_128_128_5.json
