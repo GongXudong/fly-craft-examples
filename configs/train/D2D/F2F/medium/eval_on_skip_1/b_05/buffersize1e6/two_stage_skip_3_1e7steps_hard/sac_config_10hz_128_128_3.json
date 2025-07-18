@@ -19,9 +19,9 @@
         },
         "rl": {
             "experiment_name": "D2D/F2F/medium/b_05/eval_on_skip_1/b_05/buffer_size_1e6/two_stage_skip_3_1e7steps_hard/sac_128_128_b_05_1e7steps_skip_3_seed_3_singleRL",
-            "seed": 24,
-            "seed_in_train_env": 42,
-            "seed_in_callback_env": 45,
+            "seed": 12,
+            "seed_in_train_env": 402,
+            "seed_in_callback_env": 5,
             "train_steps": 1e7,
             "learning_rate": 3e-4,
             "learning_starts": 10240,
