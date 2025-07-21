@@ -237,7 +237,7 @@ if __name__ == "__main__":
 
 
     
-
+# -------------------------------难度设置--------------------------------------------
     #hard 
     # "v_min": 100.0,
     # "v_max": 300.0,
@@ -284,41 +284,41 @@ if __name__ == "__main__":
 
     # TODO: 在相同的任务集合上测试
 
+# -------------------------------待测config--------------------------------------------
+    # b_2_sac_config_files = [
+    #     "configs/train/D2D/F2F/medium/eval_on_skip_5/b_2/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_1.json",
+    #     "configs/train/D2D/F2F/medium/eval_on_skip_5/b_2/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_2.json",
+    #     "configs/train/D2D/F2F/medium/eval_on_skip_5/b_2/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_3.json",
+    #     "configs/train/D2D/F2F/medium/eval_on_skip_5/b_2/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_4.json",
+    #     "configs/train/D2D/F2F/medium/eval_on_skip_5/b_2/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_5.json",
+    # ]
+    # b_2_sac_algo_strs = ["sac"] * len(b_2_sac_config_files)
+    # b_2_sac_save_file_names= [
+    #     "b_2_one_stage_skip_5_5e6steps_hard_1.csv",
+    #     "b_2_one_stage_skip_5_5e6steps_hard_2.csv",
+    #     "b_2_one_stage_skip_5_5e6steps_hard_3.csv",
+    #     "b_2_one_stage_skip_5_5e6steps_hard_4.csv",
+    #     "b_2_one_stage_skip_5_5e6steps_hard_5.csv",
+    # ]
 
-    b_2_sac_config_files = [
-        "configs/train/D2D/F2F/medium/eval_on_skip_5/b_2/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_1.json",
-        "configs/train/D2D/F2F/medium/eval_on_skip_5/b_2/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_2.json",
-        "configs/train/D2D/F2F/medium/eval_on_skip_5/b_2/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_3.json",
-        "configs/train/D2D/F2F/medium/eval_on_skip_5/b_2/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_4.json",
-        "configs/train/D2D/F2F/medium/eval_on_skip_5/b_2/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_5.json",
-    ]
-    b_2_sac_algo_strs = ["sac"] * len(b_2_sac_config_files)
-    b_2_sac_save_file_names= [
-        "b_2_one_stage_skip_5_5e6steps_hard_1.csv",
-        "b_2_one_stage_skip_5_5e6steps_hard_2.csv",
-        "b_2_one_stage_skip_5_5e6steps_hard_3.csv",
-        "b_2_one_stage_skip_5_5e6steps_hard_4.csv",
-        "b_2_one_stage_skip_5_5e6steps_hard_5.csv",
-    ]
 
 
+    # b_05_sac_config_files = [
+    #     "configs/train/D2D/F2F/medium/eval_on_skip_5/b_05/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_1.json",
+    #     "configs/train/D2D/F2F/medium/eval_on_skip_5/b_05/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_2.json",
+    #     "configs/train/D2D/F2F/medium/eval_on_skip_5/b_05/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_3.json",
+    #     "configs/train/D2D/F2F/medium/eval_on_skip_5/b_05/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_4.json",
+    #     "configs/train/D2D/F2F/medium/eval_on_skip_5/b_05/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_5.json",
+    # ]
 
-    b_05_sac_config_files = [
-        "configs/train/D2D/F2F/medium/eval_on_skip_5/b_05/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_1.json",
-        "configs/train/D2D/F2F/medium/eval_on_skip_5/b_05/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_2.json",
-        "configs/train/D2D/F2F/medium/eval_on_skip_5/b_05/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_3.json",
-        "configs/train/D2D/F2F/medium/eval_on_skip_5/b_05/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_4.json",
-        "configs/train/D2D/F2F/medium/eval_on_skip_5/b_05/buffersize1e6/one_stage_skip_5_5e6steps_hard/sac_config_10hz_128_128_5.json",
-    ]
-
-    b_05_sac_algo_strs = ["sac"] * len(b_05_sac_config_files)
-    b_05_sac_save_file_names= [
-        "b_05_one_stage_skip_5_5e6steps_hard_1.csv",
-        "b_05_one_stage_skip_5_5e6steps_hard_2.csv",
-        "b_05_one_stage_skip_5_5e6steps_hard_3.csv",
-        "b_05_one_stage_skip_5_5e6steps_hard_4.csv",
-        "b_05_one_stage_skip_5_5e6steps_hard_5.csv",
-    ]
+    # b_05_sac_algo_strs = ["sac"] * len(b_05_sac_config_files)
+    # b_05_sac_save_file_names= [
+    #     "b_05_one_stage_skip_5_5e6steps_hard_1.csv",
+    #     "b_05_one_stage_skip_5_5e6steps_hard_2.csv",
+    #     "b_05_one_stage_skip_5_5e6steps_hard_3.csv",
+    #     "b_05_one_stage_skip_5_5e6steps_hard_4.csv",
+    #     "b_05_one_stage_skip_5_5e6steps_hard_5.csv",
+    # ]
 
     # sac_e2e_config_files = [
     #     "configs/train/sac/easy_her_end_to_end_mode/sac_config_10hz_128_128_1.json",
@@ -335,22 +335,101 @@ if __name__ == "__main__":
     #     "sac_easy_control_law_mode_4.csv",
     #     "sac_easy_control_law_mode_5.csv",
     # ]
+    b_2_skip_3_hard_sac_config_files  = [
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_2/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_1.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_2/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_2.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_2/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_3.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_2/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_4.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_2/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_5.json",
+    ]
+
+    b_1_skip_3_hard_sac_config_files  = [
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_1.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_2.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_3.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_4.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_1/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_5.json",
+    ]
+
+    b_05_skip_3_hard_sac_config_files  = [
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_1.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_2.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_3.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_4.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_5.json",
+    ]
+
+    b_025_skip_3_hard_sac_config_files  = [
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_025/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_1.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_025/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_2.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_025/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_3.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_025/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_4.json",
+        "configs/train/D2D/F2F/medium/eval_on_skip_1/b_025/buffersize1e6/two_stage_skip_3_1e7steps_hard/sac_config_10hz_128_128_5.json",
+    ]
+
+    b_2_skip_3_hard_sac_algo_strs = ["sac"] * len(b_2_skip_3_hard_sac_config_files)
+    b_1_skip_3_hard_sac_algo_strs = ["sac"] * len(b_1_skip_3_hard_sac_config_files)
+    b_05_skip_3_hard_sac_algo_strs = ["sac"] * len(b_05_skip_3_hard_sac_config_files)
+    b_025_skip_3_hard_sac_algo_strs = ["sac"] * len(b_025_skip_3_hard_sac_config_files)
+
+    b_2_skip_3_hard_sac_save_file_names= [
+        "b_2_skip_3_hard_5e6steps_hard_1.csv",
+        "b_2_skip_3_hard_5e6steps_hard_2.csv",
+        "b_2_skip_3_hard_5e6steps_hard_3.csv",
+        "b_2_skip_3_hard_5e6steps_hard_4.csv",
+        "b_2_skip_3_hard_5e6steps_hard_5.csv",
+    ]
+
+    b_1_skip_3_hard_sac_save_file_names= [
+        "b_1_skip_3_hard_5e6steps_hard_1.csv",
+        "b_1_skip_3_hard_5e6steps_hard_2.csv",
+        "b_1_skip_3_hard_5e6steps_hard_3.csv",
+        "b_1_skip_3_hard_5e6steps_hard_4.csv",
+        "b_1_skip_3_hard_5e6steps_hard_5.csv",
+    ]
+
+    b_05_skip_3_hard_sac_save_file_names= [
+        "b_05_skip_3_hard_5e6steps_hard_1.csv",
+        "b_05_skip_3_hard_5e6steps_hard_2.csv",
+        "b_05_skip_3_hard_5e6steps_hard_3.csv",
+        "b_05_skip_3_hard_5e6steps_hard_4.csv",
+        "b_05_skip_3_hard_5e6steps_hard_5.csv",
+    ]
+
+    b_025_skip_3_hard_sac_save_file_names= [
+        "b_025_skip_3_hard_5e6steps_hard_1.csv",
+        "b_025_skip_3_hard_5e6steps_hard_2.csv",
+        "b_025_skip_3_hard_5e6steps_hard_3.csv",
+        "b_025_skip_3_hard_5e6steps_hard_4.csv",
+        "b_025_skip_3_hard_5e6steps_hard_5.csv",
+    ]
 
     for config_file_name, algo_str, save_file_name in zip(
         [
-            *b_2_sac_config_files, 
-            *b_05_sac_config_files
-
-
-        ],
-        [
-            *b_2_sac_algo_strs, 
-            *b_05_sac_algo_strs
+            # *b_2_sac_config_files, 
+            # *b_05_sac_config_files,
+            *b_2_skip_3_hard_sac_config_files,
+            *b_1_skip_3_hard_sac_config_files,
+            *b_05_skip_3_hard_sac_config_files,
+            *b_025_skip_3_hard_sac_config_files,
 
         ],
         [
-            *b_2_sac_save_file_names, 
-            *b_05_sac_save_file_names
+            # *b_2_sac_algo_strs, 
+            # *b_05_sac_algo_strs
+            *b_2_skip_3_hard_sac_algo_strs,
+            *b_1_skip_3_hard_sac_algo_strs,
+            *b_05_skip_3_hard_sac_algo_strs,
+            *b_025_skip_3_hard_sac_algo_strs,
+
+        ],
+        [
+            # *b_2_sac_save_file_names, 
+            # *b_05_sac_save_file_names
+            *b_2_skip_3_hard_sac_save_file_names,
+            *b_1_skip_3_hard_sac_save_file_names,
+            *b_05_skip_3_hard_sac_save_file_names,
+            *b_025_skip_3_hard_sac_save_file_names,
 
         ]
     ):
@@ -378,8 +457,8 @@ if __name__ == "__main__":
                 last_chunk = evaluation_goals.iloc[n*chunk_size:]
                 chunks[-1] = pd.concat([chunks[-1], last_chunk])
 
-            model_name = "best_model"
-
+            #model_name = "best_model"
+            model_name = "rl_model_5000000_steps"
             res = pool.starmap(
                 rollout,
                 [[
@@ -396,4 +475,4 @@ if __name__ == "__main__":
             )
 
             res_df = pd.concat([pd.DataFrame(tmp) for tmp in res])
-            res_df.to_csv(PROJECT_ROOT_DIR /"logs"/ "cache"/ "LadderRL"/"eval_error"/ save_file_name, index=False)
+            res_df.to_csv(PROJECT_ROOT_DIR /"logs"/ "cache"/ "LadderRL"/"eval_error"/"hard_skip3_5e6"/ save_file_name, index=False)

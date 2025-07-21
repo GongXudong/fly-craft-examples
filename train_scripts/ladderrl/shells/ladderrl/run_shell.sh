@@ -932,3 +932,19 @@ python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-fil
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6/eval_on_b_025/sac_config_10hz_128_128_3.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6/eval_on_b_025/sac_config_10hz_128_128_4.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6/eval_on_b_025/sac_config_10hz_128_128_5.json
+
+
+#E2D b = 0.25 buffersize 1e6 train 1e6  aug1 10
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_5.json
+
+
+#E2D b = 0.25 buffersize 1e6 train 1e6  aug4  100
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025_aug4/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025_aug4/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025_aug4/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025_aug4/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025_aug4/buffer_size1e6/num_transition2e5/sac_config_10hz_128_128_5.json

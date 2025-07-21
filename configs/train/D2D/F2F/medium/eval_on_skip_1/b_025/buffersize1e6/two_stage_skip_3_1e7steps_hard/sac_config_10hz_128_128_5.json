@@ -18,7 +18,7 @@
             "custom_config": {}
         },
         "rl": {
-            "experiment_name": "D2D/F2F/medium/b_025/eval_on_skip_1/b_025/buffer_size_1e6/two_stage_skip_3_1e7steps_hard/sac_128_128_b_025_1e7steps_skip_3_seed_5_singleRL",
+            "experiment_name": "D2D/F2F/hard_without_info/b_025/eval_on_skip_1/b_025/buffer_size_1e6/two_stage_skip_3_1e7steps_hard/sac_128_128_b_025_1e7steps_skip_3_seed_5_singleRL",
             "seed": 87,
             "seed_in_train_env": 81,
             "seed_in_callback_env": 36,
