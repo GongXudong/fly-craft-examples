@@ -99,15 +99,18 @@ def train():
     })
 
     vec_env = VecCheckNan(get_vec_env(
-        **env_config_dict_in_training
+        **env_config_dict_in_training,
+        frame_skip=ENV_FRAME_SKIP
     ))
     # evaluate_policy使用的测试环境
     eval_env = VecCheckNan(get_vec_env(
-        **env_config_dict_in_eval
+        **env_config_dict_in_eval,
+        frame_skip=ENV_FRAME_SKIP
     ))
     # 回调函数中使用的测试环境
     eval_env_in_callback = VecCheckNan(get_vec_env(
-        **env_config_dict_in_callback
+        **env_config_dict_in_callback,
+        frame_skip=ENV_FRAME_SKIP
     ))
 
     helper_env = ScaledActionWrapper(
@@ -162,6 +165,7 @@ if __name__ == "__main__":
 
     ENV_CONFIG_FILE = train_config["env"]["config_file"]
     ENV_CUSTOM_CONFIG = train_config["env"].get("custom_config", {})
+    ENV_FRAME_SKIP = train_config["env"].get("frame_skip", 1)
 
     SEED = train_config["rl"]["seed"]
     SEED_IN_TRAINING_ENV = train_config["rl"].get("seed_in_train_env")

@@ -23,6 +23,7 @@ from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapp
 from train_scripts.msr.algorithms.smooth_goal_ppo import SmoothGoalPPO
 from train_scripts.msr.attackers.ppo.gradient_ascent_attackers_ppo import GradientAscentAttacker
 from train_scripts.msr.utils.evaluation import my_evaluate_with_customized_dg
+from train_scripts.msr.evaluate.evaluate_policy_by_v_func_adj_diff import get_v
 
 
 def calc_KL(policy: PPOMultiInputPolicy, new_desired_goal: th.Tensor, obs_list: List[th.Tensor], action_dist_list: List[Distribution]):
@@ -58,6 +59,8 @@ def evaluate(args):
         "algo_epsilon": [],
         "algo_reg": [],
         "algo_reg_beta": [],
+        "algo_v_reg": [],
+        "algo_v_reg_beta": [],
         "seed": [],
         # eval
         "evaluate_adjacent_num": [],
@@ -67,8 +70,8 @@ def evaluate(args):
         "noise_mu": [],
         "noise_chi": [],
         "goal_distance": [],
-        "cumulative_reward": [],
-        "noised_goal_cumulative_reward": [],
+        "discounted_cumulative_reward": [],
+        "noised_goal_discounted_cumulative_reward": [],
         "desired_goal_state_value": [],
         "noised_goal_state_value": [],
         "KL_value": [],
@@ -86,7 +89,7 @@ def evaluate(args):
             policy_class = SmoothGoalPPO
         else:
             raise ValueError("algo_class can only be PPO or SmoothGoalPPO!")
-        
+
         algo = policy_class.load(
             policy_dir,
             env=env
@@ -104,12 +107,16 @@ def evaluate(args):
                 return_discounted_cumulative_reward=True, 
                 discount_factor=args.evaluation_gamma
             )
-            
+
             if not achieved:
                 continue
-            
+
             original_achievable_dg = env.env.goal_scalar.inverse_transform(achievable_dg.reshape((1, -1))).reshape((-1))
             print(f"achievable dg: {achievable_dg}, original desired dg: {original_achievable_dg}")
+
+            # 计算desired goal的V值
+            obs_th, _ = algo.policy.obs_to_tensor(obs_list[0])
+            desired_goal_state_value = get_v(algo.policy, obs_th).item()
 
             # 计算对这个goal能施加的最小和最大噪声
             attacker._calc_noise_min_max(desired_goal=original_achievable_dg)
@@ -118,7 +125,7 @@ def evaluate(args):
 
             tmp_mu_index = - args.evaluate_adjacent_num
             for tmp_mu in np.linspace(noise_min[1], noise_max[1], 2*args.evaluate_adjacent_num+1):
-                
+
                 tmp_chi_index = - args.evaluate_adjacent_num
                 for tmp_chi in np.linspace(noise_min[2], noise_max[2], 2*args.evaluate_adjacent_num+1):
                     new_dg = th.tensor(
@@ -144,11 +151,20 @@ def evaluate(args):
                         discount_factor=args.evaluation_gamma,
                     )
 
+                    # 计算noised goal的V值
+                    noised_goal_obs = deepcopy(obs_list[0])
+                    noised_goal_obs["desired_goal"] = new_dg.cpu().numpy()
+                    noised_goal_obs_th, _ = algo.policy.obs_to_tensor(noised_goal_obs)
+                    noised_goal_state_value = get_v(algo.policy, noised_goal_obs_th).item()
+
+                    # log everything
                     res_log["env"].append(args.env_flag_str)
                     res_log["algo"].append(args.algo_flag_str)
                     res_log["algo_epsilon"].append(args.algo_epsilon)
                     res_log["algo_reg"].append(args.algo_reg)
                     res_log["algo_reg_beta"].append(args.algo_reg_beta)
+                    res_log["algo_v_reg"].append(args.algo_v_reg)
+                    res_log["algo_v_reg_beta"].append(args.algo_v_reg_beta)
                     res_log["seed"].append(tmp_seed)
                     res_log["evaluate_adjacent_num"].append(args.evaluate_adjacent_num)
                     res_log["desired_goal"].append(achievable_dg)
@@ -158,15 +174,17 @@ def evaluate(args):
                     res_log["goal_distance"].append(np.linalg.norm([tmp_mu, tmp_chi]))
                     res_log["discounted_cumulative_reward"].append(discounted_cumulative_reward)
                     res_log["noised_goal_discounted_cumulative_reward"].append(noised_goal_discounted_cumulative_reward)
+                    res_log["desired_goal_state_value"].append(desired_goal_state_value)
+                    res_log["noised_goal_state_value"].append(noised_goal_state_value)
                     res_log["KL_value"].append(tmp_KL.detach().item())
                     res_log["success"].append(tmp_success)
 
                     tmp_chi_index += 1
 
                 tmp_mu_index += 1
-    
+
     res_df = pd.DataFrame(res_log)
-    
+
     save_path: Path = PROJECT_ROOT_DIR / args.res_file_save_name
     if not save_path.parent.exists():
         os.makedirs(save_path.parent)
@@ -174,13 +192,11 @@ def evaluate(args):
     res_df.to_csv(save_path, index=False)
 
 # evaluate PPO
-# python train_scripts/disc/evaluate/evaluate_ppo_with_agerage_adjacent_KL.py --env-config configs/env/D2D/env_config_for_ppo_medium_b_05.json --env-flag-str Medium-05 --algo-class PPO --algo-ckpt-dir checkpoints/disc/medium/ppo/epsilon_0_1_reg_0/128_128_2e8steps_seed_{0} --algo-seeds 1 2 3 4 5 --algo-flag-str PPO --algo-epsilon 0.0 --algo-reg 0.0 --evaluate-dg-num 100 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 0.1 --evaluate-adjacent-num 5 --res-file-save-name train_scripts/disc/plots/ppo/results/ppo_epsilon_0_reg_0_N_16_noise_0_1.csv
+# python train_scripts/msr/evaluate/evaluate_ppo_with_average_adjacent_V.py --env-config configs/env/D2D/env_config_for_ppo_medium_b_05.json --env-flag-str Medium-05 --algo-class PPO --algo-ckpt-dir checkpoints/IRPO/rl_single/ppo_medium_128_128_2e8steps_{0}_singleRL --algo-seeds 1 2 3 4 5 --algo-flag-str PPO --algo-epsilon 0.0 --algo-reg 0.0 --evaluate-dg-num 100 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 0.1 --evaluate-adjacent-num 5 --evaluation-gamma 0.995 --res-file-save-name train_scripts/msr/plots/smooth_goal_ppo/results_KL_and_V/ppo_noise_0_1.csv
 
-# evaluate SmoothGoalPPO
-# python train_scripts/disc/evaluate/evaluate_ppo_with_agerage_adjacent_KL.py --env-config configs/env/D2D/env_config_for_ppo_medium_b_05.json --env-flag-str Medium-05 --algo-class SmoothGoalPPO --algo-ckpt-dir checkpoints/disc/medium/ppo/epsilon_0_1_reg_0_001_N_16/128_128_2e8steps_seed_{0} --algo-seeds 1 2 3 4 5 --algo-flag-str SmoothGoalPPO --algo-epsilon 0.1 --algo-reg 0.001 --evaluate-dg-num 100 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 0.1 --evaluate-adjacent-num 5 --res-file-save-name train_scripts/disc/plots/ppo/results/ppo_epsilon_0_1_reg_0_001_N_16_noise_0_1.csv
-    
-# evaluate bc
-# python train_scripts/msr/evaluate/evaluate_ppo_with_average_adjacent_KL.py --env-config configs/env/VVCGym/env_hard_config_for_sac.json --env-flag-str Hard-05 --algo-class PPO --algo-ckpt-dir checkpoints/IRPO/bc/guidance_law_mode/iter_1/128_128_300epochs_{0} --algo-ckpt-model-name bc_checkpoint --algo-seeds 1 2 3 4 5 --algo-flag-str PPO --algo-epsilon 0.0 --algo-reg 0.0 --evaluate-dg-num 100 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 1.0 --evaluate-adjacent-num 5 --res-file-save-name train_scripts/disc/plots/bc/results/bc_iter_1_epsilon_0_reg_0_noise_1.csv
+# evaluate SmoothGoalPPO_pi
+# python train_scripts/msr/evaluate/evaluate_ppo_with_average_adjacent_V.py --env-config configs/env/D2D/env_config_for_ppo_medium_b_05.json --env-flag-str Medium-05 --algo-class PPO --algo-ckpt-dir checkpoints/msr/medium/smooth_goal_ppo_pi/epsilon_0_1_reg_0_001_N_16/128_128_2e8steps_seed_{0} --algo-seeds 1 2 3 4 5 --algo-flag-str PPO --algo-epsilon 0.0 --algo-reg 0.0 --evaluate-dg-num 100 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 0.1 --evaluate-adjacent-num 5 --evaluation-gamma 0.995 --res-file-save-name train_scripts/msr/plots/smooth_goal_ppo/results_KL_and_V/ppo_epsilon_0_reg_0_N_16_noise_0_1.csv
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="pass configurations")
     # environment
@@ -193,8 +209,10 @@ if __name__ == "__main__":
     parser.add_argument("--algo-seeds", nargs="*", type=int, default=[1, 2, 3, 4, 5], help="algorithm random seeds")
     parser.add_argument("--algo-flag-str", type=str, default="HER", help="log str for algorithm")
     parser.add_argument("--algo-epsilon", type=float, default=0.1, help="the noise epsilon used when training models")
-    parser.add_argument("--algo-reg", type=float, default=0.001, help="the regularization used when training models")
-    parser.add_argument("--algo-reg-beta", type=float, default=0.0, help="the regularization beta used when calculating goal-regularization-loss")
+    parser.add_argument("--algo-reg", type=float, default=0.001, help="the regularization used when training pi models")
+    parser.add_argument("--algo-reg-beta", type=float, default=0.0, help="the regularization beta used when calculating pi goal-regularization-loss")
+    parser.add_argument("--algo-v-reg", type=float, default=1.0, help="the regularization used when training V models")
+    parser.add_argument("--algo-v-reg-beta", type=float, default=0.0, help="the regularization beta used when calculating V goal-regularization-loss")
     # evaluation
     parser.add_argument("--evaluate-dg-num", type=int, default=100, help="how many desired goals are planed to evaluate")
     parser.add_argument("--evaluate-noise-base", nargs="*", type=float, default=[10.0, 3.0, 3.0], help="base noise")

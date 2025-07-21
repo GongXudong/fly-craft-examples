@@ -39,7 +39,7 @@ def work(train_config: dict, env_config: Path, algo: str, seed: int=111, n_envs:
 
     if algo == 'sac':
         print("测试SmoothGoalSAC")
-        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "disc" / RL_EXPERIMENT_NAME
+        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "msr" / RL_EXPERIMENT_NAME
         model_save_name = "best_model"
         policy_class = SmoothGoalSAC
     elif algo == "sac_only":
@@ -49,7 +49,7 @@ def work(train_config: dict, env_config: Path, algo: str, seed: int=111, n_envs:
         policy_class = SAC
     elif algo == 'ppo':
         print("测试SmoothGoalPPO")
-        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "disc" / RL_EXPERIMENT_NAME
+        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "msr" / RL_EXPERIMENT_NAME
         model_save_name = "best_model"
         policy_class = SmoothGoalPPO
     elif algo == "ppo_only":
@@ -64,7 +64,7 @@ def work(train_config: dict, env_config: Path, algo: str, seed: int=111, n_envs:
         policy_class = PPO
     elif algo == 'bc':
         print("测试SmoothGoalBC")
-        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "disc" / RL_EXPERIMENT_NAME
+        policy_save_dir = PROJECT_ROOT_DIR / "checkpoints" / "msr" / RL_EXPERIMENT_NAME
         model_save_name = "bc_checkpoint"
         policy_class = SmoothGoalPPO
     elif algo == "bc_only":
@@ -86,15 +86,15 @@ def work(train_config: dict, env_config: Path, algo: str, seed: int=111, n_envs:
     )
     algo_ppo.policy.set_training_mode(False)
 
-    mean_reward, mean_episode_length, success_rate = evaluate_policy_with_success_rate(
+    mean_reward, std_reward, success_rate = evaluate_policy_with_success_rate(
         model=algo_ppo.policy,
         env=vec_env,
         n_eval_episodes=n_eval_episodes
     )
 
-    print(f"mean reward: {mean_reward}, mean episode length: {mean_episode_length}, success rate: {success_rate}")
+    print(f"reward mean: {mean_reward}, reward std: {std_reward}, success rate: {success_rate}")
 
-# python train_scripts/disc/evaluate/evaluate_policy_by_success_rate.py --config-file-name configs/train/disc/sac/medium/epsilon_0_1_reg_0_001/sac_config_10hz_128_128_seed_2.json --algo sac --seed 11 --n-envs 8 --n-eval-episode 100
+# python train_scripts/msr/evaluate/evaluate_policy_by_success_rate.py --config-file-name configs/train/msr/sac/medium/epsilon_0_1_reg_0_001/sac_config_10hz_128_128_seed_2.json --algo sac --seed 11 --n-envs 8 --n-eval-episode 100
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="pass configurations")
