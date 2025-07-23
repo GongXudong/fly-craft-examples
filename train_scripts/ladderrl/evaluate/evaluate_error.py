@@ -458,7 +458,7 @@ if __name__ == "__main__":
                 chunks[-1] = pd.concat([chunks[-1], last_chunk])
 
             #model_name = "best_model"
-            model_name = "rl_model_5000000_steps"
+            # model_name = "rl_model_5000000_steps"
             res = pool.starmap(
                 rollout,
                 [[
