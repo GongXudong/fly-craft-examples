@@ -1106,7 +1106,7 @@ python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_indicator.py --
 
 
 # E2D supplement experiment  buffersize 2e5 5e5 b= 0.25  aug1 aug 4
-# E2D   buffersize 2e5 5e5 b= 0.25  aug1  251
+# E2D   buffersize 2e5 5e5 b= 0.25  aug1  166
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025/buffersize_2e5/sac_config_10hz_128_128_1.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025/buffersize_2e5/sac_config_10hz_128_128_2.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025/buffersize_2e5/sac_config_10hz_128_128_3.json
@@ -1114,7 +1114,7 @@ python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-fil
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025/buffersize_2e5/sac_config_10hz_128_128_5.json
 
 
-# E2D   buffersize 2e5 5e5 b= 0.25  aug1  166
+# E2D   buffersize 2e5 5e5 b= 0.25  aug4  251
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025_aug4/buffersize_2e5/sac_config_10hz_128_128_1.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025_aug4/buffersize_2e5/sac_config_10hz_128_128_2.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025_aug4/buffersize_2e5/sac_config_10hz_128_128_3.json
