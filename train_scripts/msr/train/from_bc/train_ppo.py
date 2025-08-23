@@ -7,6 +7,7 @@ import argparse
 from copy import deepcopy
 import os
 import sys
+from time import time
 
 from stable_baselines3.common.logger import configure, Logger
 from stable_baselines3.common.callbacks import CheckpointCallback, EveryNTimesteps
@@ -17,7 +18,7 @@ import flycraft
 from flycraft.utils_common.load_config import load_config
 from flycraft.utils_common.dict_utils import update_nested_dict
 
-PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent
+PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
@@ -122,7 +123,13 @@ def train():
         )
     )
 
+    # load model
+    pretrained_model_path = PROJECT_ROOT_DIR / PRE_TRAINED_MODEL_PATH
+
     algo_ppo = get_ppo_algo(vec_env)
+    algo_ppo.set_parameters(load_path_or_dict=str(pretrained_model_path.absolute()))
+    sb3_logger.info(f"Load pretrained model from {pretrained_model_path}.")
+
     algo_ppo.init_desired_goal_params(helper_env)
     sb3_logger.info(str(algo_ppo.policy))
 
@@ -130,6 +137,47 @@ def train():
     algo_ppo.set_logger(sb3_logger)
 
     sb3_logger.log(f"Check algo configs, epsilon: {algo_ppo.goal_noise_epsilon}, reg: {algo_ppo.goal_regularization_strength}, noise num: {algo_ppo.noise_num_for_each_goal}.")
+
+
+    # evaluate
+    reward, _, success_rate = evaluate_policy_with_success_rate(
+        algo_ppo.policy, 
+        eval_env, 
+        EVALUATE_NUMS_IN_EVALUATION * env_num_used_in_eval
+    )
+    sb3_logger.info(f"Reward before RL: {reward}")
+    sb3_logger.info(f"Success rate before RL: {success_rate}")
+
+    # train value head
+    for k, v in algo_ppo.policy.named_parameters():
+        # print(k)
+        if any([ x in k.split('.') for x in ['shared_net', 'policy_net', 'action_net']]):  # 还有一个log_std
+            v.requires_grad = False
+    # exit(0)
+    # for k, v in algo_ppo.policy.named_parameters():
+    #     print(k, v.requires_grad)
+    
+    start_time = time()
+    algo_ppo.learn(total_timesteps=ACTIVATE_VALUE_HEAD_TRAIN_STEPS)
+    sb3_logger.info(f"training value head time: {time() - start_time}(s).")
+
+    # save model, value head训练完的
+    algo_ppo.save(PROJECT_ROOT_DIR / "checkpoints" / "msr" / RL_EXPERIMENT_NAME / POLICY_AFTER_VALUE_HEAD_TRAINED_FILE_NAME)
+
+    # evaluate
+    reward, _, success_rate = evaluate_policy_with_success_rate(
+        algo_ppo.policy, 
+        eval_env, 
+        EVALUATE_NUMS_IN_EVALUATION * env_num_used_in_eval
+    )
+    sb3_logger.info(f"Reward after training value head: {reward}")
+    sb3_logger.info(f"Success rate after training value head: {success_rate}")
+
+    # continue training
+    for k, v in algo_ppo.policy.named_parameters():
+        if any([ x in k.split('.') for x in ['shared_net', 'policy_net', 'action_net']]):
+            v.requires_grad = True
+
 
     eval_callback = MyEvalCallback(
         eval_env_in_callback, 
@@ -155,6 +203,7 @@ def train():
     sb3_logger.info(f"Success rate after RL: {success_rate}")
 
 
+# python train_scripts/msr/train/from_bc/train_ppo.py --config-file-name configs/train/msr/smooth_goal_ppo_pi/hard/from_bc/epsilon_0_1_reg_0_001_N_16/128_128_seed_1.json
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="传入配置文件")
@@ -172,7 +221,10 @@ if __name__ == "__main__":
     SEED_IN_CALLBACK_ENV = train_config["rl"].get("seed_in_callback_env")
 
     RL_EXPERIMENT_NAME = train_config["rl"]["experiment_name"]
+    PRE_TRAINED_MODEL_PATH = train_config["rl"]["pretrained_model_path"]
     GAMMA = train_config["rl"]["gamma"]
+    ACTIVATE_VALUE_HEAD_TRAIN_STEPS = train_config["rl"]["activate_value_head_train_steps"]
+    POLICY_AFTER_VALUE_HEAD_TRAINED_FILE_NAME = train_config["rl"]["policy_after_value_head_trained_file_save_name"]
     NET_ARCH = train_config["rl"]["net_arch"]
     PPO_BATCH_SIZE = train_config["rl"]["batch_size"]
     RL_TRAIN_STEPS = train_config["rl"]["train_steps"]

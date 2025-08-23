@@ -37,7 +37,7 @@ class EvaluationTest(unittest.TestCase):
         super().setUp()
         env = gym.make(
             "FlyCraft-v0",
-            config_file=PROJECT_ROOT_DIR / "configs" / "env" / "env_config_for_sac.json"
+            config_file=PROJECT_ROOT_DIR / "configs" / "env" / "VVCGym" / "env_config_for_sac.json"
         )
 
         self.env = ScaledActionWrapper(ScaledObservationWrapper(env))
@@ -61,7 +61,7 @@ class EvaluationTest(unittest.TestCase):
             )
 
     def test_my_evaluate_with_customized_dg(self):
-        print("test evaluate on fixed goal.")
+        print("test evaluate on customized goal.")
 
         desired_goals = np.array([
             [150, 10, 20],
@@ -80,6 +80,13 @@ class EvaluationTest(unittest.TestCase):
                     policy=self.sac_algo.policy,
                     env=self.env,
                     desired_goal=noised_dg
+                ),
+                my_evaluate_with_customized_dg(
+                    policy=self.sac_algo.policy,
+                    env=self.env,
+                    desired_goal=noised_dg,
+                    return_discounted_cumulative_reward=True,
+                    discount_factor=0.995
                 )
             )
 

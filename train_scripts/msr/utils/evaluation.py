@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from functools import reduce
 import numpy as np
 import gymnasium as gym
 from stable_baselines3.sac import SAC
@@ -11,6 +12,15 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
 
 from train_scripts.msr.utils.reset_env_utils import reset_env_with_desired_goal
 
+
+def get_discounted_cumulative_rewards(reward_list: list, discount_factor: float=0.99):
+    # 反转列表
+    reversed_reward_list = reward_list[::-1]
+    # 定义每次迭代的操作
+    def accumulate(tmp_sum, item):
+        return tmp_sum * discount_factor + item
+    # 使用 reduce 累积计算
+    return reduce(accumulate, reversed_reward_list, 0)
 
 def my_evaluate_with_original_dg(policy: SACPolicy, env: gym.Env):
     policy.set_training_mode(False)
@@ -31,7 +41,7 @@ def my_evaluate_with_original_dg(policy: SACPolicy, env: gym.Env):
 
         obs = new_obs
 
-def my_evaluate_with_customized_dg(policy: SACPolicy, env: gym.Env, desired_goal: np.ndarray):
+def my_evaluate_with_customized_dg(policy: SACPolicy, env: gym.Env, desired_goal: np.ndarray, return_discounted_cumulative_reward: bool=False, discount_factor: float=0.99):
     policy.set_training_mode(False)
 
     # 注意：调用此函数后，需要手动将env.unwrapped.task.goal_sampler.use_fixed_goal恢复成原来的值！！！
@@ -40,17 +50,20 @@ def my_evaluate_with_customized_dg(policy: SACPolicy, env: gym.Env, desired_goal
     env.unwrapped.task.goal_sampler.use_fixed_goal = tmp_env_sample_fixed_goal
     
     desired_goal = obs["desired_goal"]
-    cumulative_reward = 0.0
+    reward_list = []
 
     while True:
         tmp_action, _ = policy.predict(observation=obs, deterministic=True)
         # tmp_action_dist = policy.actor.action_dist
         new_obs, reward, terminated, truncated, info = env.step(tmp_action)
 
-        cumulative_reward += reward
+        reward_list.append(reward)
         is_success = info["is_success"] if "is_success" in info else False
 
         if terminated or truncated:
-            return is_success, desired_goal, cumulative_reward
+            if return_discounted_cumulative_reward:
+                return is_success, desired_goal, get_discounted_cumulative_rewards(reward_list=reward_list, discount_factor=discount_factor)
+            else:
+                return is_success, desired_goal, get_discounted_cumulative_rewards(reward_list=reward_list, discount_factor=1.0)
 
         obs = new_obs

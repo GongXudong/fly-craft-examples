@@ -30,7 +30,7 @@ class ResetEnvUtilsTest(unittest.TestCase):
         super().setUp()
         self.env = gym.make(
             "FlyCraft-v0",
-            config_file=PROJECT_ROOT_DIR / "configs" / "env" / "env_config_for_sac.json"
+            config_file=PROJECT_ROOT_DIR / "configs" / "env" / "VVCGym" / "env_config_for_sac.json"
         )
 
     def test_get_goal_bound(self):
