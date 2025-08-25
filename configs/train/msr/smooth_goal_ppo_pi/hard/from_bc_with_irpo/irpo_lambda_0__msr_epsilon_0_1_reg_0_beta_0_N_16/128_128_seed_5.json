@@ -4,11 +4,11 @@
         "custom_config": {}
     },
     "rl": {
-        "experiment_name": "hard/from_bc_with_irpo/smooth_goal_ppo_pi/irpo_lambda_0_msr_epsilon_0_reg_0_beta_0_N_16/128_128_2e8steps_seed_4",
-        "seed": 32,
-        "seed_in_train_env": 35,
-        "seed_in_callback_env": 37,
-        "pretrained_model_path": "checkpoints/IRPO/bc/guidance_law_mode/iter_1/128_128_300epochs_4/bc_checkpoint.zip",
+        "experiment_name": "hard/from_bc_with_irpo/smooth_goal_ppo_pi/irpo_lambda_0__msr_epsilon_0_1_reg_0_beta_0_N_16/128_128_2e8steps_seed_5",
+        "seed": 41,
+        "seed_in_train_env": 44,
+        "seed_in_callback_env": 48,
+        "pretrained_model_path": "checkpoints/IRPO/bc/guidance_law_mode/iter_1/128_128_300epochs_5/bc_checkpoint.zip",
         "policy_after_value_head_trained_file_save_name": "bc_checkpoint_after_value_head_trained",
         "train_steps": 2e8,
         "net_arch": [128, 128],
