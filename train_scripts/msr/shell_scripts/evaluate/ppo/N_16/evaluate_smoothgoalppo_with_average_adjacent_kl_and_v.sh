@@ -4,6 +4,9 @@
 #--------------------------------------------------------------------PPO--------------------------------------------------------------
 python train_scripts/msr/evaluate/evaluate_ppo_with_average_adjacent_KL_and_V.py --env-config configs/env/MSR/env_config_for_ppo_10hz_medium_b_05.json --env-flag-str Medium-05 --algo-class PPO --algo-ckpt-dir checkpoints/IRPO/rl_single/ppo_medium_128_128_2e8steps_{0}_singleRL --algo-seeds 1 2 3 4 5 --algo-flag-str PPO --algo-epsilon 0.0 --algo-reg 0.0 --algo-reg-beta 0.0 --algo-v-reg 0.0 --algo-v-reg-beta 0.0 --evaluate-dg-num 100 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 1.0 --evaluate-adjacent-num 5 --evaluation-gamma 0.995 --res-file-save-name train_scripts/msr/plots/smooth_goal_ppo/results_KL_and_V/ppo_eval_noise_1.csv
 
+## from pre-trained (IRPO iter1 lambda=0.001)   eval: epsilon 1.0
+python train_scripts/msr/evaluate/evaluate_ppo_with_average_adjacent_KL_and_V.py --env-config configs/env/IRPO/env_hard_guidance_MR_config_for_ppo.json --env-flag-str Hard-05 --algo-class PPO --algo-ckpt-dir checkpoints/IRPO/rl/guidance_law_mode/iter_1/128_128_2e8steps_lambda_1e-3_{0} --algo-seeds 1 2 3 4 5 --algo-flag-str PPO --algo-epsilon 0.0 --algo-reg 0.0 --algo-reg-beta 0.0 --algo-v-reg 0.0 --algo-v-reg-beta 0.0 --evaluate-dg-num 100 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 1.0 --evaluate-adjacent-num 5 --evaluation-gamma 0.995 --res-file-save-name train_scripts/msr/plots/smooth_goal_ppo/results_KL_and_V/IRPO_iter_1_lambda_1e-3_eval_noise_1.csv
+
 
 #--------------------------------------------------------------------SmoothGoalPPO pi--------------------------------------------------------------
 # algo: epsilon 0.1 reg 0.001 beta 0.0   eval: epsilon 1.0

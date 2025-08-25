@@ -130,7 +130,10 @@ def train():
     # load model
     pretrained_model_path = PROJECT_ROOT_DIR / PRE_TRAINED_MODEL_PATH
     
-    algo_ppo_for_kl_loss = PPO.load(str(pretrained_model_path.absolute()))
+    algo_ppo_for_kl_loss = PPO.load(
+        path=str(pretrained_model_path.absolute()), 
+        device=DEVICE
+    )
     algo_ppo_for_kl_loss.policy.set_training_mode(False)
 
     algo_ppo = get_ppo_algo(vec_env, algo_ppo_for_kl_loss)
