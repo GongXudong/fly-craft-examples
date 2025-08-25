@@ -9,6 +9,7 @@ import os
 import sys
 from time import time
 
+from stable_baselines3.ppo import PPO
 from stable_baselines3.common.logger import configure, Logger
 from stable_baselines3.common.callbacks import CheckpointCallback, EveryNTimesteps
 from stable_baselines3.ppo import MultiInputPolicy
@@ -22,7 +23,7 @@ PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.parent.parent
 if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
     sys.path.append(str(PROJECT_ROOT_DIR.absolute()))
 
-from train_scripts.msr.algorithms.smooth_goal_ppo import SmoothGoalPPO
+from train_scripts.msr.algorithms.smooth_goal_and_irpo_ppo import SmoothGoalAndIRPOPPO
 from utils_my.sb3.vec_env_helper import get_vec_env
 from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
@@ -31,7 +32,7 @@ from utils_my.sb3.my_wrappers import ScaledActionWrapper, ScaledObservationWrapp
 
 np.seterr(all="raise")  # 检查nan
 
-def get_ppo_algo(env):
+def get_ppo_algo(env, bc_trained_algo):
     policy_kwargs = dict(
         net_arch=dict(
             pi=NET_ARCH,
@@ -39,7 +40,7 @@ def get_ppo_algo(env):
         )
     )
 
-    return SmoothGoalPPO(
+    return SmoothGoalAndIRPOPPO(
         policy=MultiInputPolicy, 
         env=env, 
         seed=SEED,
@@ -62,6 +63,9 @@ def get_ppo_algo(env):
         regularize_state_value=REGULARIZE_STATE_VALUE,
         state_value_regularization_strength=STATE_VALUE_REGULARIZATION_STRENGTH,
         state_value_regularization_loss_threshold=STATE_VALUE_REGULARIZATION_LOSS_THRESHOLD,
+        regularize_kl_with_pretrained_policy=REGULARIZE_KL_WITH_PRETRAINED_POLICY,
+        bc_trained_algo=bc_trained_algo,
+        kl_coef_with_bc=KL_WITH_BC_MODEL_COEF,
     )
 
 def train():
@@ -125,8 +129,11 @@ def train():
 
     # load model
     pretrained_model_path = PROJECT_ROOT_DIR / PRE_TRAINED_MODEL_PATH
+    
+    algo_ppo_for_kl_loss = PPO.load(str(pretrained_model_path.absolute()))
+    algo_ppo_for_kl_loss.policy.set_training_mode(False)
 
-    algo_ppo = get_ppo_algo(vec_env)
+    algo_ppo = get_ppo_algo(vec_env, algo_ppo_for_kl_loss)
     algo_ppo.set_parameters(load_path_or_dict=str(pretrained_model_path.absolute()))
     sb3_logger.info(f"Load pretrained model from {pretrained_model_path}.")
 
@@ -203,7 +210,7 @@ def train():
     sb3_logger.info(f"Success rate after RL: {success_rate}")
 
 
-# python train_scripts/msr/train/from_bc/train_ppo.py --config-file-name configs/train/msr/smooth_goal_ppo_pi/hard/from_bc/epsilon_0_1_reg_0_001_N_16/128_128_seed_1.json
+# python train_scripts/msr/train/from_bc/train_ppo_msr_irpo.py --config-file-name configs/train/msr/smooth_goal_ppo_pi/hard/from_bc_with_irpo/epsilon_0_1_reg_0_001_N_16/128_128_seed_1.json
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="传入配置文件")
@@ -247,6 +254,9 @@ if __name__ == "__main__":
     REGULARIZE_STATE_VALUE = train_config["rl"].get("regularize_state_value", False)
     STATE_VALUE_REGULARIZATION_STRENGTH = train_config["rl"].get("state_value_regularization_strength", 1e-3)
     STATE_VALUE_REGULARIZATION_LOSS_THRESHOLD = train_config["rl"].get("state_value_regularization_loss_threshold", 1.0)
+
+    REGULARIZE_KL_WITH_PRETRAINED_POLICY = train_config["rl"]["regularize_kl_with_pretrained_policy"]
+    KL_WITH_BC_MODEL_COEF = train_config["rl"]["kl_with_bc_model_coef"]
 
     DEVICE = train_config["rl"].get("device", "cpu")
 
