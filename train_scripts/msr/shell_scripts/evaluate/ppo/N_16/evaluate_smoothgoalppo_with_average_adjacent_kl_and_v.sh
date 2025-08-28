@@ -15,7 +15,7 @@ python train_scripts/msr/evaluate/evaluate_ppo_with_average_adjacent_KL_and_V.py
 
 
 ## from BC pre-trained model   eval: epsilon 1.0
-python train_scripts/msr/evaluate/evaluate_ppo_with_average_adjacent_KL_and_V.py --env-config configs/env/IRPO/env_hard_guidance_MR_config_for_ppo.json --env-flag-str Hard-05 --algo-class PPO --algo-ckpt-dir checkpoints/msr/hard/from_bc/smooth_goal_ppo_pi/epsilon_0_1_reg_0_001_beta_0_N_16/128_128_2e8steps_seed_{0} --algo-seeds 1 2 3 4 5 --algo-flag-str PPO --algo-epsilon 0.1 --algo-reg 0.001 --algo-reg-beta 0.0 --algo-v-reg 0.0 --algo-v-reg-beta 0.0 --evaluate-dg-num 100 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 1.0 --evaluate-adjacent-num 5 --evaluation-gamma 0.995 --res-file-save-name train_scripts/msr/plots/smooth_goal_ppo/results_KL_and_V/smooth_goal_pi__from_bc__epsilon_0_1_reg_0_001_beta_0_eval_noise_1.csv
+python train_scripts/msr/evaluate/evaluate_ppo_with_average_adjacent_KL_and_V.py --env-config configs/env/IRPO/env_hard_guidance_MR_config_for_ppo.json --env-flag-str Hard-05 --algo-class PPO --algo-ckpt-dir checkpoints/msr/hard/from_bc/smooth_goal_ppo_pi/epsilon_0_1_reg_0_001_beta_0_N_16/128_128_2e8steps_seed_{0} --algo-seeds 1 2 3 4 5 --algo-flag-str PPO --algo-epsilon 0.1 --algo-reg 0.001 --algo-reg-beta 0.0 --algo-v-reg 0.0 --algo-v-reg-beta 0.0 --evaluate-dg-num 100 --evaluate-noise-base 10.0 3.0 3.0 --evaluate-noise-multiplier 1.0 --evaluate-adjacent-num 5 --evaluation-gamma 0.995 --res-file-save-name train_scripts/msr/plots/smooth_goal_ppo/results_KL_and_V/smooth_goal_ppo_pi__from_bc__epsilon_0_1_reg_0_001_beta_0_eval_noise_1.csv
 
 ## MSR_IRPO, IRPO: lambda = 0.001, MSR: epsilon = 0.1 reg = 0.001 beta = 0.0   eval: epsilon 1.0
 

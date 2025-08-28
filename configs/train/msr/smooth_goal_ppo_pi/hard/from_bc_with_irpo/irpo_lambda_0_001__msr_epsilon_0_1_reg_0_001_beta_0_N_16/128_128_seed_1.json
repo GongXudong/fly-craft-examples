@@ -4,7 +4,7 @@
         "custom_config": {}
     },
     "rl": {
-        "experiment_name": "hard/from_bc_with_irpo/smooth_goal_ppo_pi/irpo_lambda_0_001_msr_epsilon_0_1_reg_0_001_beta_0_N_16/128_128_2e8steps_seed_1",
+        "experiment_name": "hard/from_bc_with_irpo/smooth_goal_ppo_pi/irpo_lambda_0_001__msr_epsilon_0_1_reg_0_001_beta_0_N_16/128_128_2e8steps_seed_1",
         "seed": 2,
         "seed_in_train_env": 7,
         "seed_in_callback_env": 8,
