@@ -1120,3 +1120,181 @@ python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-fil
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025_aug4/buffersize_2e5/sac_config_10hz_128_128_3.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025_aug4/buffersize_2e5/sac_config_10hz_128_128_4.json
 python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/E2D_medium_b_025_aug4/buffersize_2e5/sac_config_10hz_128_128_5.json
+
+
+# b = 1 to b = 0.25 5e5 eval on 0.25
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025/sac_config_10hz_128_128_5.json
+
+
+
+
+
+
+
+# b = 1 to b = 0.25 5e5 eval on 0.25  ablation reset actor only
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_actor/sac_config_10hz_128_128_1.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_actor/sac_config_10hz_128_128_2.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_actor/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_actor/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_actor/sac_config_10hz_128_128_5.json
+
+
+
+# b = 1 to b = 0.25 5e5 eval on 0.25  ablation reset critic only
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_critic/sac_config_10hz_128_128_1.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_critic/sac_config_10hz_128_128_2.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_critic/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_critic/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_critic/sac_config_10hz_128_128_5.json
+
+
+# b = 1 to b = 0.25 5e5 eval on 0.25  ablation reset all
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all/sac_config_10hz_128_128_1.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all/sac_config_10hz_128_128_2.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all/sac_config_10hz_128_128_5.json
+
+
+# b = 1 to b = 0.25 5e5 eval on 0.25  ablation reset all  dormant tau = 0.1
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_dormant.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_1/sac_config_10hz_128_128_1.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_dormant.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_1/sac_config_10hz_128_128_2.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_dormant.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_1/sac_config_10hz_128_128_3.json
+
+
+# b = 1 to b = 0.25 5e5 eval on 0.25  ablation reset all  dormant tau = 0.5
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_dormant.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_5/sac_config_10hz_128_128_1.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_dormant.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_5/sac_config_10hz_128_128_2.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_dormant.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_5/sac_config_10hz_128_128_3.json
+
+
+# b = 1 to b = 0.25 5e5 eval on 0.25  ablation reset all  dormant tau = 0.3
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_dormant.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_3/sac_config_10hz_128_128_1.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_dormant.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_3/sac_config_10hz_128_128_2.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_dormant.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_3/sac_config_10hz_128_128_3.json
+
+
+# # b = 1 to b = 0.25 5e5 eval on 0.25  ablation reset all  dormant tau = 0.3 
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_3_unified_epision_0_01_batch_2048/sac_config_10hz_128_128_1.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_3_unified_epision_0_01_batch_2048/sac_config_10hz_128_128_2.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_3_unified_epision_0_01_batch_2048/sac_config_10hz_128_128_3.json
+
+
+# b = 1 to b = 0.25 5e5 eval on 0.25  ablation reset all  dormant tau = 0.4 
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_4_unified_batch_2048_stable/sac_config_10hz_128_128_1.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_4_unified_batch_2048_stable/sac_config_10hz_128_128_2.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_4_unified_batch_2048_stable/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_4_unified_batch_2048_stable/sac_config_10hz_128_128_4.json
+
+
+
+# F2F  example  frame skip 3 to skip 1  b = 0.5  dormant tau = 0.3
+#python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_indicator/sac_config_10hz_128_128_1.json
+# python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_indicator/sac_config_10hz_128_128_2.json
+# python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_indicator/sac_config_10hz_128_128_3.json
+# python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_indicator/sac_config_10hz_128_128_4.json
+# python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_indicator/sac_config_10hz_128_128_5.json
+
+
+# F2F  example  frame skip 1  b = 0.5  without reset dormant tau = 0.3
+# python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_05/buffersize1e6/2e6_weight_change_indicator/sac_config_10hz_128_128_1.json
+# python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_05/buffersize1e6/2e6_weight_change_indicator/sac_config_10hz_128_128_2.json
+# python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_05/buffersize1e6/2e6_weight_change_indicator/sac_config_10hz_128_128_3.json
+# python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_05/buffersize1e6/2e6_weight_change_indicator/sac_config_10hz_128_128_4.json
+# python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_05/buffersize1e6/2e6_weight_change_indicator/sac_config_10hz_128_128_5.json
+
+
+
+# relu b = 1 to b = 0.25 buffer 2e5  5e5 to 5e5 indicator
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_1_unified_batch_2048_stable_relu/sac_config_10hz_128_128_1.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_1_unified_batch_2048_stable_relu/sac_config_10hz_128_128_2.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_1_unified_batch_2048_stable_relu/sac_config_10hz_128_128_3.json
+
+# relu b=025 buffer 2e5 1e6 indicator 
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_025/buffersize_2e5_relu_indicator/sac_config_10hz_128_128_1.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_025/buffersize_2e5_relu_indicator/sac_config_10hz_128_128_2.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_025/buffersize_2e5_relu_indicator/sac_config_10hz_128_128_3.json
+
+# tanh  medium her b = 0.25 1e6  indicator
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/her/b_025_indicator/sac_config_10hz_128_128_1.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/her/b_025_indicator/sac_config_10hz_128_128_2.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/her/b_025_indicator/sac_config_10hz_128_128_3.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/her/b_025_indicator/sac_config_10hz_128_128_4.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/her/b_025_indicator/sac_config_10hz_128_128_5.json
+
+
+# tanh  medium2 her b = 0.25 1e6  indicator
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium2/her/b_025_indicator/sac_config_10hz_128_128_1.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium2/her/b_025_indicator/sac_config_10hz_128_128_2.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium2/her/b_025_indicator/sac_config_10hz_128_128_3.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium2/her/b_025_indicator/sac_config_10hz_128_128_4.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium2/her/b_025_indicator/sac_config_10hz_128_128_5.json
+
+
+# tanh medium sac b = 0.25 1e6 indicator
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_025/buffersize_2e5_tanh_indicator/sac_config_10hz_128_128_1.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_025/buffersize_2e5_tanh_indicator/sac_config_10hz_128_128_2.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_025/buffersize_2e5_tanh_indicator/sac_config_10hz_128_128_3.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_025/buffersize_2e5_tanh_indicator/sac_config_10hz_128_128_4.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/b_025/buffersize_2e5_tanh_indicator/sac_config_10hz_128_128_5.json
+
+
+
+# reach distance 0.01 --> 0.005 her 1e5  without reset policy without relable
+# python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/her/sac_seed_1.json
+# python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/her/sac_seed_2.json
+# python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/her/sac_seed_3.json
+
+
+# reach distance 0.01 --> 0.005 sac 1e5  without reset policy without relable
+# python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_without_reset_relable/b_05/sac_seed_1.json
+# python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_without_reset_relable/b_05/sac_seed_2.json
+# python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_without_reset_relable/b_05/sac_seed_3.json
+
+
+# reach distance 0.01 --> 0.005  range 0.5 --> 0.8 sac 1e5  without reset policy without relable
+# python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_without_reset_relable_goal_range_05_to_08/b_05/sac_seed_1.json
+# python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_without_reset_relable_goal_range_05_to_08/b_05/sac_seed_2.json
+# python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_without_reset_relable_goal_range_05_to_08/b_05/sac_seed_3.json
+
+
+# reach distance 0.01 --> 0.005 sac 1e5  without reset policy without relable indicator
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_without_reset_relable_indicator/b_05/sac_seed_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_without_reset_relable_indicator/b_05/sac_seed_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_without_reset_relable_indicator/b_05/sac_seed_3.json
+
+# reach distance 0.005 sac 2e5  without reset policy without relable indicator
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_without_reset_relable_indicator/b_05_one_stage/sac_seed_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_without_reset_relable_indicator/b_05_one_stage/sac_seed_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_without_reset_relable_indicator/b_05_one_stage/sac_seed_3.json
+
+# reach distance 0.005 sac 2e5  with reset policy without relable indicator
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_with_reset_relable_indicator/b_05/sac_seed_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_with_reset_relable_indicator/b_05/sac_seed_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_with_reset_relable_indicator/b_05/sac_seed_3.json
+
+
+# b = 1 to b = 0.25  tanh tau = 0.3  ETK indicator
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_3_unified_epision_0_01_batch_2048_ETK/sac_config_10hz_128_128_1.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_3_unified_epision_0_01_batch_2048_ETK/sac_config_10hz_128_128_2.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/5e5_eval_on_b_025_ablation_reset_all_dormant_tau_0_3_unified_epision_0_01_batch_2048_ETK/sac_config_10hz_128_128_3.json
+
+
+# reach distance 0.005 sac 2e5  with reset policy without relable indicator ETK
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_with_reset_relable_indicator_ETK/b_05/sac_seed_1.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_with_reset_relable_indicator_ETK/b_05/sac_seed_2.json
+python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py --config-file-name=configs/train/D2D/pand_reach_dense/distance_threshold_0.01_to_0_005/sac_with_reset_relable_indicator_ETK/b_05/sac_seed_3.json 
+
+
+------------补充实验-------------------
+
+# D2D    b = 1 to b = 0.25   dormant tau = 0.3
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6/eval_on_b_025_indicator/sac_config_10hz_128_128_1.json
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6/eval_on_b_025_indicator/sac_config_10hz_128_128_2.json
+CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6/eval_on_b_025_indicator/sac_config_10hz_128_128_3.json
+CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6/eval_on_b_025_indicator/sac_config_10hz_128_128_4.json
+CUDA_VISIBLE_DEVICES=2 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6/eval_on_b_025_indicator/sac_config_10hz_128_128_5.json

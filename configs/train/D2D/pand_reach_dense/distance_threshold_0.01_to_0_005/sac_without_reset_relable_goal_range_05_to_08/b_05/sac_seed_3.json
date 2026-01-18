@@ -1,0 +1,68 @@
+{
+    "rl_common": {
+        "net_arch": [256, 256],
+        "gamma": 0.95,
+        "batch_size": 256,
+        "buffer_size": 2e5,
+        "rollout_process_num": 1,
+        "evaluate_process_num": 4,
+        "callback_process_num": 4,
+        "gradient_steps": 1,
+        "eval_freq": 1e3,
+        "n_eval_episodes": 96,
+        "use_her": false
+    },
+    
+    "rl_train": [{
+        "env": {
+            "id": "my-reach",
+            "__help": "goal_range, distance_threshold, max_episode_steps只用于记录，环境的实际配置需在脚本中指定！！！",
+            "goal_range": 0.5,
+            "distance_threshold": 0.01,
+            "max_episode_steps": 50,
+            "reward_type": "dense", 
+            "control_type": "joints",
+            "normalize": false,
+            "b": 0.5
+        },
+        "rl": {
+            "experiment_name": "D2D/panda_reach_dense/distance_threshold_0.01_to_0_005/sac_without_reset_relable/b_0_5/sac_10hz_128_128_b_0_5_1e5steps_threshold_0_01_seed_3_singleRL",
+            "seed": 7841,
+            "seed_in_train_env": 720,
+            "seed_in_callback_env": 56,
+            "train_steps": 1e5,
+            "learning_rate": 3e-4,
+            "learning_starts": 1000,
+            "reset_policy": false,
+            "relabel_replay_buffer": false,
+            "has_trained": true
+        }
+    },
+    {
+        "env": {
+            "id": "my-reach-08",
+            "__help": "goal_range, distance_threshold, max_episode_steps只用于记录，环境的实际配置需在脚本中指定！！！",
+            "goal_range": 0.8,
+            "distance_threshold": 0.005,
+            "max_episode_steps": 50,
+            "reward_type": "dense", 
+            "control_type": "joints",
+            "normalize": false,
+            "b": 0.5
+        },
+        "rl": {
+            "experiment_name": "D2D/panda_reach_dense/distance_threshold_0.01_to_0_005/sac_without_reset_relable_goal_range_05_to_08/b_0_5/sac_10hz_128_128_b_0_5_1e5steps_threshold_0_01_0_005_range_05_08_seed_3_singleRL",
+            "seed": 9674,
+            "seed_in_train_env": 32165,
+            "seed_in_callback_env": 510,
+            "train_steps": 1e5,
+            "learning_rate": 3e-4,
+            "learning_starts": 1000,
+            "reset_policy": false,
+            "relabel_replay_buffer": false,
+            "has_trained": false
+        }
+    }
+]
+
+}

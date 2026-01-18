@@ -8,7 +8,7 @@ if str(PROJECT_ROOT_DIR.absolute()) not in sys.path:
 from utils_my.env_utils.register_env import register_all_with_default_dense_params, register_all_with_default_sparse_params
 register_all_with_default_dense_params() 
 
-env = gym.make('my-reach', render_mode="human")
+env = gym.make('my-reach-08', render_mode="human")
 
 observation, info = env.reset()
 

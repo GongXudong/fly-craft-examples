@@ -22,6 +22,7 @@ from utils_my.sb3.vec_env_helper import get_vec_env
 from utils_my.sb3.my_eval_callback import MyEvalCallback
 from utils_my.sb3.my_evaluate_policy import evaluate_policy_with_success_rate
 from train_scripts.ladderrl.utils.load_data_from_csv import load_random_trajectories_from_csv_files
+from train_scripts.ladderrl.trys.unified_indicator_callback import  UnifiedNetworkMonitorCallback
 
 import warnings
 warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
@@ -48,6 +49,7 @@ def train(train_config):
     EVAL_FREQ = train_config["rl_common"].get("eval_freq", 1000)
     N_EVAL_EPISODES = train_config["rl_common"].get("n_eval_episodes", CALLBACK_PROCESS_NUM*10)
     USE_HER = train_config["rl_common"].get("use_her", True)
+    NON_LINEARITY = train_config["rl_common"].get("non_linear", "tanh") 
 
     for index, train_this_iter_config in enumerate(train_config["rl_train"]):
         #THIS_ITER_ENV_CONFIG_FILE = train_this_iter_config["env"]["config_file"]
@@ -74,6 +76,10 @@ def train(train_config):
 
         THIS_ITER_PRE_FILL_REPLAY_BUFFER = train_this_iter_config["rl"].get("pre_fill_replay_buffer", False)
         THIS_ITER_PRE_FILL_REPLAY_BUFFER_KWARGS = train_this_iter_config["rl"].get("pre_fill_replay_buffer_kwargs", {})
+
+        THIS_ITER_CHECK_FRQ = train_this_iter_config["rl"].get("check_freq", 10000)
+        THIST_ITER_INDICATOR_BATCH = train_this_iter_config["rl"].get("indicator_batch", 2048)
+        THIS_ITER_TAU = train_this_iter_config["rl"].get("tau", 0.3)
 
         if THIS_ITER_HAS_TRAINED:
             continue
@@ -252,10 +258,13 @@ def train(train_config):
 
         checkpoint_on_event = CheckpointCallback(save_freq=1, save_path=str((PROJECT_ROOT_DIR / "checkpoints" / THIS_ITER_RL_EXPERIMENT_NAME).absolute()))
         event_callback = EveryNTimesteps(n_steps=50000, callback=checkpoint_on_event)
+
+        unified_indicator_callback = UnifiedNetworkMonitorCallback(check_freq=THIS_ITER_CHECK_FRQ,batch_size=THIST_ITER_INDICATOR_BATCH,dormant_tau=THIS_ITER_TAU,verbose=1,non_linearity=NON_LINEARITY)
+
         print(sac_algo.replay_buffer)
         sac_algo.learn(
             total_timesteps=int(THIS_ITER_RL_TRAIN_STEPS), 
-            callback=[eval_callback, event_callback]
+            callback=[eval_callback, event_callback,unified_indicator_callback]
         )
 
         sac_algo.save(str(PROJECT_ROOT_DIR / "checkpoints" / THIS_ITER_RL_EXPERIMENT_NAME / "final_model"))
