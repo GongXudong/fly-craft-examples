@@ -1310,21 +1310,21 @@ python train_scripts/ladderrl/train_with_rl_sac_her_multi_stages_panda_reach.py 
 
 待跑
 
-#goal space easy 2 medium indicator buffersize 1e6  140  
-CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6_indicator/sac_config_10hz_128_128_1.json
-CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6_indicator/sac_config_10hz_128_128_2.json
-CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6_indicator/sac_config_10hz_128_128_3.json
-CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6_indicator/sac_config_10hz_128_128_4.json
-CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6_indicator/sac_config_10hz_128_128_5.json
+#goal space easy 2 medium indicator buffersize 1e6  140  已跑
+# CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6_indicator/sac_config_10hz_128_128_1.json
+# CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6_indicator/sac_config_10hz_128_128_2.json
+# CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6_indicator/sac_config_10hz_128_128_3.json
+# CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6_indicator/sac_config_10hz_128_128_4.json
+# CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/goal_sapce/easy_to_medium/evaluate_medium/b_05/2e6/easy2medium_buffer_size_1e6_indicator/sac_config_10hz_128_128_5.json
 
 
 #消融rest 
-#frameskip   3 to 1 b = 0.5   buffersize = 1e6 reset actor  20
-CUDA_VISIBLE_DEVICES=0 python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_indicator_reset_actor/sac_config_10hz_128_128_1.json
-CUDA_VISIBLE_DEVICES=0 python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_indicator_reset_actor/sac_config_10hz_128_128_2.json
-CUDA_VISIBLE_DEVICES=1 python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_indicator_reset_actor/sac_config_10hz_128_128_3.json
-CUDA_VISIBLE_DEVICES=1 python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_indicator_reset_actor/sac_config_10hz_128_128_4.json
-CUDA_VISIBLE_DEVICES=2 python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_indicator_reset_actor/sac_config_10hz_128_128_5.json
+#frameskip   3 to 1 b = 0.5   buffersize = 1e6 reset actor  20 已跑
+# CUDA_VISIBLE_DEVICES=0 python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_indicator_reset_actor/sac_config_10hz_128_128_1.json
+# CUDA_VISIBLE_DEVICES=0 python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_indicator_reset_actor/sac_config_10hz_128_128_2.json
+# CUDA_VISIBLE_DEVICES=1 python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_indicator_reset_actor/sac_config_10hz_128_128_3.json
+# CUDA_VISIBLE_DEVICES=1 python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_indicator_reset_actor/sac_config_10hz_128_128_4.json
+# CUDA_VISIBLE_DEVICES=2 python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_buferr_indicator_unified_callback.py --config-file-name=configs/train/D2D/F2F/medium/eval_on_skip_1/b_05/buffersize1e6/two_stage_skip_3_skip_1_indicator_reset_actor/sac_config_10hz_128_128_5.json
 
 
 #frameskip   3 to 1 b = 0.5   buffersize = 1e6 reset critic  20
@@ -1336,7 +1336,7 @@ python  train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_info_bufe
 
 
 
-#D2D  b = 1 to b  = 0.25 buffersize 1e6 reset actor
+#D2D  b = 1 to b  = 0.25 buffersize 1e6 reset actor  10
 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6/eval_on_b_025_indicator_reset_actor/sac_config_10hz_128_128_1.json
 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6/eval_on_b_025_indicator_reset_actor/sac_config_10hz_128_128_2.json
 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6/eval_on_b_025_indicator_reset_actor/sac_config_10hz_128_128_3.json
@@ -1345,7 +1345,7 @@ python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_
 
 
 
-#D2D  b = 1 to b  = 0.25 buffersize 1e6 reset critic
+#D2D  b = 1 to b  = 0.25 buffersize 1e6 reset critic  110
 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6/eval_on_b_025_indicator_reset_critic/sac_config_10hz_128_128_1.json
 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6/eval_on_b_025_indicator_reset_critic/sac_config_10hz_128_128_1.json
 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback.py --config-file-name=configs/train/D2D/VVC/medium/sac/two_stage_b_1_b_025/buffersize1e6_1e6to1e6/eval_on_b_025_indicator_reset_critic/sac_config_10hz_128_128_1.json
