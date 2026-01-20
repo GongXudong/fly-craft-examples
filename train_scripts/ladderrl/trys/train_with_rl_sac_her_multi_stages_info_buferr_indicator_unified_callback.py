@@ -29,6 +29,52 @@ import warnings
 warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
 gym.register_envs(flycraft)
 
+def reset_actor(sac_algo):
+    actor = sac_algo.policy.actor
+
+    # 1. reset parameters in-place
+    for m in actor.modules():
+        if hasattr(m, "reset_parameters"):
+            m.reset_parameters()
+
+    # 2. reset optimizer
+    old_lr = actor.optimizer.param_groups[0]["lr"]
+    actor.optimizer = type(actor.optimizer)(
+        actor.parameters(), lr=old_lr
+    )
+
+def reset_critic(sac_algo):
+    critic = sac_algo.policy.critic
+    critic_target = sac_algo.policy.critic_target
+
+    # 1. reset critic
+    for m in critic.modules():
+        if hasattr(m, "reset_parameters"):
+            m.reset_parameters()
+
+    # 2. sync target critic
+    critic_target.load_state_dict(critic.state_dict())
+
+    # 3. reset optimizer
+    old_lr = critic.optimizer.param_groups[0]["lr"]
+    critic.optimizer = type(critic.optimizer)(
+        critic.parameters(), lr=old_lr
+    )
+
+def get_param_stats(module):
+    params = th.cat([p.data.flatten() for p in module.parameters()])
+    return {
+        "mean": params.mean().item(),
+        "std": params.std().item(),
+        "norm": params.norm().item(),
+        "max": params.abs().max().item(),
+    }
+
+def compare_critic_parameter(sac_algo):           
+    diff = 0.0
+    for p, tp in zip(sac_algo.policy.critic.parameters(), sac_algo.policy.critic_target.parameters()):
+        diff += (p - tp).abs().mean().item()
+    return diff
 
 def train(train_config):
 
@@ -44,6 +90,7 @@ def train(train_config):
     EVAL_FREQ = train_config["rl_common"].get("eval_freq", 1000)
     N_EVAL_EPISODES = train_config["rl_common"].get("n_eval_episodes", CALLBACK_PROCESS_NUM*10)
     USE_HER = train_config["rl_common"].get("use_her", True)
+    NON_LINEARITY = train_config["rl_common"].get("non_linear", "tanh") 
 
     for index, train_this_iter_config in enumerate(train_config["rl_train"]):
         THIS_ITER_ENV_CONFIG_FILE = train_this_iter_config["env"]["config_file"]
@@ -58,6 +105,7 @@ def train(train_config):
         THIS_ITER_LEARNING_STARTS = train_this_iter_config["rl"].get("learning_starts", 10240)
         THIS_ITER_LEARNING_RATE = train_this_iter_config["rl"].get("learning_rate", 3e-4)
         THIS_ITER_RESET_POLICY = train_this_iter_config["rl"].get("reset_policy", False)
+        THIS_ITER_RESET_SCOPE = train_this_iter_config["rl"].get("reset_scope", "all")
         THIS_ITER_WRAPPER_LIST = train_this_iter_config['rl'].get("wrappers", [])
         THIS_ITER_RESET_REPLAY_BUFFER = train_this_iter_config["rl"].get("reset_replay_buffer", False)
         THIS_ITER_RELABEL_REPLAY_BUFFER = train_this_iter_config["rl"].get("relabel_replay_buffer", False)
@@ -119,9 +167,11 @@ def train(train_config):
         # policy_save_name = "final_model"
         #replay_buffer_save_name = "replay_buffer"
         replay_buffer_save_name = THIST_ITER_BUFFER_SAVE_NAME
+
         # prepare policy
-        if (index == 0) or (index > 0 and THIS_ITER_RESET_POLICY):
+        if (index == 0): 
             print(f'index= {index}',f'copy_info_dict= {THIS_ITER_STORE_INFO}')
+
             sac_algo = SAC(
                 "MultiInputPolicy",
                 vec_env,
@@ -141,18 +191,80 @@ def train(train_config):
                 batch_size=int(BATCH_SIZE),
                 policy_kwargs=dict(
                     net_arch=NET_ARCH,
-                    activation_fn=th.nn.Tanh
+                    activation_fn=th.nn.Tanh if NON_LINEARITY=="tanh" else th.nn.ReLU
                 ),
             )
-            print(f"Iter {index}: reset policy!!!!!")
+            print(f"Iter {index}: Full Reset - Scope: {THIS_ITER_RESET_SCOPE}")
             print(f"buffer_size={int(BUFFER_SIZE)}")
             print(f"sac_algo.replay_buffer.buffer_size = {sac_algo.replay_buffer.buffer_size}")
-        else:
+        
+        
+        if (index > 0 and THIS_ITER_RESET_POLICY):
+            print(f'index= {index}',f'copy_info_dict= {THIS_ITER_STORE_INFO}')
+        
+            if THIS_ITER_RESET_SCOPE == "all":
+                sac_algo = SAC(
+                    "MultiInputPolicy",
+                    vec_env,
+                    seed=THIS_ITER_SEED,
+                    replay_buffer_class=HerReplayBuffer if USE_HER else InfoDictReplayBuffer,
+                    replay_buffer_kwargs=dict(
+                        n_sampled_goal=4,
+                        goal_selection_strategy="future",
+                        copy_info_dict=THIS_ITER_STORE_INFO
+                    ) if USE_HER else None,
+                    verbose=1,
+                    buffer_size=int(BUFFER_SIZE),
+                    learning_starts=int(THIS_ITER_LEARNING_STARTS),
+                    gradient_steps=int(GRADIENT_STEPS),
+                    learning_rate=THIS_ITER_LEARNING_RATE,
+                    gamma=GAMMA,
+                    batch_size=int(BATCH_SIZE),
+                    policy_kwargs=dict(
+                        net_arch=NET_ARCH,
+                        activation_fn=th.nn.Tanh if NON_LINEARITY=="tanh" else th.nn.ReLU
+                ),
+                )
+                print(f"Iter {index}: Full Reset - Scope: {THIS_ITER_RESET_SCOPE}")
+
+            elif THIS_ITER_RESET_SCOPE in ["actor","critic"]:
+                sac_algo = SAC.load(path=policy_save_dir / train_config["rl_train"][index-1]["rl"]["experiment_name"] / policy_save_name,env=vec_env)              
+                print(f"Iter {index}: load policy from {policy_save_dir / train_config['rl_train'][index-1]['rl']['experiment_name'] / policy_save_name}.")
+
+                if THIS_ITER_RESET_SCOPE == "actor":
+                    print(f"Iter {index}: >>> Resetting ACTOR network and optimizer <<<")
+                    # print("Optimizer state size BEFORE:", len(sac_algo.policy.actor.optimizer.state))
+                    # print("Actor BEFORE reset:", get_param_stats(sac_algo.policy.actor))
+                    
+                    reset_actor(sac_algo)
+                    # print("Actor AFTER reset:", get_param_stats(sac_algo.policy.actor))
+                    # print("Optimizer state size After:", len(sac_algo.policy.actor.optimizer.state))
+
+                elif THIS_ITER_RESET_SCOPE == "critic":
+                    print(f"Iter {index}: >>> Resetting CRITIC network and optimizer <<<")
+
+                    # print("Critic BEFORE reset:", get_param_stats(sac_algo.policy.critic))
+                    # print("Critic-target diff before reset:", compare_critic_parameter(sac_algo))    
+                    # print("Optimizer state size BEFORE:", len(sac_algo.policy.critic.optimizer.state))
+                    reset_critic(sac_algo)
+                    # print("Optimizer state size After:", len(sac_algo.policy.critic.optimizer.state))
+                    # print("Critic-target diff after reset:", compare_critic_parameter(sac_algo)) 
+                    # print("Critic AFTER reset:", get_param_stats(sac_algo.policy.critic))
+
+        elif  (index > 0)  and (not THIS_ITER_RESET_POLICY) :
             sac_algo = SAC.load(
                 path=policy_save_dir / train_config["rl_train"][index-1]["rl"]["experiment_name"] / policy_save_name,
                 env=vec_env
             )
             print(f"Iter {index}: load policy from {policy_save_dir / train_config['rl_train'][index-1]['rl']['experiment_name'] / policy_save_name}.")
+
+
+        # else:
+        #     sac_algo = SAC.load(
+        #         path=policy_save_dir / train_config["rl_train"][index-1]["rl"]["experiment_name"] / policy_save_name,
+        #         env=vec_env
+        #     )
+        #     print(f"Iter {index}: load policy from {policy_save_dir / train_config['rl_train'][index-1]['rl']['experiment_name'] / policy_save_name}.")
 
         # prepare replay buffer
         if index > 0:
