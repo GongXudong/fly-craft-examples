@@ -33,7 +33,7 @@
             "store_info": true,
             "reset_policy": true,
             "relabel_replay_buffer": false,
-            "has_trained": false,
+            "has_trained": true,
             "check_freq":10000,
             "indicator_batch":2048,
             "tau":0.3
