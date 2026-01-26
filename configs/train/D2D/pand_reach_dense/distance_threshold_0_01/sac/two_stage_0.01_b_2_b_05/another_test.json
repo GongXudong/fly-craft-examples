@@ -30,7 +30,7 @@
             "seed": 3,
             "seed_in_train_env": 7,
             "seed_in_callback_env": 8,
-            "train_steps": 5e4,
+            "train_steps": 1e4,
             "learning_rate": 1e-4,
             "learning_starts": 1000,
             "reset_policy": false,
