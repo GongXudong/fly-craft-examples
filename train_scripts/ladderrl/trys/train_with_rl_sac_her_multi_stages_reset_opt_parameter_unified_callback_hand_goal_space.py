@@ -32,7 +32,7 @@ warnings.filterwarnings("ignore")  # 过滤Gymnasium的UserWarning
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import SubprocVecEnv
 from hand.PowerRewardWrapper import PowerRewardWrapper
-
+import hand.register_myenv 
 
 def reset_actor(sac_algo):
     actor = sac_algo.policy.actor
