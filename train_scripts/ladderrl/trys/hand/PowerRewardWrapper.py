@@ -1,5 +1,7 @@
 import gymnasium as gym
 import numpy as np
+from gymnasium import Wrapper
+
 
 class PowerRewardWrapper(gym.RewardWrapper):
     def __init__(self, env, b=1.0):
@@ -29,3 +31,4 @@ class PowerRewardWrapper(gym.RewardWrapper):
         
         # 第二步：套用同样的变换逻辑
         return self._apply_power(base_reward)
+    
