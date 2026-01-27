@@ -16,36 +16,44 @@
     
     "rl_train": [{
         "env": {
-            "id": "HandManipulateBlockRotateZDense-v1",
+            "id": "MyRotateZ-v0",
             "b": 1.0,
-            "evaluate_b":0.25
+            "evaluate_b":1.0,
+            "min_angle_rad":-90,
+            "max_angle_rad":90,
+            "eval_min_angle_rad":-180,
+            "eval_max_angle_rad":180
         },
         "rl": {
-            "experiment_name": "D2D/HandManipulateBlockRotateZDense/two_stage_b_1_b_025_1e6/sac/two_stage_b_1_1e6steps_sac_seed_5",
-            "seed": 458,
-            "seed_in_train_env": 2598,
-            "seed_in_callback_env": 79,
+            "experiment_name": "D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/90_to_180/sac/two_stage_b_1_1e6steps_goal_space_90_sac_seed_1",
+            "seed": 3,
+            "seed_in_train_env": 7,
+            "seed_in_callback_env": 8,
             "train_steps": 1e6,
             "learning_rate": 3e-4,
             "learning_starts": 10240,
             "reset_policy": false,
             "relabel_replay_buffer": false,
-            "has_trained": true,
+            "has_trained": false,
             "check_freq":10000,
             "indicator_batch":2048,
             "tau":0.1
         }
     }, {
         "env": {
-            "id": "HandManipulateBlockRotateZDense-v1",
-            "b": 0.25,
-            "evaluate_b":0.25
+            "id": "MyRotateZ-v0",
+            "b": 1.0,
+            "evaluate_b":1.0,
+            "min_angle_rad":-180,
+            "max_angle_rad":180,
+            "eval_min_angle_rad":-180,
+            "eval_max_angle_rad":180
         },
         "rl": {
-            "experiment_name": "D2D/HandManipulateBlockRotateZDense/two_stage_b_1_b_025_1e6/sac/two_stage_b_1_1e6steps_b_025_1e6steps_sac_seed_5",
-            "seed": 189,
-            "seed_in_train_env": 65,
-            "seed_in_callback_env": 278,
+            "experiment_name": "D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/90_to_180/sac/two_stage_b_1_1e6steps_goal_space_90_to_180_sac_seed_1",
+            "seed": 53,
+            "seed_in_train_env": 985,
+            "seed_in_callback_env": 153,
             "train_steps": 1e6,
             "learning_rate": 3e-4,
             "learning_starts": 0,
