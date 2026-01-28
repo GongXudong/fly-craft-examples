@@ -1457,12 +1457,6 @@ python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_
 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_b_025_5e6/sac_seed_5.json
 
 
-# hand block     b = 1 1e6  to b = 0.25  1e6   251 OK
-# CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_1e6_b_025_1e6/sac_seed_1.json
-# CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_1e6_b_025_1e6/sac_seed_2.json
-# CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_1e6_b_025_1e6/sac_seed_3.json
-# CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_1e6_b_025_1e6/sac_seed_4.json
-# CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_1e6_b_025_1e6/sac_seed_5.json
 
 
  
@@ -1484,7 +1478,15 @@ CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/trys/train_with_rl_sac_her_
 
 
 ------------- without run---------------------
-# hand block  b = 0.25  1e6    20
+# hand block     b = 1 1e6  to b = 0.25  1e6   251 OK  无效
+# CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_1e6_b_025_1e6/sac_seed_1.json
+# CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_1e6_b_025_1e6/sac_seed_2.json
+# CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_1e6_b_025_1e6/sac_seed_3.json
+# CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_1e6_b_025_1e6/sac_seed_4.json
+# CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_1e6_b_025_1e6/sac_seed_5.json
+
+
+# hand block  b = 0.25  1e6    20 OK
 # CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/one_stage_b_025_2e6/sac_seed_1.json
 # CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/one_stage_b_025_2e6/sac_seed_2.json
 # CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/one_stage_b_025_2e6/sac_seed_3.json
@@ -1492,7 +1494,16 @@ CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/trys/train_with_rl_sac_her_
 # CUDA_VISIBLE_DEVICES=2 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/one_stage_b_025_2e6/sac_seed_5.json
 
 
-# mysampleblock  b = 1  60 tot 180   100
+
+
+
+
+
+
+
+
+
+# mysampleblock  b = 1  60 tot 180   100 OK
 # CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/60_to_180/sac_seed_1.json
 # CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/60_to_180/sac_seed_2.json
 # CUDA_VISIBLE_DEVICES=2 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/60_to_180/sac_seed_3.json
@@ -1500,14 +1511,36 @@ CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/trys/train_with_rl_sac_her_
 # CUDA_VISIBLE_DEVICES=3 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/60_to_180/sac_seed_5.json
 
 
-# mysampleblock  b = 1  90 tot 180  140
-python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/90_to_180/sac_seed_1.json
-python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/90_to_180/sac_seed_2.json
-python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/90_to_180/sac_seed_3.json
-python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/90_to_180/sac_seed_4.json
-python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/90_to_180/sac_seed_5.json
+# mysampleblock  b = 1  90 tot 180  140 待定
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/90_to_180/sac_seed_1.json
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/90_to_180/sac_seed_2.json
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/90_to_180/sac_seed_3.json
+CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/90_to_180/sac_seed_4.json
+CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/90_to_180/sac_seed_5.json
 
-# mysampleblock  b = 1   180   2e6  110
+
+
+
+
+
+
+#hand block f2f 40 to 20  251  OK  无效
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_n_steps_40_to_20/two_stage_b_1_n_substeps_40_1e6_to_20_1e6/sac_seed_1.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_n_steps_40_to_20/two_stage_b_1_n_substeps_40_1e6_to_20_1e6/sac_seed_2.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_n_steps_40_to_20/two_stage_b_1_n_substeps_40_1e6_to_20_1e6/sac_seed_3.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_n_steps_40_to_20/two_stage_b_1_n_substeps_40_1e6_to_20_1e6/sac_seed_4.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_n_steps_40_to_20/two_stage_b_1_n_substeps_40_1e6_to_20_1e6/sac_seed_5.json
+
+
+
+#hand block f2f 30 to 20 10   待定 
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_b_1_n_substeps_30_1e6_to_20_1e6/sac_seed_1.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_b_1_n_substeps_30_1e6_to_20_1e6/sac_seed_2.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_b_1_n_substeps_30_1e6_to_20_1e6/sac_seed_3.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_b_1_n_substeps_30_1e6_to_20_1e6/sac_seed_4.json
+# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_b_1_n_substeps_30_1e6_to_20_1e6/sac_seed_5.json
+
+# mysampleblock  b = 1   180   2e6  110  OK 
 # CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/one_stage_b_1_2e6/sac_seed_1.json
 # CUDA_VISIBLE_DEVICES=1 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/one_stage_b_1_2e6/sac_seed_2.json
 # CUDA_VISIBLE_DEVICES=2 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/one_stage_b_1_2e6/sac_seed_3.json
@@ -1515,17 +1548,46 @@ python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_
 # CUDA_VISIBLE_DEVICES=3 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/one_stage_b_1_2e6/sac_seed_5.json
 
 
-#hand block f2f 40 to 20
-# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_n_steps_40_to_20/two_stage_b_1_n_substeps_40_1e6_to_20_1e6/sac_seed_1.json
-# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_n_steps_40_to_20/two_stage_b_1_n_substeps_40_1e6_to_20_1e6/sac_seed_2.json
-# python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_n_steps_40_to_20/two_stage_b_1_n_substeps_40_1e6_to_20_1e6/sac_seed_3.json
-python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_n_steps_40_to_20/two_stage_b_1_n_substeps_40_1e6_to_20_1e6/sac_seed_4.json
-python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_n_steps_40_to_20/two_stage_b_1_n_substeps_40_1e6_to_20_1e6/sac_seed_5.json
 
 
-#hand block f2f 30 to 20 10
-python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_b_1_n_substeps_30_1e6_to_20_1e6/sac_seed_1.json
-python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_b_1_n_substeps_30_1e6_to_20_1e6/sac_seed_2.json
-python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_b_1_n_substeps_30_1e6_to_20_1e6/sac_seed_3.json
-python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_b_1_n_substeps_30_1e6_to_20_1e6/sac_seed_4.json
-python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_b_1_n_substeps_30_1e6_to_20_1e6/sac_seed_5.json
+--------------------新实验----------------
+
+# hand goal sapce 120 to 180  100
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/120_to_180/sac_seed_1.json
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/120_to_180/sac_seed_2.json
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/120_to_180/sac_seed_3.json
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/120_to_180/sac_seed_4.json
+CUDA_VISIBLE_DEVICES=0 python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_goal_space.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/MySampleHandBlock/120_to_180/sac_seed_5.json
+
+
+# one stage  b = 0.5  2e6  251
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/one_stage_b_05_2e6/sac_seed_1.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/one_stage_b_05_2e6/sac_seed_2.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/one_stage_b_05_2e6/sac_seed_3.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/one_stage_b_05_2e6/sac_seed_4.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/one_stage_b_05_2e6/sac_seed_5.json
+
+
+
+# one stage  b = 0.125  2e6  251
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/one_stage_b_0125_2e6/sac_seed_1.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/one_stage_b_0125_2e6/sac_seed_2.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/one_stage_b_0125_2e6/sac_seed_3.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/one_stage_b_0125_2e6/sac_seed_4.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/one_stage_b_0125_2e6/sac_seed_5.json
+
+
+# frameskip b_substeps 25 to 20  20
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_b_1_n_substeps_25_1e6_to_20_1e6/sac_seed_1.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_b_1_n_substeps_25_1e6_to_20_1e6/sac_seed_2.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_b_1_n_substeps_25_1e6_to_20_1e6/sac_seed_3.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_b_1_n_substeps_25_1e6_to_20_1e6/sac_seed_4.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand_f2f.py --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/n_substeps/two_stage_b_1_n_substeps_25_1e6_to_20_1e6/sac_seed_5.json
+
+
+# b = 1 to b = 0.5   110
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_1e6_b_05_1e6/sac_seed_1.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_1e6_b_05_1e6/sac_seed_2.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_1e6_b_05_1e6/sac_seed_3.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_1e6_b_05_1e6/sac_seed_4.json
+python train_scripts/ladderrl/trys/train_with_rl_sac_her_multi_stages_reset_opt_parameter_unified_callback_hand.py  --config-file-name=configs/train/D2D/HandManipulateBlockRotateZDense/two_stage_b_1_1e6_b_05_1e6/sac_seed_5.json
