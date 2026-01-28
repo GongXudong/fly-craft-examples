@@ -17,14 +17,14 @@
     "rl_train": [{
         "env": {
             "id": "HandManipulateBlockRotateZDense-v1",
-            "b": 0.125,
-            "evaluate_b":0.125
+            "b": 0.5,
+            "evaluate_b":0.5
         },
         "rl": {
-            "experiment_name": "D2D/HandManipulateBlockRotateZDense/one_stage_b_0125_2e6/sac/one_stage_b_0125_2e6_steps_sac_seed_3",
-            "seed": 48,
-            "seed_in_train_env": 174,
-            "seed_in_callback_env": 206,
+            "experiment_name": "D2D/HandManipulateBlockRotateZDense/one_stage_b_05_2e6/sac/one_stage_b_05_2e6_steps_sac_seed_6",
+            "seed": 4859,
+            "seed_in_train_env": 2541,
+            "seed_in_callback_env": 45,
             "train_steps": 2e6,
             "learning_rate": 3e-4,
             "learning_starts": 10240,
